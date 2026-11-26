@@ -71,6 +71,7 @@
     </div>
     <div id="actions"></div>
     <div id="after" class="row center hidden">
+      <button id="statsBtn" class="statsBtn">📊 View stats</button>
       <button id="rematchBtn">Rematch</button>
       <button id="newBtn" class="ghost">Pick new fighters</button>
       <button id="homeBtn" class="ghost">Leave</button>
@@ -81,6 +82,11 @@
     </div>
   </section>
 </main>
+
+<dialog id="statsDlg" class="statsDlg">
+  <div id="statsBody"></div>
+  <div class="row center"><button onclick="this.closest('dialog').close()">Close</button></div>
+</dialog>
 
 <dialog id="how">
   <h2>How to play</h2>

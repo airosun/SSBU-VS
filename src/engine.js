@@ -5,6 +5,7 @@ const RULES = {
   HP: 100, BASE: 10, CLASH: 5, FS_DMG: 14, FS_COST: 8, ENDLAG: 0, METER_MAX: 8, TURN_LIMIT: 40, HIT_METER: 1,
 };
 const BEATS = { A: 'G', G: 'C', C: 'A' }; // key beats value
+const NAME = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 
 // ---------- RNG ----------
 function makeRng(seed) {
@@ -45,12 +46,14 @@ function drain(p, n, g) {
   const t = Math.min(n, p.meter); p.meter -= t;
   if (g && t) emit(g, `${who(g, p)} loses ${t} meter${g.src ? ` (${g.src})` : ''}.`);
 }
+function stat(g, p) { return g && g.stats ? g.stats[g.p.indexOf(p)] : null; }
 function heal(p, n, g) {
   if (p.hp <= 0) return; const b = p.hp; p.hp = Math.min(p.maxHp, p.hp + n);
+  const st = stat(g, p); if (st) st.healed += p.hp - b;
   if (g && p.hp > b) emit(g, `${who(g, p)} heals ${p.hp - b} HP${g.src ? ` (${g.src})` : ''}.`);
 }
 // recoil / burn / trap damage (not a "hit")
-function selfDmg(p, n, g, why) { p.hp -= n; p.dmgTurn += n; if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
+function selfDmg(p, n, g, why) { p.hp -= n; p.dmgTurn += n; const st = stat(g, p); if (st) st.otherTaken += n; if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
 function burn(g, p, x, turns) { p.burns.push({ x, left: turns, start: g.T + 1 }); emit(g, `${who(g, p)} is Burned: ${x} damage at the end of the next ${turns > 1 ? turns + ' turns' : 'turn'}${g.src ? ` (${g.src})` : ''}.`); }
 function charge(p, n, g) { if (n > p.charge) { p.charge = n; if (g) emit(g, `${who(g, p)} gains Charge ${n}: next win deals +${n}${g.src ? ` (${g.src})` : ''}.`); } }
 function weaken(p, n, g) { if (n > p.weaken) { p.weaken = n; if (g) emit(g, `${who(g, p)} is Weakened ${n}: next win deals ${n} less${g.src ? ` (${g.src})` : ''}.`); } }
@@ -144,6 +147,12 @@ function hit(g, att, def, o) {
   d = Math.max(0, Math.round(d));
   if (def.f.absorb) { const b = d; d = withSrc(g, DP, () => def.f.absorb(dc, d)); if (b !== d && parts) parts.push(`${DP} absorbs ${b - d}`); }
   def.hp -= d; def.dmgTurn += d;
+  if (g.stats) {
+    const a = stat(g, att), b = stat(g, def);
+    a.dealt += d; b.hitTaken += d;
+    if (d > a.biggest) { a.biggest = d; a.biggestWith = o.fs ? fsNameOf(att) : o.aAct.kind === 'skill' ? skillName(att) : o.clash ? 'Clash' : NAME[o.aAct.type]; a.biggestTurn = g.T; }
+    if (o.fs) a.fsDamage += d;
+  }
   if (g.events) {
     const label = o.fs ? 'FINAL SMASH' : o.clash ? 'clash' : 'hit';
     emit(g, `${nameOf(att)}'s ${o.fs ? fsNameOf(att) : label} deals ${d} to ${nameOf(def)}${parts.length ? ` (${o.base} base ${parts.join(' ')})` : ''}.`);
@@ -153,7 +162,6 @@ function hit(g, att, def, o) {
 }
 
 // ---------- resolve one turn ----------
-const NAME = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 // Pyra/Mythra's Final Smash depends on who is out
 // Display name follows the active form (Pyra/Mythra) or Pokémon (Pokémon Trainer)
 function nameOf(p) {

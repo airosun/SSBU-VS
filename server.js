@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/kits', (_, res) => res.json({ kits: KITS, rules: E.RULES }));
 
 const rooms = new Map(); // code -> room
+const newStats = () => ({ dealt: 0, hitTaken: 0, otherTaken: 0, healed: 0, biggest: 0, biggestWith: '', biggestTurn: 0, fsDamage: 0,
+  wins: 0, losses: 0, clashes: 0, whiffs: 0, acts: { A: 0, C: 0, G: 0 }, skillUses: 0, skillWins: 0, fsUses: 0,
+  meterGained: 0, meterSpent: 0, streak: 0, bestStreak: 0 });
 const code = () => { let c; do c = Math.random().toString(36).slice(2, 6).toUpperCase(); while (rooms.has(c)); return c; };
 
 function newRoom(cpu) {
@@ -35,12 +38,14 @@ function push(r) {
     const sock = io.sockets.sockets.get(s.id);
     if (!sock) return;
     if (!r.game) sock.emit('lobby', lobby(r));
-    else sock.emit('state', { ...view(r.game, i, r.pending, r.reveal), log: r.log.slice(-300), names: r.seats.map(x => x && x.name), code: r.code, cpu: r.cpu, rematch: r.rematch });
+    else sock.emit('state', { ...view(r.game, i, r.pending, r.reveal), log: r.log.slice(-300), names: r.seats.map(x => x && x.name), code: r.code, cpu: r.cpu, rematch: r.rematch, stats: r.game.over ? { players: r.game.stats, timeline: r.timeline, turns: r.game.T - 1 } : null });
   });
 }
 function start(r) {
   r.game = E.newGame(BY_ID[r.picks[0]], BY_ID[r.picks[1]], (Math.random() * 2 ** 31) | 0);
   r.pending = [null, null]; r.rematch = [false, false]; r.reveal = null;
+  r.game.stats = [newStats(), newStats()];
+  r.timeline = [{ turn: 0, hp: r.game.p.map(p => p.hp), meter: [0, 0] }];
   r.log = [{ turn: 0, lines: [`Battle start: ${r.seats[0].name}'s ${E.nameOf(r.game.p[0])} vs ${r.seats[1].name}'s ${E.nameOf(r.game.p[1])}`] }];
   push(r);
 }
@@ -58,7 +63,18 @@ function tryResolve(r) {
   const labels = acts.map((a, i) => actLabel(g.p[i], a));
   g.events = [];
   labels.forEach((l, i) => g.events.push(`${names[i]}'s ${E.nameOf(g.p[i])} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
+  const spent = acts.map((a, i) => a.kind === 'skill' ? E.skillCost(g, g.p[i], g.p[1 - i]) : a.kind === 'fs' ? g.p[i].meter : 0);
   const out = E.resolve(g, acts);
+  acts.forEach((a, i) => {
+    const st = g.stats[i];
+    if (a.kind === 'basic') st.acts[a.type]++;
+    if (a.kind === 'skill') { st.skillUses++; if (out.winner === i) st.skillWins++; }
+    if (a.kind === 'fs') st.fsUses++;
+    if (out.kind === 'win') { if (out.winner === i) { st.wins++; st.streak++; st.bestStreak = Math.max(st.bestStreak, st.streak); } else { st.losses++; st.streak = 0; } }
+    else { st.streak = 0; if (out.kind === 'clash') st.clashes++; if (out.kind === 'whiff') st.whiffs++; }
+    st.meterSpent += spent[i]; st.meterGained += g.p[i].meter - before.meter[i] + spent[i];
+  });
+  r.timeline.push({ turn, hp: g.p.map(p => Math.max(0, p.hp)), meter: g.p.map(p => p.meter) });
   for (let i = 0; i < 2; i++) {
     const p = g.p[i], dh = Math.max(0, p.hp) - before.hp[i], dm = p.meter - before.meter[i];
     g.events.push(`${E.nameOf(p)}: ${Math.max(0, p.hp)}/${p.maxHp} HP (${dh >= 0 ? '+' : ''}${dh}), meter ${p.meter}/${E.RULES.METER_MAX} (${dm >= 0 ? '+' : ''}${dm}).`);

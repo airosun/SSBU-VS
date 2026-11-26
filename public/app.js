@@ -4,7 +4,7 @@ const $ = s => document.querySelector(s);
 const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 const wait = ms => new Promise(r => setTimeout(r, ms));
 let KITS = [], BY = {}, myPick = null;
-let shown = null;          // the state currently drawn on screen
+let shown = null, lastStats = null;          // the state currently drawn on screen
 let animating = false, queued = null, lastAnimTurn = 0, logTurnsShown = 0;
 
 const screens = ['home', 'select', 'battle'];
@@ -33,6 +33,7 @@ $('#randomBtn').onclick = () => {
   const el = document.querySelector(`.card[data-id="${k.id}"]`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
 };
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
+$('#statsBtn').onclick = () => { if (lastStats) { renderStats(lastStats); $('#statsDlg').showModal(); } };
 $('#rematchBtn').onclick = () => socket.emit('rematch');
 $('#newBtn').onclick = () => { myPick = null; socket.emit('newFighters'); };
 $('#logToggle').onclick = () => { const c = $('#logBox').classList.toggle('collapsed'); $('#logToggle').textContent = c ? 'Show full log ▾' : 'Hide full log ▴'; };
@@ -199,6 +200,8 @@ async function playReveal(st) {
   if (next && next !== st) render(next); else settle(st);
 }
 function settle(st) {
+  lastStats = st.over && st.stats ? st : null;
+  $('#statsBtn').classList.toggle('hidden', !lastStats);
   drawSides(st);
   if (!st.over) resetStage(st);
   drawControls(st);
@@ -215,3 +218,54 @@ socket.on('state', st => {
   if (!st.reveal && lastAnimTurn) resetBattle(); // a new battle (rematch) started
   render(st);
 });
+
+
+// ---------- post-battle stats ----------
+function renderStats(st) {
+  const S = st.stats, me = st.seat, op = 1 - me, P = S.players;
+  const sides = [st.me, st.opp], idx = [me, op];
+  const names = [st.names[me], st.names[op]];
+  const pct = (a, b) => (b ? Math.round(100 * a / b) : 0) + '%';
+  const exch = p => p.wins + p.losses + p.clashes + p.whiffs;
+  const rows = [
+    ['Hit damage dealt', p => p.dealt],
+    ['Damage taken', p => p.hitTaken + p.otherTaken, null, true],
+    ['HP healed', p => p.healed],
+    ['Biggest hit', p => p.biggest, p => p.biggest ? `${p.biggestWith}, turn ${p.biggestTurn}` : ''],
+    ['Exchanges won', p => p.wins, p => `${pct(p.wins, exch(p))} of turns`],
+    ['Longest win streak', p => p.bestStreak],
+    ['Skill uses', p => p.skillUses, p => p.skillUses ? `${p.skillWins} landed (${pct(p.skillWins, p.skillUses)})` : ''],
+    ['Final Smashes', p => p.fsUses, p => p.fsDamage ? `${p.fsDamage} damage` : ''],
+    ['Meter gained', p => p.meterGained],
+    ['Meter spent', p => p.meterSpent],
+  ];
+  const statRows = rows.map(([label, f, sub, low]) => {
+    const a = f(P[me]), b = f(P[op]), m = Math.max(a, b, 1);
+    const leads = (v, o) => low ? v < o : v >= o && v > 0;
+    const cell = (v, p, side) => `<div class="sv ${side}"><div class="sbar ${leads(v, side === 'l' ? b : a) ? 'lead' : ''}" style="width:${100 * v / m}%"></div><b>${v}</b>${sub && sub(p) ? `<small>${esc(sub(p))}</small>` : ''}</div>`;
+    return `<div class="srow">${cell(a, P[me], 'l')}<div class="slabel">${label}</div>${cell(b, P[op], 'r')}</div>`;
+  }).join('');
+  // action mix
+  const mix = p => { const t = p.acts.A + p.acts.C + p.acts.G + p.skillUses + p.fsUses || 1;
+    const seg = (n, c, l) => n ? `<div class="mseg ${c}" style="flex:${n}" title="${l}: ${n}">${Math.round(100 * n / t) >= 12 ? l[0] : ''}</div>` : '';
+    return `<div class="mix">${seg(p.acts.A, 'A', 'Attack')}${seg(p.acts.C, 'C', 'Counter')}${seg(p.acts.G, 'G', 'Grab')}${seg(p.skillUses, 'SK', 'Skill')}${seg(p.fsUses, 'FS', 'Final Smash')}</div>
+      <div class="mixLegend">A ${p.acts.A} · C ${p.acts.C} · G ${p.acts.G} · Skill ${p.skillUses} · FS ${p.fsUses}</div>`; };
+  // HP timeline chart
+  const T = S.timeline, W = 640, H = 200, pad = 30, maxHp = Math.max(sides[0].maxHp, sides[1].maxHp);
+  const x = i => pad + (W - pad - 10) * i / Math.max(1, T.length - 1), y = v => 10 + (H - 40) * (1 - v / maxHp);
+  const line = (k, cls) => `<polyline class="${cls}" points="${T.map((t, i) => `${x(i)},${y(t.hp[k])}`).join(' ')}"/>`;
+  const grid = [0, 25, 50, 75, 100].map(v => `<line x1="${pad}" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" class="gl"/><text x="4" y="${y(v) + 4}" class="gt">${v}</text>`).join('');
+  const ticks = T.filter((_, i) => i % Math.ceil(T.length / 10) === 0).map(t => `<text x="${x(t.turn)}" y="${H - 8}" class="gt" text-anchor="middle">${t.turn}</text>`).join('');
+  const result = st.winner === -1 ? 'Draw' : st.winner === me ? 'Victory!' : 'Defeat';
+  $('#statsBody').innerHTML = `
+    <div class="shead ${st.winner === me ? 'win' : st.winner === -1 ? '' : 'lose'}"><h2>${result}</h2><span>${S.turns} turns</span></div>
+    <div class="sfighters">
+      ${[0, 1].map(i => `<div class="sf ${i ? 'r' : ''} ${st.winner === idx[i] ? 'won' : ''}">${img(sides[i].art, sides[i].name)}<div><div class="pname">${esc(names[i])}</div><b>${sides[i].name}</b><div class="small">${sides[i].hp} / ${sides[i].maxHp} HP left</div></div></div>`).join('<div class="svs">VS</div>')}
+    </div>
+    <div class="stable">${statRows}</div>
+    <h3 class="sh">HP over time</h3>
+    <svg class="hpchart" viewBox="0 0 ${W} ${H}">${grid}${ticks}${line(me, 'l1')}${line(op, 'l2')}</svg>
+    <div class="legend"><span class="k1"></span>${esc(names[0])} (${sides[0].name}) <span class="k2"></span>${esc(names[1])} (${sides[1].name})</div>
+    <h3 class="sh">Action mix</h3>
+    <div class="mixes"><div><div class="small">${esc(names[0])}</div>${mix(P[me])}</div><div><div class="small">${esc(names[1])}</div>${mix(P[op])}</div></div>`;
+}
