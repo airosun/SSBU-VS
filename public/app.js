@@ -70,7 +70,7 @@ function kitHTML(s) {
   const type = TYPE[s.skill.type] || s.skill.type;
   return `<div class="kitBox">
     <div><b>${esc(k.passive.name)}</b> <span class="kt">Passive</span><div>${esc(k.passive.text)}</div></div>
-    <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : k.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
+    <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : s.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
     <div><b>${esc(s.fs)}</b> <span class="tag FS">Final Smash</span> <span class="kt">8 meter</span><div>14 damage that can't be stopped.</div></div>
   </div>`;
 }

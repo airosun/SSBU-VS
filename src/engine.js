@@ -117,7 +117,7 @@ function hit(g, att, def, o) {
   if (o.win) {
     if (o.aAct.kind === 'skill') {
       const s = skillOf(att);
-      v = s.bonus ? withSrc(g, s.name, () => s.bonus(c)) : 0; d += v; part(parts, s.name, v);
+      const sn = skillName(att); v = s.bonus ? withSrc(g, sn, () => s.bonus(c)) : 0; d += v; part(parts, sn, v);
       if (s.ignoreArmor) o.ignoreArmor = true;
     }
     v = withSrc(g, AP, () => hook(att, 'winBonus', c)); d += v; part(parts, AP, v);
@@ -161,6 +161,12 @@ function nameOf(p) {
   if (p.f.id === 'pt') return ['Squirtle', 'Ivysaur', 'Charizard'][p.mem.poke || 0];
   return p.f.name;
 }
+// Skill name for the active form: Pyra's Prominence Revolt / Mythra's Foresight
+function skillName(p) {
+  const n = skillOf(p).name;
+  if (n === 'Prominence Revolt / Foresight') return (p.mem.form || 'P') === 'P' ? 'Prominence Revolt' : 'Foresight';
+  return n;
+}
 function fsNameOf(p) { if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P' ? 'Burning Sword' : 'Sacred Arrow'; return p.f.fsName || 'Final Smash'; }
 function resolve(g, acts) {
   const T = g.T, P = g.p;
@@ -171,8 +177,8 @@ function resolve(g, acts) {
     p.dmgTurn = 0;
     if (a.kind === 'skill') {
       const cost = skillCost(g, p, o); p.meter -= cost; const s = skillOf(p);
-      emit(g, `${nameOf(p)} spends ${cost} meter on ${s.name}.`);
-      if (s.onUse) withSrc(g, s.name, () => s.onUse({ g, me: p, opp: o, act: a, oppAct: acts[1 - i], T }));
+      emit(g, `${nameOf(p)} spends ${cost} meter on ${skillName(p)}.`);
+      if (s.onUse) withSrc(g, skillName(p), () => s.onUse({ g, me: p, opp: o, act: a, oppAct: acts[1 - i], T }));
     } else if (a.kind === 'fs') { emit(g, `${nameOf(p)} unleashes a FINAL SMASH: ${fsNameOf(p)}!`); p.meter = 0; }
   }
   for (let i = 0; i < 2; i++) {
@@ -200,15 +206,15 @@ function resolve(g, acts) {
     const W = P[winner], L = P[1 - winner], wa = acts[winner], la = acts[1 - winner];
     res[winner] = 'win'; res[1 - winner] = 'lose';
     if (priority) emit(g, `Priority: ${nameOf(W)}'s skill beats a basic ${NAME[wa.type]}.`);
-    else if (outright) emit(g, `${nameOf(W)}'s ${skillOf(W).name} wins the clash outright.`);
+    else if (outright) emit(g, `${nameOf(W)}'s ${skillName(W)} wins the clash outright.`);
     else emit(g, `${NAME[wa.type]} beats ${NAME[la.type]}: ${nameOf(W)} wins the exchange.`);
     const cW = { g, me: W, opp: L, act: wa, oppAct: la, T };
     const cL = { g, me: L, opp: W, act: la, oppAct: wa, T };
     hit(g, W, L, { base: RULES.BASE, win: true, aAct: wa, dAct: la });
-    if (wa.kind === 'skill') { const s = skillOf(W); if (s.rider) withSrc(g, s.name, () => s.rider(cW)); }
+    if (wa.kind === 'skill') { const s = skillOf(W); if (s.rider) withSrc(g, skillName(W), () => s.rider(cW)); }
     if (W.f.onWin) S(W, () => W.f.onWin(cW));
     if (L.f.onLose) S(L, () => L.f.onLose(cL));
-    if (la.kind === 'skill') { const s = skillOf(L); emit(g, `${nameOf(L)}'s ${s.name} was read.`); if (s.onSkillLose) s.onSkillLose(cL); if (L.f.onSkillLose) S(L, () => L.f.onSkillLose(cL)); }
+    if (la.kind === 'skill') { const s = skillOf(L); emit(g, `${nameOf(L)}'s ${skillName(L)} was read.`); if (s.onSkillLose) s.onSkillLose(cL); if (L.f.onSkillLose) S(L, () => L.f.onSkillLose(cL)); }
   } else if (kind === 'clash') {
     emit(g, 'Attack vs Attack: CLASH!');
     hit(g, P[0], P[1], { base: RULES.CLASH, clash: true, aAct: a0, dAct: a1 });
@@ -238,4 +244,4 @@ function resolve(g, acts) {
 }
 
 module.exports = { RULES, BEATS, makeRng, setStatus, active, gain, drain, heal, selfDmg, burn, charge, weaken,
-  newGame, cloneGame, emit, withSrc, fsNameOf, nameOf, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
+  newGame, cloneGame, emit, withSrc, fsNameOf, nameOf, skillName, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
