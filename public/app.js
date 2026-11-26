@@ -152,6 +152,7 @@ function cardFront(el, act, side) {
   f.innerHTML = `<img src="images/${side.art}.png" alt="" onerror="this.remove()"><div class="t">${esc(act.title)}</div><div class="s">${esc(act.sub)}</div>`;
 }
 function resetStage(st) {
+  $('#resultBanner').classList.add('hidden'); document.querySelector('.cards').classList.remove('ended');
   for (const k of ['me', 'opp']) { $(`#${k}Slot`).className = 'slot'; $(`#${k}Card`).classList.remove('flipped'); }
   cardBack($('#meCard'), !!st.waiting); cardBack($('#oppCard'), !!st.oppReady);
   $('#burst').className = ''; $('#burst').textContent = '';
@@ -198,6 +199,14 @@ function drawControls(st) {
     ? (st.winner === -1 ? 'Draw!' : st.winner === st.seat ? 'You win!' : 'You lose!')
     : st.waiting ? 'Locked in — waiting for your opponent…' : st.oppReady ? 'Your opponent has locked in.' : 'Choose your action.';
   $('#after').classList.toggle('hidden', !st.over);
+  // end-of-game banner sits above the (enlarged) cards so it is always readable
+  const rb = $('#resultBanner'); rb.classList.toggle('hidden', !st.over);
+  document.querySelector('.cards').classList.toggle('ended', !!st.over);
+  if (st.over) {
+    const n = i => `${st.names[i]}'s ${i === st.seat ? st.me.name : st.opp.name}`;
+    rb.className = st.winner === -1 ? 'draw' : st.winner === st.seat ? 'mine' : 'theirs';
+    rb.querySelector('.rbWho').textContent = st.winner === -1 ? 'Draw!' : `${n(st.winner)} wins!`;
+  }
   $('#rematchBtn').textContent = st.rematch && st.rematch[st.seat] ? 'Waiting for rematch…' : 'Rematch';
 }
 const SKILL_LINE = /spends \d+ meter on |chose .+ skill\)|FINAL SMASH/;
