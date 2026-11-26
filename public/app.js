@@ -30,6 +30,7 @@ $('#howBtn').onclick = () => $('#how').showModal();
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
 $('#rematchBtn').onclick = () => socket.emit('rematch');
 $('#newBtn').onclick = () => { myPick = null; socket.emit('newFighters'); };
+$('#logToggle').onclick = () => { const c = $('#logBox').classList.toggle('collapsed'); $('#logToggle').textContent = c ? 'Show full log ▾' : 'Hide full log ▴'; };
 $('#homeBtn').onclick = () => { socket.emit('leave'); myPick = null; resetBattle(); show('home'); };
 
 function resetBattle() { shown = null; queued = null; animating = false; lastAnimTurn = 0; logTurnsShown = 0; $('#log').innerHTML = ''; }

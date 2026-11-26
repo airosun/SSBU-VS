@@ -128,3 +128,32 @@ main { max-width: 1240px; }
 .lturn div { color: var(--dim); } .lturn div.hl { color: var(--text); font-weight: 600; }
 .lturn.new { animation: fadein .6s ease; } @keyframes fadein { from { opacity: 0; transform: translateY(-6px); } }
 @media (max-width: 900px) { .arena { grid-template-columns: 1fr 1fr; } .stage { grid-column: 1 / -1; order: 3; } }
+
+/* ---------- v2: bigger arena, compact collapsible log ---------- */
+main { max-width: 1400px; padding: 14px 20px; }
+#battle { display: flex; flex-direction: column; min-height: calc(100vh - 90px); }
+.arena { flex: 1; grid-template-columns: minmax(300px, 1fr) minmax(340px, 1.05fr) minmax(300px, 1fr); gap: 20px; }
+.side { padding: 18px; }
+.side .portrait { width: 104px; height: 104px; }
+.cname { font-size: 26px; }
+.hp { height: 22px; border-radius: 11px; } .hp .ghost, .hp .fill { border-radius: 11px; }
+.seg { height: 16px; }
+.cards { height: 330px; gap: 28px; }
+.card3d { width: 168px; height: 236px; }
+.face.front img { width: 96px; height: 96px; }
+.face.front .t { font-size: 19px; }
+#burst { font-size: 32px; }
+#actions { margin: 14px 0 10px; }
+#actions button { min-width: 140px; padding: 16px 20px; font-size: 17px; }
+.logBox { margin-top: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; position: relative; }
+.logToggle { position: absolute; right: 8px; top: 6px; padding: 3px 10px; font-size: 11px; z-index: 1; }
+#log { border: 0; max-height: 220px; padding: 0; font-size: 11.5px; background: transparent; }
+.lturn { padding: 6px 12px; font-size: 11.5px; line-height: 1.35; }
+.lturn h4 { font-size: 10.5px; margin-bottom: 2px; }
+.logBox.collapsed #log { max-height: none; overflow: visible; }
+.logBox.collapsed .lturn:not(:first-child) { display: none; }
+.logBox.collapsed .lturn:first-child { padding-right: 130px; }
+.arena { flex: none; }
+.cards { height: 360px; } .card3d { width: 190px; height: 266px; }
+.logBox { margin-top: auto; }
+#actions { margin: 18px 0 16px; }
