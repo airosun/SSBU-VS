@@ -586,6 +586,6 @@ def('sora', 'Sora', {
 });
 
 const KITS = require('../data/kits.json');
-for (const f of F) { const k = KITS.find(x => x.id === f.id); f.passiveName = k ? k.passive.name : 'Passive'; }
+for (const f of F) { const k = KITS.find(x => x.id === f.id); f.passiveName = k ? k.passive.name : 'Passive'; f.fsName = k ? k.finalSmash : 'Final Smash'; }
 const BY_ID = Object.fromEntries(F.map(f => [f.id, f]));
 module.exports = { FIGHTERS: F, BY_ID, N };

@@ -66,6 +66,7 @@ function kitHTML(s) {
   return `<div class="kitBox">
     <div><b>${esc(k.passive.name)}</b> <span class="kt">Passive</span><div>${esc(k.passive.text)}</div></div>
     <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : k.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
+    <div><b>${esc(s.fs)}</b> <span class="tag FS">Final Smash</span> <span class="kt">8 meter</span><div>14 damage that can't be stopped.</div></div>
   </div>`;
 }
 function sideHTML(s, player, mine) {
@@ -74,7 +75,8 @@ function sideHTML(s, player, mine) {
     : `<div class="smeter ${s.meter >= s.meterMax ? 'full' : ''}">${Array.from({ length: s.meterMax }, (_, i) => `<div class="seg ${i < s.meter ? 'on' : ''}"></div>`).join('')}</div>`;
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
-    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div><div class="cname">${s.name}</div>
+    <div class="cname">${s.name}</div>
+    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div>
       <div class="small hideSmall">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
     ${kitHTML(s)}
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
@@ -129,7 +131,7 @@ function drawControls(st) {
   $('#artPick').classList.toggle('hidden', !st.shulk || st.over);
   $('#pulsePick').classList.toggle('hidden', !st.pulse || st.over);
   $('#actions').innerHTML = st.over ? '' : st.actions.map((a, i) => {
-    const label = a.kind === 'fs' ? 'FINAL SMASH' : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${TYPE[a.type]} skill · ${st.me.skill.cost} meter</small>` : TYPE[a.type];
+    const label = a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>` : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${TYPE[a.type]} skill · ${st.me.skill.cost} meter</small>` : TYPE[a.type];
     return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind}" data-i="${i}" ${st.waiting ? 'disabled' : ''}>${label}</button>`;
   }).join('');
   document.querySelectorAll('#actions button').forEach(b => b.onclick = () => {
@@ -181,7 +183,7 @@ async function playReveal(st) {
     burst(rv.winner === 'me' ? 'YOU WIN THE READ!' : 'READ!');
   } else if (rv.kind === 'clash') { $('#meSlot').classList.add('clash'); $('#oppSlot').classList.add('clash'); burst('CLASH!'); }
   else if (rv.kind === 'whiff') burst('WHIFF');
-  else if (rv.kind === 'fs') burst('FINAL SMASH!');
+  else if (rv.kind === 'fs') burst(rv.acts.find(a => a.type === 'FS').title.toUpperCase() + '!');
   await wait(1100);
   animateBars($('#meSide'), meB, st.me); animateBars($('#oppSide'), oppB, st.opp);         // bars drop / charge
   await wait(1400);

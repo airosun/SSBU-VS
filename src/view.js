@@ -94,7 +94,7 @@ function side(g, i, self) {
   const hidden = !self && p.f.hiddenMeter;
   const res = resources(p, o, g);
   return {
-    id: p.f.id, art: art(p), name: p.f.name, passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
+    id: p.f.id, art: art(p), name: p.f.name, fs: E.fsNameOf(p), passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
     skill: { name: sk.name, type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, copiedFrom: p.copy ? (require('./fighters').FIGHTERS.find(f => f.skill === p.copy) || {}).id : null, protean: p.f.id === 'greninja' },
     fx: effects(p, o, g, self, !self),
@@ -126,7 +126,7 @@ function view(g, seat, pending, reveal) {
 }
 
 function actLabel(p, a) {
-  if (a.kind === 'fs') return { title: 'FINAL SMASH', sub: '', type: 'FS' };
+  if (a.kind === 'fs') return { title: E.fsNameOf(p), sub: 'FINAL SMASH', type: 'FS' };
   if (a.kind === 'skill') return { title: E.skillOf(p).name, sub: `${TYPE[a.type]} skill`, type: a.type };
   return { title: TYPE[a.type], sub: 'Basic', type: a.type };
 }

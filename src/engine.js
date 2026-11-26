@@ -146,7 +146,7 @@ function hit(g, att, def, o) {
   def.hp -= d; def.dmgTurn += d;
   if (g.events) {
     const label = o.fs ? 'FINAL SMASH' : o.clash ? 'clash' : 'hit';
-    emit(g, `${att.f.name}'s ${label} deals ${d} to ${def.f.name}${parts.length ? ` (${o.base} base ${parts.join(' ')})` : ''}.`);
+    emit(g, `${att.f.name}'s ${o.fs ? fsNameOf(att) : label} deals ${d} to ${def.f.name}${parts.length ? ` (${o.base} base ${parts.join(' ')})` : ''}.`);
   }
   if (d > 0) { gain(g, def, RULES.HIT_METER, true); if (def.f.onHit) withSrc(g, DP, () => def.f.onHit(dc, d)); }
   return d;
@@ -154,6 +154,8 @@ function hit(g, att, def, o) {
 
 // ---------- resolve one turn ----------
 const NAME = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
+// Pyra/Mythra's Final Smash depends on who is out
+function fsNameOf(p) { if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P' ? 'Burning Sword' : 'Sacred Arrow'; return p.f.fsName || 'Final Smash'; }
 function resolve(g, acts) {
   const T = g.T, P = g.p;
   const res = ['tie', 'tie'];
@@ -165,7 +167,7 @@ function resolve(g, acts) {
       const cost = skillCost(g, p, o); p.meter -= cost; const s = skillOf(p);
       emit(g, `${p.f.name} spends ${cost} meter on ${s.name}.`);
       if (s.onUse) withSrc(g, s.name, () => s.onUse({ g, me: p, opp: o, act: a, oppAct: acts[1 - i], T }));
-    } else if (a.kind === 'fs') { emit(g, `${p.f.name} unleashes a FINAL SMASH!`); p.meter = 0; }
+    } else if (a.kind === 'fs') { emit(g, `${p.f.name} unleashes a FINAL SMASH: ${fsNameOf(p)}!`); p.meter = 0; }
   }
   for (let i = 0; i < 2; i++) {
     const p = P[i], o = P[1 - i];
@@ -230,4 +232,4 @@ function resolve(g, acts) {
 }
 
 module.exports = { RULES, BEATS, makeRng, setStatus, active, gain, drain, heal, selfDmg, burn, charge, weaken,
-  newGame, cloneGame, emit, withSrc, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
+  newGame, cloneGame, emit, withSrc, fsNameOf, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };

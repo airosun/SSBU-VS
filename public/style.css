@@ -290,3 +290,8 @@ main { max-width: 1400px; padding: 14px 20px; }
 .kitBox .copiedKit { border-left: 3px solid var(--accent); padding-left: 8px; }
 .pulseToggle { background: #13261b; border: 1px solid #3fd07a; border-radius: 10px; padding: 8px 14px; cursor: pointer; }
 .pulseToggle small { color: var(--dim); } .pulseToggle input { accent-color: #3fd07a; width: 18px; height: 18px; }
+/* name above portrait */
+.side .cname { margin: 2px 0 10px; }
+#oppSide .cname { text-align: right; }
+.tag.FS { background: var(--FS); color: #111; }
+#burst { white-space: nowrap; }

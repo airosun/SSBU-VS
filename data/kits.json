@@ -13,7 +13,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+7 damage and Gain 1 (coins)."
-  }
+  },
+  "finalSmash": "Mario Finale"
  },
  {
   "id": "dk",
@@ -29,7 +30,8 @@
    "type": "Attack",
    "cost": 3,
    "text": "+9 damage."
-  }
+  },
+  "finalSmash": "Jungle Rush"
  },
  {
   "id": "link",
@@ -45,7 +47,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+2 damage and Burn 6 (1 turn)."
-  }
+  },
+  "finalSmash": "Ancient Bow & Arrow"
  },
  {
   "id": "samus",
@@ -61,7 +64,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+5 damage, plus +2 per stack, then clear all stacks."
-  }
+  },
+  "finalSmash": "Zero Laser"
  },
  {
   "id": "dsamus",
@@ -77,7 +81,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+2 damage and Burn 2 (2 turns) (Phazon)."
-  }
+  },
+  "finalSmash": "Phazon Laser"
  },
  {
   "id": "yoshi",
@@ -93,7 +98,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+2 damage and Lock Attack."
-  }
+  },
+  "finalSmash": "Stampede!"
  },
  {
   "id": "kirby",
@@ -109,7 +115,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+7 damage and Copy: Inhale becomes the opponent's skill (same type, cost and effect) until it loses, then reverts to Inhale."
-  }
+  },
+  "finalSmash": "Ultra Sword"
  },
  {
   "id": "fox",
@@ -125,7 +132,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+9 damage. If the opponent used their skill, also deal its listed bonus damage back to them (max +8)."
-  }
+  },
+  "finalSmash": "Team Star Fox"
  },
  {
   "id": "pikachu",
@@ -141,7 +149,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage."
-  }
+  },
+  "finalSmash": "Volt Tackle"
  },
  {
   "id": "luigi",
@@ -157,7 +166,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+6 damage, Drain 1 and Gain 1."
-  }
+  },
+  "finalSmash": "Poltergust G-00"
  },
  {
   "id": "ness",
@@ -173,7 +183,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+3 damage and Burn 2 (2 turns)."
-  }
+  },
+  "finalSmash": "PK Starstorm"
  },
  {
   "id": "falcon",
@@ -189,7 +200,8 @@
    "type": "Attack",
    "cost": 3,
    "text": "+16 damage. Endlag: if Falcon Punch loses, the opponent's hit deals +5 to you."
-  }
+  },
+  "finalSmash": "Blue Falcon"
  },
  {
   "id": "jiggly",
@@ -205,7 +217,8 @@
    "type": "Grab",
    "cost": 3,
    "text": "+21 damage. You become Drowsy: next turn you are Staggered and Paralyzed."
-  }
+  },
+  "finalSmash": "Puff Up"
  },
  {
   "id": "peach",
@@ -221,7 +234,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+4 damage and Paralyze."
-  }
+  },
+  "finalSmash": "Peach Blossom"
  },
  {
   "id": "daisy",
@@ -237,7 +251,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+5 damage and Heal 3."
-  }
+  },
+  "finalSmash": "Daisy Blossom"
  },
  {
   "id": "bowser",
@@ -253,7 +268,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+4 damage; +3 more if you have less HP than the opponent."
-  }
+  },
+  "finalSmash": "Giga Bowser Punch"
  },
  {
   "id": "ics",
@@ -269,7 +285,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+5 damage. If you also win with Grab next turn (basic or skill), that win deals +6."
-  }
+  },
+  "finalSmash": "Iceberg"
  },
  {
   "id": "sheik",
@@ -285,7 +302,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+4 damage and Weaken 5."
-  }
+  },
+  "finalSmash": "Sheikah Dance"
  },
  {
   "id": "zelda",
@@ -301,7 +319,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+4 damage and Heal 2."
-  }
+  },
+  "finalSmash": "Triforce of Wisdom"
  },
  {
   "id": "doc",
@@ -317,7 +336,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+3 damage and Stagger."
-  }
+  },
+  "finalSmash": "Doctor Finale"
  },
  {
   "id": "pichu",
@@ -333,7 +353,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage and Recoil 2."
-  }
+  },
+  "finalSmash": "Volt Tackle"
  },
  {
   "id": "falco",
@@ -349,7 +370,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+8 damage and Stagger."
-  }
+  },
+  "finalSmash": "Team Star Fox"
  },
  {
   "id": "marth",
@@ -365,7 +387,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+7 damage; +5 more if the opponent used their skill."
-  }
+  },
+  "finalSmash": "Critical Hit"
  },
  {
   "id": "lucina",
@@ -381,7 +404,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+2 damage and Lock Counter."
-  }
+  },
+  "finalSmash": "Critical Hit"
  },
  {
   "id": "ylink",
@@ -397,7 +421,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+6 damage and Lock Counter."
-  }
+  },
+  "finalSmash": "Triforce Slash"
  },
  {
   "id": "ganon",
@@ -413,7 +438,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+3 damage and Stagger."
-  }
+  },
+  "finalSmash": "Ganon, The Demon King"
  },
  {
   "id": "mewtwo",
@@ -429,7 +455,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+6 damage. The opponent can't use their skill for 2 turns."
-  }
+  },
+  "finalSmash": "Psystrike"
  },
  {
   "id": "roy",
@@ -445,7 +472,8 @@
    "type": "Attack",
    "cost": 3,
    "text": "+11 damage; +3 more if you have less HP than the opponent."
-  }
+  },
+  "finalSmash": "Critical Hit"
  },
  {
   "id": "chrom",
@@ -461,7 +489,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+8 damage and Paralyze."
-  }
+  },
+  "finalSmash": "Awakening Aether"
  },
  {
   "id": "gnw",
@@ -477,7 +506,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "Roll 1–9 and deal +(roll + 4) damage. On a 9, deal +19 instead. On a 1, you also take Recoil 3."
-  }
+  },
+  "finalSmash": "Octopus"
  },
  {
   "id": "mk",
@@ -493,7 +523,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+5 damage and Charge 5."
-  }
+  },
+  "finalSmash": "Darkness Illusion"
  },
  {
   "id": "pit",
@@ -509,7 +540,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+5 damage and Armor 5."
-  }
+  },
+  "finalSmash": "Lightning Chariot"
  },
  {
   "id": "dpit",
@@ -525,7 +557,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+8 damage. Ignores Armor and Weaken."
-  }
+  },
+  "finalSmash": "Dark Pit Staff"
  },
  {
   "id": "zss",
@@ -541,7 +574,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage, Paralyze and Stagger."
-  }
+  },
+  "finalSmash": "Zero Laser"
  },
  {
   "id": "wario",
@@ -557,7 +591,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+3 damage and Heal 4."
-  }
+  },
+  "finalSmash": "Wario-Man"
  },
  {
   "id": "snake",
@@ -573,7 +608,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+3 damage and plant C4: the next time the opponent wins against you, it detonates and deals 8 damage to them."
-  }
+  },
+  "finalSmash": "Covering Fire"
  },
  {
   "id": "ike",
@@ -589,7 +625,8 @@
    "type": "Counter",
    "cost": 3,
    "text": "+12 damage."
-  }
+  },
+  "finalSmash": "Great Aether"
  },
  {
   "id": "pt",
@@ -605,7 +642,8 @@
    "type": "Counter",
    "cost": 1,
    "text": "+5 damage, then switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
-  }
+  },
+  "finalSmash": "Triple Finish"
  },
  {
   "id": "diddy",
@@ -621,7 +659,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+7 damage and Gain 1."
-  }
+  },
+  "finalSmash": "Hyper Rocketbarrel"
  },
  {
   "id": "lucas",
@@ -637,7 +676,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage. Lock the basic action the opponent chose this turn."
-  }
+  },
+  "finalSmash": "PK Starstorm"
  },
  {
   "id": "sonic",
@@ -653,7 +693,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+7 damage; +3 more if you won last turn."
-  }
+  },
+  "finalSmash": "Super Sonic"
  },
  {
   "id": "dedede",
@@ -669,7 +710,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+5 damage and Stagger (spit out as a star)."
-  }
+  },
+  "finalSmash": "Dede-rush"
  },
  {
   "id": "olimar",
@@ -685,7 +727,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+10 damage, +2 per Pikmin. Uses up all Pikmin."
-  }
+  },
+  "finalSmash": "End of Day"
  },
  {
   "id": "lucario",
@@ -701,7 +744,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+6 damage."
-  }
+  },
+  "finalSmash": "Aura Storm"
  },
  {
   "id": "rob",
@@ -717,7 +761,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+9 damage."
-  }
+  },
+  "finalSmash": "Guided Robo Beam"
  },
  {
   "id": "tlink",
@@ -733,7 +778,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+6 damage and Heal 2."
-  }
+  },
+  "finalSmash": "Triforce Slash"
  },
  {
   "id": "wolf",
@@ -749,7 +795,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+7 damage. Ignores Armor and Weaken."
-  }
+  },
+  "finalSmash": "Team Star Wolf"
  },
  {
   "id": "villager",
@@ -765,7 +812,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+2 damage. Each later use deals +3 more than the last (max +13)."
-  }
+  },
+  "finalSmash": "Dream Home"
  },
  {
   "id": "megaman",
@@ -781,7 +829,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+4 damage and Armor 4 (2 turns)."
-  }
+  },
+  "finalSmash": "Mega Legends"
  },
  {
   "id": "wft",
@@ -797,7 +846,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+2 damage, Heal 5 and Charge 3."
-  }
+  },
+  "finalSmash": "Wii Fit"
  },
  {
   "id": "rosa",
@@ -813,7 +863,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+2 damage and Drain 1."
-  }
+  },
+  "finalSmash": "Grand Star"
  },
  {
   "id": "mac",
@@ -829,7 +880,8 @@
    "type": "Attack",
    "cost": 3,
    "text": "+15 damage."
-  }
+  },
+  "finalSmash": "Giga Mac Rush"
  },
  {
   "id": "greninja",
@@ -845,7 +897,8 @@
    "type": "Protean",
    "cost": 2,
    "text": "+11 damage."
-  }
+  },
+  "finalSmash": "Secret Ninja Attack"
  },
  {
   "id": "palutena",
@@ -861,7 +914,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+6 damage and Weaken 4."
-  }
+  },
+  "finalSmash": "Black Hole Laser"
  },
  {
   "id": "pacman",
@@ -877,7 +931,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+5 damage, plus +1 for each turn since you last threw it (Cherry +1 … Key +8, max +8)."
-  }
+  },
+  "finalSmash": "Super PAC-MAN"
  },
  {
   "id": "robin",
@@ -893,7 +948,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+3 damage and Heal 5."
-  }
+  },
+  "finalSmash": "Pair Up"
  },
  {
   "id": "shulk",
@@ -909,7 +965,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+5 damage and Charge 4."
-  }
+  },
+  "finalSmash": "Chain Attack"
  },
  {
   "id": "bjr",
@@ -925,7 +982,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+4 damage and Burn 5 (1 turn)."
-  }
+  },
+  "finalSmash": "Shadow Mario Paint"
  },
  {
   "id": "duckhunt",
@@ -941,7 +999,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+2 damage and Burn 2 (3 turns)."
-  }
+  },
+  "finalSmash": "NES Zapper Posse"
  },
  {
   "id": "ryu",
@@ -957,7 +1016,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage. Shoryuken wins Attack clashes outright, even against Attack skills."
-  }
+  },
+  "finalSmash": "Shin Shoryuken"
  },
  {
   "id": "ken",
@@ -973,7 +1033,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+7 damage and Charge 3."
-  }
+  },
+  "finalSmash": "Shinryuken"
  },
  {
   "id": "cloud",
@@ -989,7 +1050,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+7 damage."
-  }
+  },
+  "finalSmash": "Omnislash"
  },
  {
   "id": "corrin",
@@ -1005,7 +1067,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+6 damage and Lock Attack."
-  }
+  },
+  "finalSmash": "Torrential Roar"
  },
  {
   "id": "bayo",
@@ -1021,7 +1084,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+4 damage and Charge 6."
-  }
+  },
+  "finalSmash": "Infernal Climax"
  },
  {
   "id": "inkling",
@@ -1037,7 +1101,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+5 damage and apply 2 extra Ink."
-  }
+  },
+  "finalSmash": "Killer Wail"
  },
  {
   "id": "ridley",
@@ -1053,7 +1118,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+11 damage."
-  }
+  },
+  "finalSmash": "Plasma Scream"
  },
  {
   "id": "simon",
@@ -1069,7 +1135,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+4 damage and Burn 3 (2 turns)."
-  }
+  },
+  "finalSmash": "Grand Cross"
  },
  {
   "id": "richter",
@@ -1085,7 +1152,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+3 damage and Burn 4 (1 turn)."
-  }
+  },
+  "finalSmash": "Grand Cross"
  },
  {
   "id": "krool",
@@ -1101,7 +1169,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+5 damage and fully restore Belly Armor."
-  }
+  },
+  "finalSmash": "Blast-o-Matic"
  },
  {
   "id": "isabelle",
@@ -1117,7 +1186,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+5 damage and Drain 1."
-  }
+  },
+  "finalSmash": "Dream Town Hall"
  },
  {
   "id": "incin",
@@ -1133,7 +1203,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+5 damage."
-  }
+  },
+  "finalSmash": "Max Malicious Moonsault"
  },
  {
   "id": "plant",
@@ -1149,7 +1220,8 @@
    "type": "Grab",
    "cost": 3,
    "text": "+9 damage."
-  }
+  },
+  "finalSmash": "Petey Piranha"
  },
  {
   "id": "joker",
@@ -1165,7 +1237,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+3 damage; +6 more while Arsene is out."
-  }
+  },
+  "finalSmash": "All-Out Attack"
  },
  {
   "id": "hero",
@@ -1181,7 +1254,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "Random spell: Kaboom (+8), Sizz (+3, Burn 2 for 2 turns), Psyche Up (+1, Charge 8) or Thwack (+1; instant KO if the opponent is below 25 HP)."
-  }
+  },
+  "finalSmash": "Gigaslash"
  },
  {
   "id": "banjo",
@@ -1197,7 +1271,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+4 damage. Wins Attack clashes outright. Only 5 uses per match (Golden Feathers)."
-  }
+  },
+  "finalSmash": "The Mighty Jinjonator"
  },
  {
   "id": "terry",
@@ -1213,7 +1288,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+16 damage."
-  }
+  },
+  "finalSmash": "Triple Wolf"
  },
  {
   "id": "byleth",
@@ -1229,7 +1305,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+2 damage and Lock Counter."
-  }
+  },
+  "finalSmash": "Progenitor God Ruptured Heaven"
  },
  {
   "id": "minmin",
@@ -1245,7 +1322,8 @@
    "type": "Attack",
    "cost": 2,
    "text": "+6 damage and Weaken 3."
-  }
+  },
+  "finalSmash": "ARMS Rush"
  },
  {
   "id": "steve",
@@ -1261,7 +1339,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+7 damage."
-  }
+  },
+  "finalSmash": "House of Boom"
  },
  {
   "id": "seph",
@@ -1277,7 +1356,8 @@
    "type": "Counter",
    "cost": 2,
    "text": "+11 damage; if the opponent used their skill, Drain 2."
-  }
+  },
+  "finalSmash": "Supernova"
  },
  {
   "id": "pyra",
@@ -1293,7 +1373,8 @@
    "type": "Pyra: Attack / Mythra: Counter",
    "cost": 2,
    "text": "Pyra – Prominence Revolt: +6 damage. Mythra – Foresight: +3 damage and Charge 4."
-  }
+  },
+  "finalSmash": "Burning Sword / Sacred Arrow"
  },
  {
   "id": "kazuya",
@@ -1309,7 +1390,8 @@
    "type": "Grab",
    "cost": 2,
    "text": "+6 damage."
-  }
+  },
+  "finalSmash": "Final Blaster"
  },
  {
   "id": "sora",
@@ -1325,6 +1407,7 @@
    "type": "Attack",
    "cost": 2,
    "text": "Cycles each use: Firaga (+7, Burn 2 for 2 turns) → Blizzaga (+7, Lock the basic action the opponent chose) → Thundaga (+10)."
-  }
+  },
+  "finalSmash": "Sealing the Keyhole"
  }
 ]
