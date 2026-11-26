@@ -141,12 +141,20 @@ function drawControls(st) {
   $('#turn').textContent = st.over ? 'GAME OVER' : `TURN ${st.turn}`;
   $('#artPick').classList.toggle('hidden', !st.shulk || st.over);
   $('#pulsePick').classList.toggle('hidden', !st.pulse || st.over);
-  $('#actions').innerHTML = st.over ? '' : st.actions.map((a, i) => {
-    const label = a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>` : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${TYPE[a.type]} skill · ${st.me.skill.cost} meter</small>` : TYPE[a.type];
-    return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind}" data-i="${i}" ${st.waiting ? 'disabled' : ''}>${label}</button>`;
+  // the skill button is always shown; greyed out with the reason when it can't be used
+  const acts = st.over ? [] : st.actions.slice();
+  if (!st.over && !acts.some(a => a.kind === 'skill')) {
+    const fsAt = acts.findIndex(a => a.kind === 'fs');
+    acts.splice(fsAt < 0 ? acts.length : fsAt, 0, { kind: 'skill', type: st.me.skill.type, blocked: st.skillBlocked || 'Unavailable' });
+  }
+  $('#actions').innerHTML = acts.map((a, i) => {
+    const label = a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>`
+      : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${a.blocked ? esc(a.blocked) : `${TYPE[a.type]} skill · ${st.me.skill.cost} meter`}</small>` : TYPE[a.type];
+    return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind} ${a.blocked ? 'blocked' : ''}" data-i="${i}" ${st.waiting || a.blocked ? 'disabled' : ''}>${label}</button>`;
   }).join('');
   document.querySelectorAll('#actions button').forEach(b => b.onclick = () => {
-    const a = st.actions[+b.dataset.i];
+    const a = acts[+b.dataset.i];
+    if (a.blocked) return;
     const art = st.shulk ? (document.querySelector('input[name=art]:checked') || {}).value : undefined;
     const pulse = st.pulse && $('#pulseBox').checked;
     socket.emit('act', { ...a, art, pulse, turn: st.turn });

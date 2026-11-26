@@ -102,6 +102,16 @@ function side(g, i, self) {
   };
 }
 
+// Why the skill can't be used right now (null = usable)
+function skillBlock(g, i) {
+  const p = g.p[i], o = g.p[1 - i], T = g.T, sk = E.skillOf(p), type = E.skillType(p, g), cost = E.skillCost(g, p, o);
+  if (E.active(p, 'stagger', T)) return 'Staggered';
+  const l = E.active(p, 'lock', T); if (l && l.v === type) return `${TYPE[type]} locked`;
+  if (sk.can && !sk.can(p, o, g)) return p.f.id === 'banjo' ? 'No feathers left' : 'Unavailable';
+  if (p.meter < cost) return `Needs ${cost} meter`;
+  return null;
+}
+
 function view(g, seat, pending, reveal) {
   let rv = null;
   if (reveal) {
@@ -120,6 +130,7 @@ function view(g, seat, pending, reveal) {
     turn: g.T, over: g.over, winner: g.winner, seat,
     me: side(g, seat, true), opp: side(g, 1 - seat, false),
     actions: g.over ? [] : E.legalActions(g, seat),
+    skillBlocked: g.over ? null : skillBlock(g, seat),
     waiting: !!pending[seat], oppReady: !!pending[1 - seat],
     shulk: g.p[seat].f.id === 'shulk', pulse: g.p[seat].f.id === 'byleth' && !g.p[seat].mem.dp, reveal: rv,
   };
