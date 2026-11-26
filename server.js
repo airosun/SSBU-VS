@@ -29,16 +29,16 @@ function newRoom(cpu) {
 }
 function seatOf(r, id) { return r.seats.findIndex(s => s && s.id === id); }
 
-function lobby(r) {
-  return { code: r.code, cpu: r.cpu, players: r.seats.map((s, i) => s && { name: s.name, picked: !!r.picks[i] }) };
+function lobby(r, i = 0) {
+  return { code: r.code, cpu: r.cpu, players: r.seats.map((s, i) => s && { name: s.name, picked: !!r.picks[i], away: !!s.away }), myPick: r.picks[i] };
 }
 function push(r) {
   r.seats.forEach((s, i) => {
     if (!s || s.cpu) return;
-    const sock = io.sockets.sockets.get(s.id);
+    const sock = s.id && io.sockets.sockets.get(s.id);
     if (!sock) return;
-    if (!r.game) sock.emit('lobby', lobby(r));
-    else sock.emit('state', { ...view(r.game, i, r.pending, r.reveal), log: r.log.slice(-300), names: r.seats.map(x => x && x.name), code: r.code, cpu: r.cpu, rematch: r.rematch, stats: r.game.over ? { players: r.game.stats, timeline: r.timeline, turns: r.game.T - 1 } : null });
+    if (!r.game) sock.emit('lobby', lobby(r, i));
+    else sock.emit('state', { ...view(r.game, i, r.pending, r.reveal), log: r.log.slice(-300), names: r.seats.map(x => x && x.name), code: r.code, cpu: r.cpu, away: r.seats.map(x => !!(x && x.away)), rematch: r.rematch, stats: r.game.over ? { players: r.game.stats, timeline: r.timeline, turns: r.game.T - 1 } : null });
   });
 }
 function start(r) {
@@ -88,33 +88,62 @@ function tryResolve(r) {
   push(r);
 }
 
+// Players are identified by a per-browser id (pid), not by socket, so tabbing out, a phone
+// sleeping, a network blip or even a page reload drops you straight back into your game.
+const GRACE_CPU = 30 * 60e3, GRACE_PVP = 5 * 60e3;
+function roomOfPid(pid) {
+  if (!pid) return null;
+  for (const r of rooms.values()) if (r.seats.some(s => s && s.pid === pid)) return r;
+  return null;
+}
+function dropSeat(r, i) {
+  const s = r.seats[i]; if (s && s.timer) clearTimeout(s.timer);
+  r.seats[i] = null;
+  if (r.seats.every(x => !x || x.cpu)) { r.seats.forEach(x => x && x.timer && clearTimeout(x.timer)); rooms.delete(r.code); }
+  else { r.game = null; r.picks = [null, null]; r.log = []; r.reveal = null; push(r); }
+}
+
 io.on('connection', sock => {
-  let room = null;
-  const leave = () => {
+  const pid = String((sock.handshake.auth && sock.handshake.auth.pid) || '').slice(0, 64) || null;
+  let room = roomOfPid(pid);
+  if (room) {                                   // reconnect: take the seat back
+    const s = room.seats.find(x => x && x.pid === pid);
+    if (s.timer) { clearTimeout(s.timer); s.timer = null; }
+    s.id = sock.id; s.away = false;
+    push(room);
+  } else sock.emit('noRoom');
+  const leave = () => {                         // deliberate leave: give the seat up now
     if (!room) return;
     const i = seatOf(room, sock.id);
-    if (i >= 0) room.seats[i] = null;
-    if (room.seats.every(s => !s || s.cpu)) rooms.delete(room.code);
-    else { room.game = null; room.picks = [null, null]; room.log = []; push(room); }
+    if (i >= 0) dropSeat(room, i);
     room = null;
+  };
+  const away = () => {                          // lost connection: hold the seat for a while
+    if (!room) return;
+    const r = room, i = seatOf(r, sock.id);
+    if (i < 0) return;                          // another tab already took this seat over
+    const s = r.seats[i]; s.away = true; s.id = null;
+    s.timer = setTimeout(() => { if (r.seats[i] === s && s.away) dropSeat(r, i); }, r.cpu ? GRACE_CPU : GRACE_PVP);
+    push(r);
   };
   sock.on('cpu', ({ name }) => {
     leave(); room = newRoom(true);
-    room.seats = [{ id: sock.id, name: name || 'Player' }, { cpu: true, name: 'CPU' }];
+    room.seats = [{ id: sock.id, pid, name: name || 'Player' }, { cpu: true, name: 'CPU' }];
     sock.emit('lobby', lobby(room));
   });
   sock.on('create', ({ name }) => {
     leave(); room = newRoom(false);
-    room.seats[0] = { id: sock.id, name: name || 'Player 1' };
+    room.seats[0] = { id: sock.id, pid, name: name || 'Player 1' };
     sock.emit('lobby', lobby(room));
   });
   sock.on('join', ({ name, code: c }) => {
     const r = rooms.get(String(c || '').toUpperCase());
     if (!r || r.cpu) return sock.emit('err', 'Room not found.');
+    if (r === room) return push(r);
     const free = r.seats.findIndex(s => !s);
     if (free < 0) return sock.emit('err', 'That room is full.');
     leave(); room = r;
-    r.seats[free] = { id: sock.id, name: name || `Player ${free + 1}` };
+    r.seats[free] = { id: sock.id, pid, name: name || `Player ${free + 1}` };
     push(r);
   });
   sock.on('pick', ({ id }) => {
@@ -146,7 +175,7 @@ io.on('connection', sock => {
     push(room);
   });
   sock.on('leave', leave);
-  sock.on('disconnect', leave);
+  sock.on('disconnect', away);
 });
 
 const PORT = process.env.PORT || 3000;

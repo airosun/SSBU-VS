@@ -1,5 +1,9 @@
 // SSBU-VS client
-const socket = io();
+// a stable per-browser id lets the server hand your seat back after tabbing out, sleeping or reloading
+const PID = (() => { let v = null; try { v = localStorage.getItem('ssbuvs-pid'); } catch {}
+  if (!v) { v = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36)); try { localStorage.setItem('ssbuvs-pid', v); } catch {} }
+  return v; })();
+const socket = io({ auth: { pid: PID }, reconnectionDelayMax: 3000 });
 const $ = s => document.querySelector(s);
 const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -72,8 +76,24 @@ function renderGrid() {
 }
 
 socket.on('err', m => alert(m));
+// ---------- connection health ----------
+const conn = document.createElement('div'); conn.id = 'connBar'; conn.className = 'hidden'; document.body.appendChild(conn);
+const setConn = (txt) => { conn.textContent = txt || ''; conn.classList.toggle('hidden', !txt); };
+const inMatch = () => !$('#battle').classList.contains('hidden') || !$('#select').classList.contains('hidden');
+socket.on('disconnect', () => { if (inMatch()) setConn('Connection lost — reconnecting…'); });
+socket.on('connect', () => setConn(''));
+// phones freeze background tabs: when you come back, reconnect at once instead of waiting on a backoff timer
+const wake = () => { if (document.visibilityState === 'visible' && !socket.connected) { if (inMatch()) setConn('Reconnecting…'); socket.connect(); } };
+document.addEventListener('visibilitychange', wake); window.addEventListener('focus', wake); window.addEventListener('online', wake);
+window.addEventListener('pageshow', e => { if (e.persisted) wake(); });
+socket.on('noRoom', () => {
+  if (!inMatch()) return;
+  setConn(''); myPick = null; resetBattle(); show('home');
+  alert('That match is no longer available (the server may have restarted). Start a new one from here.');
+});
 socket.on('lobby', l => {
   resetBattle(); show('select');
+  if (l.myPick && myPick !== l.myPick) { myPick = l.myPick; renderGrid(); }
   const others = l.players.map(p => p ? `${esc(p.name)}${p.picked ? ' ✓' : ''}` : '<i>waiting…</i>').join(' vs ');
   $('#lobbyInfo').innerHTML = l.cpu ? 'Pick your fighter — the CPU picks at random.' : `Room <b>${l.code}</b> · ${others} · share the code with a friend`;
 });
@@ -198,6 +218,7 @@ function drawControls(st) {
   });
   $('#status').textContent = st.over
     ? (st.winner === -1 ? 'Draw!' : st.winner === st.seat ? 'You win!' : 'You lose!')
+    : st.away && st.away[1 - st.seat] ? `${st.names[1 - st.seat]} disconnected — holding their spot for a few minutes…`
     : st.waiting ? 'Locked in — waiting for your opponent…' : st.oppReady ? 'Your opponent has locked in.' : 'Choose your action.';
   $('#after').classList.toggle('hidden', !st.over);
   // end-of-game banner sits above the (enlarged) cards so it is always readable
@@ -267,6 +288,7 @@ function settle(st) {
 function render(st) {
   show('battle');
   if (animating) { queued = st; return; }
+  if (!shown && !lastAnimTurn && st.reveal) lastAnimTurn = st.reveal.turn; // resuming after a reload: don't replay the last reveal
   if (st.reveal && st.reveal.turn > lastAnimTurn) { lastAnimTurn = st.reveal.turn; playReveal(st); return; }
   shown = st;
   settle(st);

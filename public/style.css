@@ -713,3 +713,7 @@ h1, h2, .cname, .card h3, #turn, #burst, .vs, .face.front .t, #actions button, .
 .rps span, .rulesStrip b, #grid .card h3, .face.front .t, .tag, .chip, .badge { font-family: 'Smash', 'Barlow', sans-serif; font-style: italic; font-weight: 800; }
 .rulesStrip b { font-size: 30px; font-weight: 900; }
 .rps span { letter-spacing: .06em; }
+#connBar { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 100; padding: 8px 16px; border-radius: 999px;
+  background: #2a1f05; border: 1px solid var(--accent); color: var(--accent); font-family: 'Smash', sans-serif; font-style: italic; font-weight: 800;
+  letter-spacing: .03em; box-shadow: 0 8px 24px #000a; animation: connPulse 1.2s ease-in-out infinite alternate; }
+@keyframes connPulse { from { opacity: .65; } }
