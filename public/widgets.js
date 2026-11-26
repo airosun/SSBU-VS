@@ -48,9 +48,11 @@
       // cloud-shaped bar split into 5 sections
       const w = 200, h = 40, id = 'cl' + Math.random().toString(36).slice(2, 7);
       const cloud = 'M18 34 C4 34 2 20 14 18 C12 6 30 2 36 12 C42 2 60 2 64 13 C70 4 90 4 94 14 C100 4 122 4 126 14 C132 4 152 4 156 14 C162 6 184 8 184 20 C198 20 198 34 184 34 Z';
-      const segW = (184 - 4) / r.max;
+      // sections span the whole cloud (x 0–200) so a full Waft fills it edge to edge; dividers drawn on top
+      const segW = w / r.max;
       let parts = '';
-      for (let i = 0; i < r.max; i++) parts += `<rect x="${4 + i * segW}" y="0" width="${segW - 2}" height="${h}" fill="${i < r.value ? `url(#${id}g)` : EMPTY}"/>`;
+      for (let i = 0; i < r.max; i++) parts += `<rect x="${i * segW}" y="0" width="${segW + 0.5}" height="${h}" fill="${i < r.value ? `url(#${id}g)` : EMPTY}"/>`;
+      for (let i = 1; i < r.max; i++) parts += `<line x1="${i * segW}" y1="0" x2="${i * segW}" y2="${h}" stroke="#5c6680" stroke-width="2"/>`;
       return `<div class="w-seg waft ${r.value >= r.max ? 'full' : ''}">${lbl(r.label, r.value >= r.max ? 'FULL' : `${r.value} / ${r.max}`)}
         <svg viewBox="0 0 ${w} ${h}" class="cloud"><defs><clipPath id="${id}"><path d="${cloud}"/></clipPath>
         <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9f5b0"/><stop offset="1" stop-color="#8fd16a"/></linearGradient></defs>

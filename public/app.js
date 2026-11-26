@@ -65,7 +65,7 @@ function sideHTML(s, player, mine) {
     : `<div class="smeter ${s.meter >= s.meterMax ? 'full' : ''}">${Array.from({ length: s.meterMax }, (_, i) => `<div class="seg ${i < s.meter ? 'on' : ''}"></div>`).join('')}</div>`;
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
-    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div><div><div class="cname">${s.name}</div>
+    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div><div class="cname">${s.name}</div>
       <div class="small">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
     <div class="hp ${s.fx.hp ? 'fx-' + s.fx.hp : ''}"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>

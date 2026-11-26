@@ -236,3 +236,11 @@ main { max-width: 1400px; padding: 14px 20px; }
 .w-once.ready svg path[fill="#f2e6c4"] { filter: none; }
 .w-once.ready .ico[data-g="cross"], .w-once.ready.cross .ico { filter: drop-shadow(0 0 8px #ffe9a8); }
 .w-art { align-items: flex-start; } #oppSide .w-art { align-items: flex-end; margin-left: auto; }
+/* Cloud: thick blue border around Limit · Joker: red shadow under Rebellion/Arsene · Arsene beside Joker */
+.w-bar.limit .track { height: 18px; border: 4px solid #2b6cff; border-radius: 6px; box-shadow: 0 0 6px #2b6cff66; }
+.w-bar.rebellion .track, .w-bar.arsene .track { box-shadow: 0 6px 10px -2px #ff2b2bcc; }
+.summon { height: 104px; width: auto; flex: none; margin-left: -18px; filter: drop-shadow(0 0 10px #c33cffaa); animation: summonIn .6s ease; }
+#oppSide .summon { margin-left: 0; margin-right: -18px; transform: scaleX(-1); }
+.st .summon { height: 64px; }
+@keyframes summonIn { from { opacity: 0; transform: translateY(8px) scale(.9); } }
+#oppSide .summon { animation: none; }

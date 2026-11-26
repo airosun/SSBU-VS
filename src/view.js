@@ -64,6 +64,7 @@ function effects(p, o, g, viewerIsP, viewerIsO) {
   const fx = { hp: null, marks: [] };
   if (p.f.id === 'kazuya' && p.hp < 35) fx.hp = 'rage';
   if (p.f.id === 'daisy' && p.hp < 50) fx.hp = 'glow';
+  if (p.f.id === 'joker' && (p.mem.ars || 0) >= g.T) fx.summon = 'arsene';   // Arsene appears beside Joker
   if (o.f.id === 'wolf' && p.hp < 50) fx.marks.push('crosshair');          // Wolf's Predator targets this side
   if (o.f.id === 'snake' && o.mem.c4 && viewerIsO) fx.marks.push('c4');    // only Snake's player sees the C4
   return fx;
