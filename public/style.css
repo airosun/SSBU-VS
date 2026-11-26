@@ -244,3 +244,12 @@ main { max-width: 1400px; padding: 14px 20px; }
 .st .summon { height: 64px; }
 @keyframes summonIn { from { opacity: 0; transform: translateY(8px) scale(.9); } }
 #oppSide .summon { animation: none; }
+/* Cloud: squarer Limit bar */
+.w-bar.limit .track, .w-bar.limit .track div { border-radius: 1px; }
+/* Joker: solid red shadow plate under the gauge, angled so it droops on the right */
+.w-bar.rebellion, .w-bar.arsene { position: relative; isolation: isolate; padding-bottom: 6px; }
+.w-bar.rebellion .track, .w-bar.arsene .track { box-shadow: none; position: relative; }
+.w-bar.rebellion::after, .w-bar.arsene::after {
+  content: ''; position: absolute; z-index: -1; left: 3px; right: -3px; bottom: 3px; height: 14px;
+  background: #d81e2c; border-radius: 2px; transform-origin: left center; transform: rotate(1.6deg);
+}
