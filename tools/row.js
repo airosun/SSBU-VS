@@ -11,7 +11,9 @@ if (isMainThread) {
   }
 } else {
   const E = require('../src/engine'), AI = require('../src/ai'), Fm = require('../src/fighters');
-  for (const key in workerData.ov) Object.assign(Fm.N[key], workerData.ov[key]);
+  for (const key in workerData.ov) if (key[0] !== '_') Object.assign(Fm.N[key], workerData.ov[key]);
+  if (workerData.ov._fs) Object.assign(Fm.FSN, workerData.ov._fs);
+  if (workerData.ov._rules) Object.assign(E.RULES, workerData.ov._rules);
   const me = Fm.BY_ID[workerData.id]; let pts = 0, n = 0;
   Fm.FIGHTERS.forEach((o, j) => {
     if (o === me || j % 2 !== workerData.k) return;

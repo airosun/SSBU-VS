@@ -1,7 +1,7 @@
 // Average value gained per meter spent: skills vs Final Smash. value = HP swing + lingering effects (meter excluded).
 const fs=require('fs');
 const E=require('../src/engine'),AI=require('../src/ai'),Fm=require('../src/fighters');
-const ov=JSON.parse(fs.readFileSync(process.argv[2]||'overrides.json'));if(ov._rules)Object.assign(E.RULES,ov._rules);for(const k in ov)if(k!=='_rules')Object.assign(Fm.N[k],ov[k]);
+const ov=JSON.parse(fs.readFileSync(process.argv[2]||'overrides.json'));if(ov._rules)Object.assign(E.RULES,ov._rules);if(ov._fs)Object.assign(Fm.FSN,ov._fs);for(const k in ov)if(k[0]!=='_')Object.assign(Fm.N[k],ov[k]);
 const F=Fm.FIGHTERS;
 function sc(p,o,g){let s=p.hp+0.8*p.charge-0.8*p.weaken;for(const b of p.burns)s-=b.x*b.left;
  if(E.active(p,'stagger',g.T))s-=3;if(E.active(p,'paralyze',g.T))s-=2;if(E.active(p,'lock',g.T))s-=4;

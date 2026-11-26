@@ -15,7 +15,7 @@
    "text": "+7 damage and Gain 1 (coins)."
   },
   "finalSmash": "Mario Finale",
-  "finalSmashText": "14 damage + Burn 3 (2 turns)."
+  "finalSmashText": "15 damage + Burn 3 (2 turns)."
  },
  {
   "id": "dk",
@@ -33,7 +33,7 @@
    "text": "+9 damage."
   },
   "finalSmash": "Jungle Rush",
-  "finalSmashText": "12 damage + Stagger + Paralyze. Donkey Kong gains Charge 3."
+  "finalSmashText": "15 damage + Stagger + Paralyze. Donkey Kong gains Charge 3."
  },
  {
   "id": "link",
@@ -51,7 +51,7 @@
    "text": "+2 damage and Burn 6 (1 turn)."
   },
   "finalSmash": "Ancient Bow & Arrow",
-  "finalSmashText": "19 damage that ignores Armor, Weaken and all damage reduction."
+  "finalSmashText": "21 damage that ignores Armor, Weaken and all damage reduction."
  },
  {
   "id": "samus",
@@ -69,7 +69,7 @@
    "text": "+5 damage, plus +2 per stack, then clear all stacks."
   },
   "finalSmash": "Zero Laser",
-  "finalSmashText": "10 damage + Burn 3 (3 turns)."
+  "finalSmashText": "11 damage + Burn 3 (3 turns)."
  },
  {
   "id": "dsamus",
@@ -87,7 +87,7 @@
    "text": "+2 damage and Burn 2 (2 turns) (Phazon)."
   },
   "finalSmash": "Phazon Laser",
-  "finalSmashText": "10 damage + Burn 2 (2 turns) + Drain 2."
+  "finalSmashText": "14 damage + Burn 2 (2 turns) + Drain 2."
  },
  {
   "id": "yoshi",
@@ -105,7 +105,7 @@
    "text": "+2 damage and Lock Attack."
   },
   "finalSmash": "Stampede!",
-  "finalSmashText": "16 damage. Yoshi gains Armor 4 next turn."
+  "finalSmashText": "19 damage. Yoshi gains Armor 4 next turn."
  },
  {
   "id": "kirby",
@@ -123,7 +123,7 @@
    "text": "+7 damage and Copy: Inhale becomes the opponent's skill (same type, cost and effect) until it loses, then reverts to Inhale."
   },
   "finalSmash": "Ultra Sword",
-  "finalSmashText": "15 damage + Heal 5."
+  "finalSmashText": "16 damage + Heal 5."
  },
  {
   "id": "fox",
@@ -141,7 +141,7 @@
    "text": "+9 damage. If the opponent used their skill, also deal its listed bonus damage back to them (max +8)."
   },
   "finalSmash": "Team Star Fox",
-  "finalSmashText": "12 damage + Lock Counter. Fox gains Charge 3."
+  "finalSmashText": "17 damage + Lock Counter. Fox gains Charge 3."
  },
  {
   "id": "pikachu",
@@ -159,7 +159,7 @@
    "text": "+6 damage."
   },
   "finalSmash": "Volt Tackle",
-  "finalSmashText": "15 damage + Paralyze (2 turns)."
+  "finalSmashText": "18 damage + Paralyze (2 turns)."
  },
  {
   "id": "luigi",
@@ -177,7 +177,7 @@
    "text": "+6 damage, Drain 1 and Gain 1."
   },
   "finalSmash": "Poltergust G-00",
-  "finalSmashText": "11 damage + Drain 2, and Luigi gains the meter he drained."
+  "finalSmashText": "14 damage + Drain 2, and Luigi gains the meter he drained."
  },
  {
   "id": "ness",
@@ -195,7 +195,7 @@
    "text": "+3 damage and Burn 2 (2 turns)."
   },
   "finalSmash": "PK Starstorm",
-  "finalSmashText": "9 damage + Burn 2 (5 turns): the stars keep falling."
+  "finalSmashText": "12 damage + Burn 2 (5 turns): the stars keep falling."
  },
  {
   "id": "falcon",
@@ -213,7 +213,7 @@
    "text": "+16 damage. Endlag: if Falcon Punch loses, the opponent's hit deals +5 to you."
   },
   "finalSmash": "Blue Falcon",
-  "finalSmashText": "16 damage. Show Me Your Moves! starts at its max (+6 on Falcon's next Attack win)."
+  "finalSmashText": "20 damage. Show Me Your Moves! starts at its max (+6 on Falcon's next Attack win)."
  },
  {
   "id": "jiggly",
@@ -231,7 +231,7 @@
    "text": "+21 damage. You become Drowsy: next turn you are Staggered and Paralyzed."
   },
   "finalSmash": "Puff Up",
-  "finalSmashText": "14 damage + Lock Attack."
+  "finalSmashText": "20 damage + Lock Attack."
  },
  {
   "id": "peach",
@@ -249,7 +249,7 @@
    "text": "+4 damage and Paralyze."
   },
   "finalSmash": "Peach Blossom",
-  "finalSmashText": "10 damage; the opponent falls asleep (Staggered and Paralyzed next turn). Peach Heals 5."
+  "finalSmashText": "12 damage; the opponent falls asleep (Staggered and Paralyzed next turn). Peach Heals 5."
  },
  {
   "id": "daisy",
@@ -267,7 +267,7 @@
    "text": "+5 damage and Heal 3."
   },
   "finalSmash": "Daisy Blossom",
-  "finalSmashText": "10 damage + Heal 9."
+  "finalSmashText": "11 damage + Heal 9."
  },
  {
   "id": "bowser",
@@ -303,7 +303,7 @@
    "text": "+5 damage. If you also win with Grab next turn (basic or skill), that win deals +6."
   },
   "finalSmash": "Iceberg",
-  "finalSmashText": "10 damage + Burn 3 (3 turns) from frostbite."
+  "finalSmashText": "12 damage + Frozen 3 (3 turns) from frostbite."
  },
  {
   "id": "sheik",
@@ -321,7 +321,7 @@
    "text": "+4 damage and Weaken 5."
   },
   "finalSmash": "Sheikah Dance",
-  "finalSmashText": "14 damage + Weaken 6."
+  "finalSmashText": "16 damage + Weaken 6."
  },
  {
   "id": "zelda",
@@ -339,7 +339,7 @@
    "text": "+4 damage and Heal 2."
   },
   "finalSmash": "Triforce of Wisdom",
-  "finalSmashText": "14 damage, or 22 if the opponent is below 40 HP."
+  "finalSmashText": "15 damage, or 23 if the opponent is below 40 HP."
  },
  {
   "id": "doc",
@@ -357,7 +357,7 @@
    "text": "+3 damage and Stagger."
   },
   "finalSmash": "Doctor Finale",
-  "finalSmashText": "14 damage + Heal 5."
+  "finalSmashText": "15 damage + Heal 5."
  },
  {
   "id": "pichu",
@@ -375,7 +375,7 @@
    "text": "+6 damage and Recoil 2."
   },
   "finalSmash": "Volt Tackle",
-  "finalSmashText": "19 damage + Paralyze. Pichu takes Recoil 3."
+  "finalSmashText": "22 damage + Paralyze. Pichu takes Recoil 3."
  },
  {
   "id": "falco",
@@ -393,7 +393,7 @@
    "text": "+8 damage and Stagger."
   },
   "finalSmash": "Team Star Fox",
-  "finalSmashText": "14 damage + Stagger + Paralyze."
+  "finalSmashText": "18 damage + Stagger + Paralyze."
  },
  {
   "id": "marth",
@@ -411,7 +411,7 @@
    "text": "+7 damage; +5 more if the opponent used their skill."
   },
   "finalSmash": "Critical Hit",
-  "finalSmashText": "14 damage. If it leaves the opponent below 20 HP, they're KO'd."
+  "finalSmashText": "23 damage. If it leaves the opponent below 20 HP, they're KO'd."
  },
  {
   "id": "lucina",
@@ -429,7 +429,7 @@
    "text": "+2 damage and Lock Counter."
   },
   "finalSmash": "Critical Hit",
-  "finalSmashText": "16 damage. If it leaves the opponent below 15 HP, they're KO'd."
+  "finalSmashText": "21 damage. If it leaves the opponent below 15 HP, they're KO'd."
  },
  {
   "id": "ylink",
@@ -447,7 +447,7 @@
    "text": "+6 damage and Lock Counter."
   },
   "finalSmash": "Triforce Slash",
-  "finalSmashText": "16 damage + Stagger."
+  "finalSmashText": "20 damage + Stagger."
  },
  {
   "id": "ganon",
@@ -465,7 +465,7 @@
    "text": "+3 damage and Stagger."
   },
   "finalSmash": "Ganon, The Demon King",
-  "finalSmashText": "16 damage + Stagger. Ganondorf can't be Staggered or Locked next turn."
+  "finalSmashText": "19 damage + Stagger. Ganondorf can't be Staggered or Locked next turn."
  },
  {
   "id": "mewtwo",
@@ -483,7 +483,7 @@
    "text": "+6 damage. The opponent can't use their skill for 2 turns."
   },
   "finalSmash": "Psystrike",
-  "finalSmashText": "12 damage + Stagger (2 turns) + Paralyze."
+  "finalSmashText": "20 damage + Stagger (2 turns) + Paralyze."
  },
  {
   "id": "roy",
@@ -501,7 +501,7 @@
    "text": "+11 damage; +3 more if you have less HP than the opponent."
   },
   "finalSmash": "Critical Hit",
-  "finalSmashText": "15 damage + Burn 4 (1 turn)."
+  "finalSmashText": "18 damage + Burn 4 (1 turn)."
  },
  {
   "id": "chrom",
@@ -519,7 +519,7 @@
    "text": "+8 damage and Paralyze."
   },
   "finalSmash": "Awakening Aether",
-  "finalSmashText": "15 damage + Heal 4."
+  "finalSmashText": "18 damage + Heal 4."
  },
  {
   "id": "gnw",
@@ -537,7 +537,7 @@
    "text": "Roll 1–9 and deal +(roll + 4) damage. On a 9, deal +19 instead. On a 1, you also take Recoil 3."
   },
   "finalSmash": "Octopus",
-  "finalSmashText": "12 damage + Lock Grab + Drain 1."
+  "finalSmashText": "15 damage + Lock Grab + Drain 1."
  },
  {
   "id": "mk",
@@ -555,7 +555,7 @@
    "text": "+5 damage and Charge 5."
   },
   "finalSmash": "Darkness Illusion",
-  "finalSmashText": "16 damage that ignores Armor. Meta Knight gains 1 meter."
+  "finalSmashText": "20 damage that ignores Armor. Meta Knight gains 1 meter."
  },
  {
   "id": "pit",
@@ -573,7 +573,7 @@
    "text": "+5 damage and Armor 5."
   },
   "finalSmash": "Lightning Chariot",
-  "finalSmashText": "15 damage + Weaken 5."
+  "finalSmashText": "18 damage + Weaken 5."
  },
  {
   "id": "dpit",
@@ -591,7 +591,7 @@
    "text": "+8 damage. Ignores Armor and Weaken."
   },
   "finalSmash": "Dark Pit Staff",
-  "finalSmashText": "19 damage that ignores Armor and Weaken."
+  "finalSmashText": "21 damage that ignores Armor and Weaken."
  },
  {
   "id": "zss",
@@ -609,7 +609,7 @@
    "text": "+6 damage, Paralyze and Stagger."
   },
   "finalSmash": "Zero Laser",
-  "finalSmashText": "12 damage + Paralyze + Lock Counter."
+  "finalSmashText": "15 damage + Paralyze + Lock Counter."
  },
  {
   "id": "wario",
@@ -627,7 +627,7 @@
    "text": "+3 damage and Heal 4."
   },
   "finalSmash": "Wario-Man",
-  "finalSmashText": "13 damage. Wario becomes Wario-Man for 2 turns: his wins deal +3."
+  "finalSmashText": "20 damage. Wario becomes Wario-Man for 2 turns: his wins deal +3."
  },
  {
   "id": "snake",
@@ -645,7 +645,7 @@
    "text": "+3 damage and plant C4: the next time the opponent wins against you, it detonates and deals 8 damage to them."
   },
   "finalSmash": "Covering Fire",
-  "finalSmashText": "9 damage + Burn 5 (2 turns): missiles keep landing. Snake's meter stays hidden."
+  "finalSmashText": "10 damage + Burn 5 (2 turns): missiles keep landing. Snake's meter stays hidden."
  },
  {
   "id": "ike",
@@ -663,7 +663,7 @@
    "text": "+12 damage."
   },
   "finalSmash": "Great Aether",
-  "finalSmashText": "14 damage + Heal 6."
+  "finalSmashText": "16 damage + Heal 6."
  },
  {
   "id": "pt",
@@ -681,7 +681,7 @@
    "text": "+5 damage, then switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
   },
   "finalSmash": "Triple Finish",
-  "finalSmashText": "18 damage (all three Pokémon attack). The active Pokémon doesn't change."
+  "finalSmashText": "21 damage (all three Pokémon attack). The active Pokémon doesn't change."
  },
  {
   "id": "diddy",
@@ -699,7 +699,7 @@
    "text": "+7 damage and Gain 1."
   },
   "finalSmash": "Hyper Rocketbarrel",
-  "finalSmashText": "15 damage. Diddy Kong gains 1 meter."
+  "finalSmashText": "19 damage. Diddy Kong gains 1 meter."
  },
  {
   "id": "lucas",
@@ -717,7 +717,7 @@
    "text": "+6 damage. Lock the basic action the opponent chose this turn."
   },
   "finalSmash": "PK Starstorm",
-  "finalSmashText": "10 damage + Burn 3 (2 turns) + Heal 3."
+  "finalSmashText": "12 damage + Burn 3 (2 turns) + Heal 3."
  },
  {
   "id": "sonic",
@@ -735,7 +735,7 @@
    "text": "+7 damage; +3 more if you won last turn."
   },
   "finalSmash": "Super Sonic",
-  "finalSmashText": "12 damage. Sonic gains Armor 4 for 2 turns."
+  "finalSmashText": "13 damage. Sonic gains Armor 4 for 2 turns."
  },
  {
   "id": "dedede",
@@ -753,7 +753,7 @@
    "text": "+5 damage and Stagger (spit out as a star)."
   },
   "finalSmash": "Dede-rush",
-  "finalSmashText": "16 damage + Stagger (trapped in the Gordo cage)."
+  "finalSmashText": "19 damage + Stagger (trapped in the Gordo cage)."
  },
  {
   "id": "olimar",
@@ -771,7 +771,7 @@
    "text": "+10 damage, +2 per Pikmin. Uses up all Pikmin."
   },
   "finalSmash": "End of Day",
-  "finalSmashText": "12 damage. Olimar gains 3 Pikmin."
+  "finalSmashText": "20 damage. Olimar gains 3 Pikmin."
  },
  {
   "id": "lucario",
@@ -789,7 +789,7 @@
    "text": "+6 damage."
   },
   "finalSmash": "Aura Storm",
-  "finalSmashText": "10 damage, +1 for every 10 HP Lucario is missing (max +10)."
+  "finalSmashText": "16 damage, +1 for every 10 HP Lucario is missing (max +10)."
  },
  {
   "id": "rob",
@@ -807,7 +807,7 @@
    "text": "+9 damage."
   },
   "finalSmash": "Guided Robo Beam",
-  "finalSmashText": "18 damage that ignores Armor."
+  "finalSmashText": "21 damage that ignores Armor."
  },
  {
   "id": "tlink",
@@ -825,7 +825,7 @@
    "text": "+6 damage and Heal 2."
   },
   "finalSmash": "Triforce Slash",
-  "finalSmashText": "14 damage + Lock Counter."
+  "finalSmashText": "18 damage + Lock Counter."
  },
  {
   "id": "wolf",
@@ -843,7 +843,7 @@
    "text": "+7 damage. Ignores Armor and Weaken."
   },
   "finalSmash": "Team Star Wolf",
-  "finalSmashText": "13 damage + Weaken 4 + Stagger."
+  "finalSmashText": "14 damage + Weaken 4 + Stagger."
  },
  {
   "id": "villager",
@@ -861,7 +861,7 @@
    "text": "+2 damage. Each later use deals +3 more than the last (max +13)."
   },
   "finalSmash": "Dream Home",
-  "finalSmashText": "13 damage. Villager gains Armor 6 next turn (safe inside the new house)."
+  "finalSmashText": "18 damage. Villager gains Armor 6 next turn (safe inside the new house)."
  },
  {
   "id": "megaman",
@@ -879,7 +879,7 @@
    "text": "+4 damage and Armor 4 (2 turns)."
   },
   "finalSmash": "Mega Legends",
-  "finalSmashText": "16 damage + Weaken 4."
+  "finalSmashText": "19 damage + Weaken 4."
  },
  {
   "id": "wft",
@@ -897,7 +897,7 @@
    "text": "+2 damage, Heal 5 and Charge 3."
   },
   "finalSmash": "Wii Fit",
-  "finalSmashText": "12 damage. Wii Fit Trainer Heals 4 and gains Charge 4."
+  "finalSmashText": "15 damage. Wii Fit Trainer Heals 4 and gains Charge 4."
  },
  {
   "id": "rosa",
@@ -915,7 +915,7 @@
    "text": "+2 damage and Drain 1."
   },
   "finalSmash": "Grand Star",
-  "finalSmashText": "12 damage. Luma is fully restored (and returns if it was knocked out)."
+  "finalSmashText": "10 damage. Luma is fully restored (and returns if it was knocked out)."
  },
  {
   "id": "mac",
@@ -933,7 +933,7 @@
    "text": "+15 damage."
   },
   "finalSmash": "Giga Mac Rush",
-  "finalSmashText": "16 damage. Little Mac gains 1 KO Star."
+  "finalSmashText": "20 damage. Little Mac gains 1 KO Star."
  },
  {
   "id": "greninja",
@@ -951,7 +951,7 @@
    "text": "+11 damage."
   },
   "finalSmash": "Secret Ninja Attack",
-  "finalSmashText": "16 damage + Stagger."
+  "finalSmashText": "20 damage + Stagger."
  },
  {
   "id": "palutena",
@@ -969,7 +969,7 @@
    "text": "+6 damage and Weaken 4."
   },
   "finalSmash": "Black Hole Laser",
-  "finalSmashText": "10 damage + Drain 3."
+  "finalSmashText": "17 damage + Drain 3."
  },
  {
   "id": "pacman",
@@ -987,7 +987,7 @@
    "text": "+5 damage, plus +1 for each turn since you last threw it (Cherry +1 … Key +8, max +8)."
   },
   "finalSmash": "Super PAC-MAN",
-  "finalSmashText": "14 damage. Bonus Fruit jumps straight to Key (+8)."
+  "finalSmashText": "18 damage. Bonus Fruit jumps straight to Key (+8)."
  },
  {
   "id": "robin",
@@ -1005,7 +1005,7 @@
    "text": "+3 damage and Heal 5."
   },
   "finalSmash": "Pair Up",
-  "finalSmashText": "12 damage. Robin's next 2 wins deal +3 (Chrom backs him up)."
+  "finalSmashText": "20 damage. Robin's next 2 wins deal +3 (Chrom backs him up)."
  },
  {
   "id": "shulk",
@@ -1041,7 +1041,7 @@
    "text": "+4 damage and Burn 5 (1 turn)."
   },
   "finalSmash": "Shadow Mario Paint",
-  "finalSmashText": "10 damage + Weaken 4 + Lock Attack."
+  "finalSmashText": "13 damage + Weaken 4 + Lock Attack."
  },
  {
   "id": "duckhunt",
@@ -1059,7 +1059,7 @@
    "text": "+2 damage and Burn 2 (3 turns)."
   },
   "finalSmash": "NES Zapper Posse",
-  "finalSmashText": "18 damage in three shots of 6 (Armor reduces each shot)."
+  "finalSmashText": "21 damage in three shots of 7 (Armor reduces each shot)."
  },
  {
   "id": "ryu",
@@ -1077,7 +1077,7 @@
    "text": "+6 damage. Shoryuken wins Attack clashes outright, even against Attack skills."
   },
   "finalSmash": "Shin Shoryuken",
-  "finalSmashText": "20 damage."
+  "finalSmashText": "21 damage."
  },
  {
   "id": "ken",
@@ -1095,7 +1095,7 @@
    "text": "+7 damage and Charge 3."
   },
   "finalSmash": "Shinryuken",
-  "finalSmashText": "14 damage + Stagger + Paralyze."
+  "finalSmashText": "17 damage + Stagger + Paralyze."
  },
  {
   "id": "cloud",
@@ -1113,7 +1113,7 @@
    "text": "+7 damage."
   },
   "finalSmash": "Omnislash",
-  "finalSmashText": "15 damage. Cloud's Limit is refilled."
+  "finalSmashText": "18 damage. Cloud's Limit is refilled."
  },
  {
   "id": "corrin",
@@ -1131,7 +1131,7 @@
    "text": "+6 damage and Lock Attack."
   },
   "finalSmash": "Torrential Roar",
-  "finalSmashText": "12 damage + Lock Attack + Weaken 3."
+  "finalSmashText": "17 damage + Lock Attack + Weaken 3."
  },
  {
   "id": "bayo",
@@ -1149,7 +1149,7 @@
    "text": "+4 damage and Charge 6."
   },
   "finalSmash": "Infernal Climax",
-  "finalSmashText": "12 damage + Paralyze. Bayonetta gains Charge 6."
+  "finalSmashText": "15 damage + Paralyze. Bayonetta gains Charge 6."
  },
  {
   "id": "inkling",
@@ -1167,7 +1167,7 @@
    "text": "+5 damage and apply 2 extra Ink."
   },
   "finalSmash": "Killer Wail",
-  "finalSmashText": "12 damage and covers the opponent in 3 Ink."
+  "finalSmashText": "20 damage and covers the opponent in 3 Ink."
  },
  {
   "id": "ridley",
@@ -1185,7 +1185,7 @@
    "text": "+11 damage."
   },
   "finalSmash": "Plasma Scream",
-  "finalSmashText": "14 damage. The opponent loses 2 meter."
+  "finalSmashText": "20 damage. The opponent loses 2 meter."
  },
  {
   "id": "simon",
@@ -1203,7 +1203,7 @@
    "text": "+4 damage and Burn 3 (2 turns)."
   },
   "finalSmash": "Grand Cross",
-  "finalSmashText": "10 damage + Burn 2 (3 turns) + Stagger."
+  "finalSmashText": "13 damage + Burn 2 (3 turns) + Stagger."
  },
  {
   "id": "richter",
@@ -1239,7 +1239,7 @@
    "text": "+5 damage and fully restore Belly Armor."
   },
   "finalSmash": "Blast-o-Matic",
-  "finalSmashText": "21 damage. K. Rool takes Recoil 3."
+  "finalSmashText": "23 damage. K. Rool takes Recoil 3."
  },
  {
   "id": "isabelle",
@@ -1257,7 +1257,7 @@
    "text": "+5 damage and Drain 1."
   },
   "finalSmash": "Dream Town Hall",
-  "finalSmashText": "14 damage + Heal 5."
+  "finalSmashText": "15 damage + Heal 5."
  },
  {
   "id": "incin",
@@ -1275,7 +1275,7 @@
    "text": "+5 damage."
   },
   "finalSmash": "Max Malicious Moonsault",
-  "finalSmashText": "14 damage, or 20 if Incineroar has less HP than the opponent (Revenge)."
+  "finalSmashText": "17 damage, or 23 if Incineroar has less HP than the opponent (Revenge)."
  },
  {
   "id": "plant",
@@ -1284,7 +1284,7 @@
   "series": "Super Mario",
   "passive": {
    "name": "Poison Breath",
-   "text": "Your Counter wins Burn 2 (2 turns)."
+   "text": "Your Counter wins Poison 2 (2 turns)."
   },
   "skill": {
    "name": "Chewing",
@@ -1293,7 +1293,7 @@
    "text": "+9 damage."
   },
   "finalSmash": "Petey Piranha",
-  "finalSmashText": "12 damage + Lock Grab + Stagger."
+  "finalSmashText": "15 damage + Lock Grab + Stagger."
  },
  {
   "id": "joker",
@@ -1311,7 +1311,7 @@
    "text": "+3 damage; +6 more while Arsene is out."
   },
   "finalSmash": "All-Out Attack",
-  "finalSmashText": "14 damage, or 20 while Arsene is out, and Arsene stays 2 more turns."
+  "finalSmashText": "16 damage, or 22 while Arsene is out, and Arsene stays 2 more turns."
  },
  {
   "id": "hero",
@@ -1329,7 +1329,7 @@
    "text": "Random spell: Kaboom (+8), Sizz (+3, Burn 2 for 2 turns), Psyche Up (+1, Charge 8) or Thwack (+1; instant KO if the opponent is below 25 HP)."
   },
   "finalSmash": "Gigaslash",
-  "finalSmashText": "18 damage."
+  "finalSmashText": "21 damage."
  },
  {
   "id": "banjo",
@@ -1347,7 +1347,7 @@
    "text": "+4 damage. Wins Attack clashes outright. Only 5 uses per match (Golden Feathers)."
   },
   "finalSmash": "The Mighty Jinjonator",
-  "finalSmashText": "15 damage. Banjo & Kazooie regain 1 Golden Feather."
+  "finalSmashText": "22 damage. Banjo & Kazooie regain 1 Golden Feather."
  },
  {
   "id": "terry",
@@ -1365,7 +1365,7 @@
    "text": "+16 damage."
   },
   "finalSmash": "Triple Wolf",
-  "finalSmashText": "15 damage, or 21 while Terry is below 40 HP (GO!)."
+  "finalSmashText": "18 damage, or 24 while Terry is below 40 HP (GO!)."
  },
  {
   "id": "byleth",
@@ -1383,7 +1383,7 @@
    "text": "+2 damage and Lock Counter."
   },
   "finalSmash": "Progenitor God Ruptured Heaven",
-  "finalSmashText": "16 damage. Divine Pulse is restored if it was used."
+  "finalSmashText": "18 damage. Divine Pulse is restored if it was used."
  },
  {
   "id": "minmin",
@@ -1401,7 +1401,7 @@
    "text": "+6 damage and Weaken 3."
   },
   "finalSmash": "ARMS Rush",
-  "finalSmashText": "14 damage + Lock Counter."
+  "finalSmashText": "17 damage + Lock Counter."
  },
  {
   "id": "steve",
@@ -1419,7 +1419,7 @@
    "text": "+7 damage."
   },
   "finalSmash": "House of Boom",
-  "finalSmashText": "14 damage. Steve's tools upgrade one tier."
+  "finalSmashText": "17 damage. Steve's tools upgrade one tier."
  },
  {
   "id": "seph",
@@ -1437,7 +1437,7 @@
    "text": "+11 damage; if the opponent used their skill, Drain 2."
   },
   "finalSmash": "Supernova",
-  "finalSmashText": "13 damage + 2 random effects from: Stagger, Paralyze, Lock (random action), Weaken 5."
+  "finalSmashText": "16 damage + 2 random effects from: Stagger, Paralyze, Lock (random action), Weaken 5."
  },
  {
   "id": "pyra",
@@ -1473,7 +1473,7 @@
    "text": "+6 damage."
   },
   "finalSmash": "Final Blaster",
-  "finalSmashText": "16 damage. Kazuya Heals 4."
+  "finalSmashText": "15 damage. Kazuya Heals 4."
  },
  {
   "id": "sora",
@@ -1491,6 +1491,6 @@
    "text": "Cycles each use: Firaga (+7, Burn 2 for 2 turns) → Blizzaga (+7, Lock the basic action the opponent chose) → Thundaga (+10)."
   },
   "finalSmash": "Sealing the Keyhole",
-  "finalSmashText": "14 damage + Drain 2."
+  "finalSmashText": "17 damage + Drain 2."
  }
 ]

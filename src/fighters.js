@@ -587,9 +587,14 @@ def('sora', 'Sora', {
 
 
 // ---------- Final Smashes (proposal Nov 2026; numbers live in FSN) ----------
-const FSN = {};
+// Balance pass (Nov 2026): every Final Smash +3 damage, plus these per-fighter adjustments
+const FSN = {_all: 3, mario: -2, link: -1, samus: -2, dsamus: 1, kirby: -2, fox: 2, falcon: 1, jiggly: 3, daisy: -2, bowser: -3, ics: -1, zelda: -2, doc: -2, falco: 1, marth: 6, lucina: 2, mewtwo: 5, wario: 4, snake: -2, ike: -1, lucas: -1, sonic: -2, olimar: 5, lucario: 3, tlink: 1, wolf: -2, villager: 2, rosa: -5, mac: 1, palutena: 4, pacman: 1, robin: 5, shulk: -3, ryu: -2, inkling: 5, ridley: 3, richter: -3, krool: -1, isabelle: -2, joker: -1, banjo: 4, byleth: -1, pyra: -3, kazuya: -4, peach: -1, sheik: -1, greninja: 1, corrin: 2, mk: 1, diddy: 1, ylink: 1, dpit: -1};
 const st1 = (c, name, turns = 1, v) => setStatus(c.g, c.opp, name, turns, v);
-const fsDef = (id, dmg, rider, extra = {}) => { const f = BY_ID_TMP[id]; f.fs = { dmg, rider, ...extra }; };
+// FSN[id] adds to (or subtracts from) that fighter's Final Smash damage; FSN._all applies to everyone. Used for balancing.
+const fsDef = (id, dmg, rider, extra = {}) => {
+  const f = BY_ID_TMP[id];
+  f.fs = { dmg: c => Math.max(1, (typeof dmg === 'function' ? dmg(c) : dmg) + (FSN[id] || 0) + (FSN._all || 0)), rider, ...extra };
+};
 const BY_ID_TMP = Object.fromEntries(F.map(f => [f.id, f]));
 const ko = (c, below) => { if (c.opp.hp > 0 && c.opp.hp < below) { E.announce(c.g, c.me, `Critical Hit! ${E.nameOf(c.opp)} is KO'd.`); c.opp.hp = 0; } };
 fsDef('mario', 14, c => burn(c.g, c.opp, 3, 2));
@@ -683,4 +688,4 @@ fsDef('sora', 14, c => drain(c.opp, 2, c.g));
 const KITS = require('../data/kits.json');
 for (const f of F) { const k = KITS.find(x => x.id === f.id); f.passiveName = k ? k.passive.name : 'Passive'; f.fsName = k ? k.finalSmash : 'Final Smash'; }
 const BY_ID = Object.fromEntries(F.map(f => [f.id, f]));
-module.exports = { FIGHTERS: F, BY_ID, N };
+module.exports = { FIGHTERS: F, BY_ID, N, FSN };
