@@ -295,3 +295,4 @@ main { max-width: 1400px; padding: 14px 20px; }
 #oppSide .cname { text-align: right; }
 .tag.FS { background: var(--FS); color: #111; }
 #burst { white-space: nowrap; }
+.randomBtn { background: linear-gradient(135deg, #b48cf2, #8a6cf2); color: #fff; }

@@ -27,6 +27,11 @@ $('#cpuBtn').onclick = () => socket.emit('cpu', { name: nameVal() });
 $('#createBtn').onclick = () => socket.emit('create', { name: nameVal() });
 $('#joinBtn').onclick = () => socket.emit('join', { name: nameVal(), code: $('#code').value });
 $('#howBtn').onclick = () => $('#how').showModal();
+$('#randomBtn').onclick = () => {
+  const k = KITS[(Math.random() * KITS.length) | 0];
+  myPick = k.id; socket.emit('pick', { id: myPick }); renderGrid();
+  const el = document.querySelector(`.card[data-id="${k.id}"]`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+};
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
 $('#rematchBtn').onclick = () => socket.emit('rematch');
 $('#newBtn').onclick = () => { myPick = null; socket.emit('newFighters'); };

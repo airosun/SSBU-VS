@@ -41,7 +41,7 @@ function push(r) {
 function start(r) {
   r.game = E.newGame(BY_ID[r.picks[0]], BY_ID[r.picks[1]], (Math.random() * 2 ** 31) | 0);
   r.pending = [null, null]; r.rematch = [false, false]; r.reveal = null;
-  r.log = [{ turn: 0, lines: [`Battle start: ${r.seats[0].name}'s ${r.game.p[0].f.name} vs ${r.seats[1].name}'s ${r.game.p[1].f.name}`] }];
+  r.log = [{ turn: 0, lines: [`Battle start: ${r.seats[0].name}'s ${E.nameOf(r.game.p[0])} vs ${r.seats[1].name}'s ${E.nameOf(r.game.p[1])}`] }];
   push(r);
 }
 function tryResolve(r) {
@@ -57,13 +57,13 @@ function tryResolve(r) {
   const before = { hp: g.p.map(p => Math.max(0, p.hp)), meter: g.p.map(p => p.meter) };
   const labels = acts.map((a, i) => actLabel(g.p[i], a));
   g.events = [];
-  labels.forEach((l, i) => g.events.push(`${names[i]}'s ${g.p[i].f.name} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
+  labels.forEach((l, i) => g.events.push(`${names[i]}'s ${E.nameOf(g.p[i])} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
   const out = E.resolve(g, acts);
   for (let i = 0; i < 2; i++) {
     const p = g.p[i], dh = Math.max(0, p.hp) - before.hp[i], dm = p.meter - before.meter[i];
-    g.events.push(`${p.f.name}: ${Math.max(0, p.hp)}/${p.maxHp} HP (${dh >= 0 ? '+' : ''}${dh}), meter ${p.meter}/${E.RULES.METER_MAX} (${dm >= 0 ? '+' : ''}${dm}).`);
+    g.events.push(`${E.nameOf(p)}: ${Math.max(0, p.hp)}/${p.maxHp} HP (${dh >= 0 ? '+' : ''}${dh}), meter ${p.meter}/${E.RULES.METER_MAX} (${dm >= 0 ? '+' : ''}${dm}).`);
   }
-  if (g.over) g.events.push(g.winner === -1 ? 'DRAW!' : `GAME! ${names[g.winner]}'s ${g.p[g.winner].f.name} wins!`);
+  if (g.over) g.events.push(g.winner === -1 ? 'DRAW!' : `GAME! ${names[g.winner]}'s ${E.nameOf(g.p[g.winner])} wins!`);
   r.reveal = { turn, kind: out.kind, winner: out.winner, acts: labels, before, events: g.events };
   r.log.push({ turn, lines: g.events });
   g.events = null;
