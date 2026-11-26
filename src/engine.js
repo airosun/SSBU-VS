@@ -3,6 +3,8 @@
 
 const RULES = {
   HP: 100, BASE: 10, CLASH: 5, FS_DMG: 14, FS_COST: 8, ENDLAG: 0, METER_MAX: 8, TURN_LIMIT: 40, HIT_METER: 1,
+  SKILL_TURN_HIT_METER: false, // no meter from taking hits on a turn you used your skill
+  DODGE: true,                 // 5th action: offered when the opponent can Final Smash; loses to everything else
 };
 const BEATS = { A: 'G', G: 'C', C: 'A' }; // key beats value
 const NAME = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
@@ -23,6 +25,7 @@ const STATUS_TXT = { stagger: 'Staggered', paralyze: 'Paralyzed', lock: 'Locked'
 // ---------- status helpers ----------
 // statuses live on p.st[name] = {from, until, v}
 function setStatus(g, p, name, turns = 1, v = true) {
+  if ((name === 'stagger' || name === 'lock') && (p.mem.unshakable || 0) > g.T) { emit(g, `${who(g, p)} shrugs it off.`); return; }
   if ((name === 'stagger' || name === 'paralyze') && p.f.immune) { emit(g, `${who(g, p)} is immune to ${STATUS_TXT[name]} (${p.f.passiveName}).`); return; }
   if (g.events) {
     const dur = turns > 1 ? ` for ${turns} turns` : ' next turn';
@@ -58,8 +61,9 @@ function heal(p, n, g) {
 }
 // recoil / burn / trap damage (not a "hit")
 function selfDmg(p, n, g, why, owner) { p.hp -= n; p.dmgTurn += n; const st = stat(g, p); if (st) st.otherTaken += n;
-  const by = owner || (g && g.srcP); if (g && by && by !== p) ustat(g, by, why === 'Burn' ? 'Burn damage dealt' : `Damage from ${why || g.src}`, n); else if (g && g.src && why !== 'Burn') ustat(g, p, `Recoil taken (${g.src})`, n); if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
-function burn(g, p, x, turns) { p.burns.push({ x, left: turns, start: g.T + 1, by: g.srcP ? g.p.indexOf(g.srcP) : -1 }); emit(g, `${who(g, p)} is Burned: ${x} damage at the end of the next ${turns > 1 ? turns + ' turns' : 'turn'}${g.src ? ` (${g.src})` : ''}.`); }
+  const by = owner || (g && g.srcP); if (g && by && by !== p) ustat(g, by, ['Burn', 'Poison', 'Frostbite'].includes(why) ? `${why} damage dealt` : `Damage from ${why || g.src}`, n); else if (g && g.src && !['Burn', 'Poison', 'Frostbite'].includes(why)) ustat(g, p, `Recoil taken (${g.src})`, n); if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
+const DOT = { burn: ['Burned', 'Burn'], poison: ['Poisoned', 'Poison'], freeze: ['Frozen', 'Frostbite'] };
+function burn(g, p, x, turns, kind = 'burn') { p.burns.push({ x, left: turns, start: g.T + 1, by: g.srcP ? g.p.indexOf(g.srcP) : -1, kind }); emit(g, `${who(g, p)} is ${DOT[kind][0]}: ${x} damage at the end of the next ${turns > 1 ? turns + ' turns' : 'turn'}${g.src ? ` (${g.src})` : ''}.`); }
 function charge(p, n, g) { if (n > p.charge) { p.charge = n; if (g) emit(g, `${who(g, p)} gains Charge ${n}: next win deals +${n}${g.src ? ` (${g.src})` : ''}.`); } }
 function weaken(p, n, g) { if (n > p.weaken) { p.weaken = n; if (g) emit(g, `${who(g, p)} is Weakened ${n}: next win deals ${n} less${g.src ? ` (${g.src})` : ''}.`); } }
 
@@ -106,6 +110,7 @@ function legalActions(g, i) {
   if (!active(p, 'stagger', T) && (!lock || lock.v !== st) && p.meter >= skillCost(g, p, o) && (!s.can || s.can(p, o, g)))
     acts.push({ kind: 'skill', type: st });
   if (p.meter >= RULES.FS_COST) acts.push({ kind: 'fs', type: 'FS' });
+  if (RULES.DODGE && (o.meter >= RULES.FS_COST || o.f.hiddenMeter)) acts.push({ kind: 'dodge', type: 'D' });
   return acts;
 }
 
@@ -145,8 +150,8 @@ function hit(g, att, def, o) {
     v = hook(def, 'clashTaken', dc); if (v < -50) { if (parts) parts.push({ text: `blocked by ${DP}`, label: DP, v: -Math.max(0, d), owner: 'd' }); } else part(parts, DP, v, 'd'); d += v;
   }
   v = hook(att, 'hitBonus', c); d += v; part(parts, AP, v, 'a');
-  if (!o.fs) {
-    if (!o.ignoreArmor) { const ar = active(def, 'armor', g.T); if (ar) { d -= ar.v; part(parts, 'Armor', -ar.v); } }
+  if (!o.fs || !o.ignoreArmor) {
+    if (!o.ignoreArmor) { const ar = active(def, 'armor', g.T); if (ar) { const m = o.armorMult || 1; d -= ar.v * m; part(parts, 'Armor', -ar.v * m); } }
     if (def.f.reduce) { const b = d; d = def.f.reduce(dc, d); if (parts && d !== b) parts.push({ label: DP, v: d - b, owner: 'd', absorb: def.f.id === 'krool' }); }
     v = hook(def, 'takeMod', dc); d += v; part(parts, DP, v, 'd');
   }
@@ -169,8 +174,23 @@ function hit(g, att, def, o) {
     const label = o.fs ? 'FINAL SMASH' : o.clash ? 'clash' : 'hit';
     emit(g, `${nameOf(att)}'s ${o.fs ? fsNameOf(att) : label} deals ${d} to ${nameOf(def)}${parts.length ? ` (${o.base} base ${parts.map(fmtPart).join(' ')})` : ''}.`);
   }
-  if (d > 0) { gain(g, def, RULES.HIT_METER, true); if (def.f.onHit) withSrc(g, DP, () => def.f.onHit(dc, d)); }
+  if (d > 0) { if (RULES.SKILL_TURN_HIT_METER || !o.dAct || o.dAct.kind !== 'skill') gain(g, def, RULES.HIT_METER, true); if (def.f.onHit) withSrc(g, DP, () => def.f.onHit(dc, d)); }
   return d;
+}
+
+// ---------- Final Smash ----------
+// Each fighter's f.fs = { dmg: number | c => number, ignoreArmor, armorMult, rider(c) }. Dodge avoids all of it.
+function finalSmash(g, att, def, aAct, dAct) {
+  const fs = att.f.fs || { dmg: RULES.FS_DMG };
+  if (dAct.kind === 'dodge') {
+    announce(g, def, `${nameOf(def)} dodged ${fsNameOf(att)}!`);
+    const st = stat(g, def); if (st) st.fsDodged = (st.fsDodged || 0) + 1; ustat(g, def, 'Final Smashes dodged');
+    return;
+  }
+  const c = { g, me: att, opp: def, act: aAct, oppAct: dAct, T: g.T };
+  const base = typeof fs.dmg === 'function' ? fs.dmg(c) : fs.dmg;
+  hit(g, att, def, { base, fs: true, aAct, dAct, ignoreArmor: !!fs.ignoreArmor, armorMult: fs.armorMult || 1 });
+  if (fs.rider && def.hp > -999) withSrc(g, fsNameOf(att), () => fs.rider(c), att);
 }
 
 // ---------- resolve one turn ----------
@@ -211,8 +231,10 @@ function resolve(g, acts) {
   let winner = -1, kind = 'none', priority = false, outright = false;
   if (a0.kind === 'fs' || a1.kind === 'fs') {
     kind = 'fs';
-    if (a0.kind === 'fs') hit(g, P[0], P[1], { base: RULES.FS_DMG, fs: true, aAct: a0, dAct: a1 });
-    if (a1.kind === 'fs') hit(g, P[1], P[0], { base: RULES.FS_DMG, fs: true, aAct: a1, dAct: a0 });
+    for (const i of [0, 1]) if (acts[i].kind === 'fs') finalSmash(g, P[i], P[1 - i], acts[i], acts[1 - i]);
+  } else if (a0.kind === 'dodge' || a1.kind === 'dodge') {
+    if (a0.kind === 'dodge' && a1.kind === 'dodge') kind = 'whiff';
+    else { winner = a0.kind === 'dodge' ? 1 : 0; emit(g, `${nameOf(P[1 - winner])} dodged, but there was no Final Smash to avoid.`); }
   } else if (a0.type === a1.type) {
     if (a0.kind !== a1.kind) { winner = a0.kind === 'skill' ? 0 : 1; priority = true; }          // Priority
     else if (a0.type === 'A') {
@@ -246,7 +268,7 @@ function resolve(g, acts) {
   // end of turn
   for (let i = 0; i < 2; i++) {
     const p = P[i];
-    for (const b of p.burns) if (b.start <= T && b.left > 0 && p.hp > 0) { selfDmg(p, b.x, g, 'Burn', b.by >= 0 ? g.p[b.by] : null); b.left--; }
+    for (const b of p.burns) if (b.start <= T && b.left > 0 && p.hp > 0) { selfDmg(p, b.x, g, DOT[b.kind || 'burn'][1], b.by >= 0 ? g.p[b.by] : null); b.left--; }
     p.burns = p.burns.filter(b => b.left > 0);
   }
   for (let i = 0; i < 2; i++) {
@@ -264,4 +286,4 @@ function resolve(g, acts) {
 }
 
 module.exports = { RULES, BEATS, makeRng, setStatus, active, gain, drain, heal, selfDmg, burn, charge, weaken,
-  newGame, cloneGame, emit, announce, withSrc, fsNameOf, nameOf, skillName, ustat, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
+  newGame, cloneGame, emit, announce, withSrc, finalSmash, fsNameOf, nameOf, skillName, ustat, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };

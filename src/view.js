@@ -73,13 +73,17 @@ function effects(p, o, g, viewerIsP, viewerIsO) {
 // Structured effects for the portrait indicators (debuffs first)
 function effectList(p, g) {
   const T = g.T, out = [];
-  const burnTotal = p.burns.reduce((a, b) => a + b.x * b.left, 0);
-  if (burnTotal) { const per = p.burns.reduce((a, b) => a + (b.start <= T + 1 ? b.x : 0), 0);
-    out.push({ id: 'burn', debuff: true, n: per || p.burns[0].x, tip: `Burn: ${p.burns.map(b => `${b.x} × ${b.left} turn${b.left > 1 ? 's' : ''}`).join(', ')} (${burnTotal} total)` }); }
+  // damage over time, split by look: Burn (orange), Poison (purple), Frozen (light blue)
+  for (const [kind, name] of [['burn', 'Burn'], ['poison', 'Poison'], ['freeze', 'Frozen']]) {
+    const bs = p.burns.filter(b => (b.kind || 'burn') === kind); if (!bs.length) continue;
+    const total = bs.reduce((a, b) => a + b.x * b.left, 0), per = bs.reduce((a, b) => a + b.x, 0);
+    out.push({ id: kind, debuff: true, n: per, tip: `${name}: ${bs.map(b => `${b.x} × ${b.left} turn${b.left > 1 ? 's' : ''}`).join(', ')} (${total} total)` });
+  }
   if (p.weaken) out.push({ id: 'weaken', debuff: true, n: p.weaken, tip: `Weakened: next win deals ${p.weaken} less` });
   if (E.active(p, 'stagger', T)) out.push({ id: 'stagger', debuff: true, tip: "Staggered: can't use their skill this turn" });
   if (E.active(p, 'paralyze', T)) out.push({ id: 'paralyze', debuff: true, tip: 'Paralyzed: gains no meter this turn' });
   const l = E.active(p, 'lock', T); if (l) out.push({ id: 'lock', debuff: true, n: l.v, tip: `Locked: can't choose ${TYPE[l.v]} this turn` });
+  if ((p.mem.wman || 0) >= T) out.push({ id: 'warioman', debuff: false, n: p.mem.wman - T + 1, tip: `Wario-Man: wins deal +3 (${p.mem.wman - T + 1} turn${p.mem.wman - T ? 's' : ''} left)` });
   if (p.charge) out.push({ id: 'charge', debuff: false, n: p.charge, tip: `Charge: next win deals +${p.charge}` });
   const a = E.active(p, 'armor', T); if (a) out.push({ id: 'armor', debuff: false, n: a.v, tip: `Armor: takes ${a.v} less damage from hits (until turn ${a.until})` });
   return out;
@@ -154,6 +158,7 @@ function view(g, seat, pending, reveal) {
 
 function actLabel(p, a) {
   if (a.kind === 'fs') return { title: E.fsNameOf(p), sub: 'FINAL SMASH', type: 'FS' };
+  if (a.kind === 'dodge') return { title: 'Dodge', sub: 'Avoids Final Smashes', type: 'D' };
   if (a.kind === 'skill') return { title: E.skillName(p), sub: `${TYPE[a.type]} skill`, type: a.type };
   return { title: TYPE[a.type], sub: 'Basic', type: a.type };
 }

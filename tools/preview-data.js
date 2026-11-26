@@ -5,7 +5,6 @@ const E = require('../src/engine'), { BY_ID } = require('../src/fighters'), { vi
 const H = t => ({ kind: 'basic', type: t, res: 'tie' });
 const S = {
   samus: [['Empty', {}], ['3 stacks', { mem: { cs: 3 } }], ['Full', { mem: { cs: 5 } }]],
-  wario: [['Empty', {}], ['2 gas', { mem: { gas: 2 } }], ['Full', { mem: { gas: 5 } }]],
   inkling: [['Empty', {}], ['2 Ink', { mem: { ink: 2 } }], ['Full', { mem: { ink: 3 } }]],
   cloud: [['Empty', {}], ['12 / 20', { mem: { acc: 12 } }], ['Limit ready', { mem: { limit: 1 } }]],
   joker: [['Empty', {}], ['Rebellion 18 / 30', { mem: { acc: 18 } }], ['Arsene out', { T: 6, mem: { ars: 8 } }]],
@@ -42,7 +41,8 @@ const S = {
   // effects that show on the opponent's side
   wolf: [['Opponent above 50', { opp: true }], ['Crosshair on opponent', { opp: true, oppHp: 40 }]],
   snake: [['No C4', { opp: true }], ['C4 under opponent (Snake sees it)', { opp: true, mem: { c4: 1 } }]],
-  mario: [['No effects', {}], ['Every debuff', { fx: 'debuffs' }], ['Buffs', { fx: 'buffs' }]],
+  mario: [['No effects', {}], ['Every debuff', { fx: 'debuffs' }], ['Buffs', { fx: 'buffs' }], ['Poison + Frozen', { fx: 'dots' }]],
+  wario: [['Empty', {}], ['2 gas', { mem: { gas: 2 } }], ['Full', { mem: { gas: 5 } }], ['Wario-Man', { T: 3, mem: { wman: 4 } }]],
   kirby: [['Inhale', {}], ['Copied Thunder', { copy: 'pikachu' }]],
   greninja: [['Skill is Attack', {}], ['Skill is Grab', { mem: { lb: 'G' } }]],
 };
@@ -57,6 +57,7 @@ for (const [id, states] of Object.entries(S)) {
     if (o.hist) p.hist = o.hist.map(H);
     if (o.copy) p.copy = BY_ID[o.copy].skill;
     if (o.fx === 'debuffs') { p.burns = [{ x: 3, left: 2, start: 1 }]; p.weaken = 4; p.st.stagger = { from: 1, until: 1 }; p.st.paralyze = { from: 1, until: 1 }; p.st.lock = { from: 1, until: 1, v: 'C' }; }
+    if (o.fx === 'dots') { p.burns = [{ x: 2, left: 2, start: 1, kind: 'poison' }, { x: 3, left: 3, start: 1, kind: 'freeze' }]; }
     if (o.fx === 'buffs') { p.charge = 5; p.st.armor = { from: 1, until: 2, v: 5 }; }
     const v = view(g, 0, [null, null], null);
     return { label, side: o.opp ? 'opp' : 'me', state: { ...v, names: ['You', 'Opponent'], log: [] } };

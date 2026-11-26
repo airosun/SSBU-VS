@@ -25,6 +25,8 @@
     snowflake: c => svg(`<g stroke="${c}" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7"/><path d="M9.5 3.5L12 6l2.5-2.5M9.5 20.5L12 18l2.5 2.5"/></g>`),
     bolt: c => svg(`<path d="M13.5 2L4 13.5h6.5L9 22l11-12.5h-6.7z" fill="${c}"/>`),
     rocket: c => svg(`<path d="M12 2c3 2.5 4.5 6 4.5 10l-1.8 4H9.3l-1.8-4C7.5 8 9 4.5 12 2z" fill="${c}"/><circle cx="12" cy="9.5" r="1.8" fill="#0c0e13"/><path d="M7.5 12L4 16l3.3.5M16.5 12L20 16l-3.3.5M10 17h4l-2 4.5z" fill="${c}"/>`),
+    bubbles: c => svg(`<circle cx="8" cy="15" r="5" fill="${c}"/><circle cx="16.5" cy="9" r="3.6" fill="${c}" opacity=".85"/><circle cx="17" cy="18" r="2.4" fill="${c}" opacity=".7"/><circle cx="6.5" cy="13.2" r="1.4" fill="#fff" opacity=".5"/>`),
+    icecube: c => svg(`<path d="M12 2.5l8.5 4.5v10L12 21.5 3.5 17V7z" fill="${c}"/><path d="M12 2.5l8.5 4.5L12 11.5 3.5 7z" fill="#fff" opacity=".45"/><path d="M12 11.5v10" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>`),
     arrowDown: c => svg(`<path d="M10 3h4v10h4.5L12 21 5.5 13H10z" fill="${c}"/>`),
     arrowUp: c => svg(`<path d="M10 21h4V11h4.5L12 3 5.5 11H10z" fill="${c}"/>`),
     spiral: c => svg(`<path d="M12 12m-1.5 0a1.5 1.5 0 1 0 3 0a3.5 3.5 0 1 0-7 0a5.5 5.5 0 1 0 11 0a7.5 7.5 0 1 0-15 0" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/>`),
@@ -123,7 +125,7 @@
   const mark = (m) => m === 'crosshair' ? `<div class="mark crosshair">${icon('crosshair', '#ff4d4d', true, 56)}</div>`
     : m === 'c4' ? `<div class="mark c4" title="C4 planted">${imgIcon('c4', true, 30)}</div>` : '';
   // status indicators drawn on the portrait
-  const FX = { burn: ['flame', '#ff7a1a'], weaken: ['arrowDown', '#c27bff'], stagger: ['spiral', '#ffd23f'], paralyze: ['bolt', '#ffe94d'],
+  const FX = { burn: ['flame', '#ff7a1a'], poison: ['bubbles', '#b05cff'], freeze: ['icecube', '#9fe3ff'], warioman: ['img:wario-man', null], weaken: ['arrowDown', '#c27bff'], stagger: ['spiral', '#ffd23f'], paralyze: ['bolt', '#ffe94d'],
     lock: ['lock', '#cfd5e6'], charge: ['arrowUp', '#ffd36a'], armor: ['shield', '#6cc4ff'] };
   const LOCK_L = { A: 'A', C: 'C', G: 'G' };
   const fxBadges = list => !list || !list.length ? '' : `<div class="fxBadges">${list.map(e => {

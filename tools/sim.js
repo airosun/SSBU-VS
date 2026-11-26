@@ -4,7 +4,7 @@ const { Worker, isMainThread, parentPort, workerData } = require('worker_threads
 const os = require('os');
 const fs = require('fs');
 
-function applyOverrides(N, ov) { for (const k in ov || {}) Object.assign(N[k], ov[k]); }
+function applyOverrides(N, ov) { for (const k in ov || {}) if (k !== '_rules') Object.assign(N[k], ov[k]); }
 
 function playGame(E, AI, fa, fb, seed) {
   const g = E.newGame(fa, fb, seed);
@@ -49,6 +49,7 @@ if (isMainThread) {
   }
 } else {
   const E = require('../src/engine'), AI = require('../src/ai'), Fm = require('../src/fighters');
+  if (workerData.ov._rules) Object.assign(E.RULES, workerData.ov._rules);
   applyOverrides(Fm.N, workerData.ov);
   const F = Fm.FIGHTERS; const out = [];
   for (const [i, j] of workerData.chunk) {

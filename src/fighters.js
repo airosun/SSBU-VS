@@ -283,7 +283,7 @@ def('zss', 'Zero Suit Samus', {
 });
 // 30 Wario
 def('wario', 'Wario', {
-  winBonus: c => isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.announce(c.g, c.me, 'WARIO WAFT! Full gas released.'), E.ustat(c.g, c.me, 'Wario Wafts'), N.wario.p) : 0,
+  winBonus: c => ((c.me.mem.wman || 0) >= c.T ? 3 : 0) + (isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.announce(c.g, c.me, 'WARIO WAFT! Full gas released.'), E.ustat(c.g, c.me, 'Wario Wafts'), N.wario.p) : 0),
   onTurnEnd: c => { c.me.mem.gas = Math.min(5, (c.me.mem.gas || 0) + 1); },
   skill: { name: 'Chomp', type: 'G', cost: 2, listed: 4, bonus: () => N.wario.s, rider: c => heal(c.me, N.wario.heal, c.g) },
   potential: p => 1.5 * (p.mem.gas || 0),
@@ -407,7 +407,7 @@ def('pacman', 'Pac-Man', {
 });
 // 56 Robin
 def('robin', 'Robin', {
-  winBonus: c => basic(c.act) && c.me.mem.tome ? (c.me.mem.tome = 0, N.robin.p) : 0,
+  winBonus: c => (basic(c.act) && c.me.mem.tome ? (c.me.mem.tome = 0, N.robin.p) : 0) + ((c.me.mem.pair || 0) > 0 ? (c.me.mem.pair--, 3) : 0),
   onTurnEnd: c => { if (c.act.kind === 'skill') c.me.mem.tome = 1; },
   skill: { name: 'Nosferatu', type: 'G', cost: 2, listed: 5, bonus: () => N.robin.s, rider: c => heal(c.me, N.robin.heal, c.g) },
 });
@@ -501,7 +501,7 @@ def('incin', 'Incineroar', {
 });
 // 70 Piranha Plant
 def('plant', 'Piranha Plant', {
-  onWin: c => { if (isC(c.act)) burn(c.g, c.opp, N.plant.p, 2); },
+  onWin: c => { if (isC(c.act)) burn(c.g, c.opp, N.plant.p, 2, 'poison'); },
   skill: { name: 'Chewing', type: 'G', cost: 3, listed: 12, bonus: () => N.plant.s },
 });
 // 71 Joker
@@ -584,6 +584,101 @@ def('sora', 'Sora', {
     bonus: c => N.sora.x + (c.me.mem.sp === 2 ? N.sora.th : N.sora.s),
     rider: c => { const s = c.me.mem.sp; if (s === 0) burn(c.g, c.opp, 2, 2); if (s === 1 && c.oppAct.kind === 'basic') setStatus(c.g, c.opp, 'lock', 1, c.oppAct.type); } },
 });
+
+
+// ---------- Final Smashes (proposal Nov 2026; numbers live in FSN) ----------
+const FSN = {};
+const st1 = (c, name, turns = 1, v) => setStatus(c.g, c.opp, name, turns, v);
+const fsDef = (id, dmg, rider, extra = {}) => { const f = BY_ID_TMP[id]; f.fs = { dmg, rider, ...extra }; };
+const BY_ID_TMP = Object.fromEntries(F.map(f => [f.id, f]));
+const ko = (c, below) => { if (c.opp.hp > 0 && c.opp.hp < below) { E.announce(c.g, c.me, `Critical Hit! ${E.nameOf(c.opp)} is KO'd.`); c.opp.hp = 0; } };
+fsDef('mario', 14, c => burn(c.g, c.opp, 3, 2));
+fsDef('dk', 12, c => { st1(c, 'stagger'); st1(c, 'paralyze'); charge(c.me, 3, c.g); });
+fsDef('link', 19, null, { ignoreArmor: true });
+fsDef('samus', 10, c => burn(c.g, c.opp, 3, 3));
+fsDef('dsamus', 10, c => { burn(c.g, c.opp, 2, 2); drain(c.opp, 2, c.g); });
+fsDef('yoshi', 16, c => setStatus(c.g, c.me, 'armor', 1, 4));
+fsDef('kirby', 15, c => heal(c.me, 5, c.g));
+fsDef('fox', 12, c => { st1(c, 'lock', 1, 'C'); charge(c.me, 3, c.g); });
+fsDef('pikachu', 15, c => st1(c, 'paralyze', 2));
+fsDef('luigi', 11, c => { const t = Math.min(2, c.opp.meter); drain(c.opp, 2, c.g); gain(c.g, c.me, t); });
+fsDef('ness', 9, c => burn(c.g, c.opp, 2, 5));
+fsDef('falcon', 16, c => { c.me.mem.st = 2; });
+fsDef('jiggly', 14, c => st1(c, 'lock', 1, 'A'));
+fsDef('peach', 10, c => { st1(c, 'stagger'); st1(c, 'paralyze'); heal(c.me, 5, c.g); });
+fsDef('daisy', 10, c => heal(c.me, 9, c.g));
+fsDef('bowser', 20);
+fsDef('ics', 10, c => burn(c.g, c.opp, 3, 3, 'freeze'));
+fsDef('sheik', 14, c => weaken(c.opp, 6, c.g));
+fsDef('zelda', c => c.opp.hp < 40 ? 22 : 14);
+fsDef('doc', 14, c => heal(c.me, 5, c.g));
+fsDef('pichu', 19, c => { st1(c, 'paralyze'); selfDmg(c.me, 3, c.g, 'Volt Tackle recoil'); });
+fsDef('falco', 14, c => { st1(c, 'stagger'); st1(c, 'paralyze'); });
+fsDef('marth', 14, c => ko(c, 20));
+fsDef('lucina', 16, c => ko(c, 15));
+fsDef('ylink', 16, c => st1(c, 'stagger'));
+fsDef('ganon', 16, c => { st1(c, 'stagger'); c.me.mem.unshakable = c.T + 2; });
+fsDef('mewtwo', 12, c => { st1(c, 'stagger', 2); st1(c, 'paralyze'); });
+fsDef('roy', 15, c => burn(c.g, c.opp, 4, 1));
+fsDef('chrom', 15, c => heal(c.me, 4, c.g));
+fsDef('gnw', 12, c => { st1(c, 'lock', 1, 'G'); drain(c.opp, 1, c.g); });
+fsDef('mk', 16, c => gain(c.g, c.me, 1), { ignoreArmor: true });
+fsDef('pit', 15, c => weaken(c.opp, 5, c.g));
+fsDef('dpit', 19, null, { ignoreArmor: true });
+fsDef('zss', 12, c => { st1(c, 'paralyze'); st1(c, 'lock', 1, 'C'); });
+fsDef('wario', 13, c => { c.me.mem.wman = c.T + 2; E.announce(c.g, c.me, 'Wario transforms into Wario-Man!'); });
+fsDef('snake', 9, c => burn(c.g, c.opp, 5, 2));
+fsDef('ike', 14, c => heal(c.me, 6, c.g));
+fsDef('pt', 18);
+fsDef('diddy', 15, c => gain(c.g, c.me, 1));
+fsDef('lucas', 10, c => { burn(c.g, c.opp, 3, 2); heal(c.me, 3, c.g); });
+fsDef('sonic', 12, c => setStatus(c.g, c.me, 'armor', 2, 4));
+fsDef('dedede', 16, c => st1(c, 'stagger'));
+fsDef('olimar', 12, c => { const m = c.me.mem; m.pik = 3; m.pc = [0, 1, 2].map(() => PIKMIN[(Math.random() * 5) | 0]); });
+fsDef('lucario', c => 10 + Math.min(10, Math.floor((c.me.maxHp - c.me.hp) / 10)));
+fsDef('rob', 18, null, { ignoreArmor: true });
+fsDef('tlink', 14, c => st1(c, 'lock', 1, 'C'));
+fsDef('wolf', 13, c => { weaken(c.opp, 4, c.g); st1(c, 'stagger'); });
+fsDef('villager', 13, c => setStatus(c.g, c.me, 'armor', 1, 6));
+fsDef('megaman', 16, c => weaken(c.opp, 4, c.g));
+fsDef('wft', 12, c => { heal(c.me, 4, c.g); charge(c.me, 4, c.g); });
+fsDef('rosa', 12, c => { if (c.me.mem.luma < N.rosa.luma) { c.me.mem.luma = N.rosa.luma; E.announce(c.g, c.me, 'Luma is fully restored!'); } });
+fsDef('mac', 16, c => { c.me.mem.ko = Math.min(2, (c.me.mem.ko || 0) + 1); });
+fsDef('greninja', 16, c => st1(c, 'stagger'));
+fsDef('palutena', 10, c => drain(c.opp, 3, c.g));
+fsDef('pacman', 14, c => { c.me.mem.lt = c.T - 7; });
+fsDef('robin', 12, c => { c.me.mem.pair = 2; });
+fsDef('shulk', 16, c => charge(c.me, 4, c.g));
+fsDef('bjr', 10, c => { weaken(c.opp, 4, c.g); st1(c, 'lock', 1, 'A'); });
+fsDef('duckhunt', 18, null, { armorMult: 3 });
+fsDef('ryu', 20);
+fsDef('ken', 14, c => { st1(c, 'stagger'); st1(c, 'paralyze'); });
+fsDef('cloud', 15, c => { c.me.mem.limit = 1; c.me.mem.acc = 0; });
+fsDef('corrin', 12, c => { st1(c, 'lock', 1, 'A'); weaken(c.opp, 3, c.g); });
+fsDef('bayo', 12, c => { st1(c, 'paralyze'); charge(c.me, 6, c.g); });
+fsDef('inkling', 12, c => { c.me.mem.ink = 3; });
+fsDef('ridley', 14, c => drain(c.opp, 2, c.g));
+fsDef('simon', 10, c => { burn(c.g, c.opp, 2, 3); st1(c, 'stagger'); });
+fsDef('richter', 12, c => { burn(c.g, c.opp, 4, 1); heal(c.me, 3, c.g); });
+fsDef('krool', 21, c => selfDmg(c.me, 3, c.g, 'Blast-o-Matic recoil'));
+fsDef('isabelle', 14, c => heal(c.me, 5, c.g));
+fsDef('incin', c => c.me.hp < c.opp.hp ? 20 : 14);
+fsDef('plant', 12, c => { st1(c, 'lock', 1, 'G'); st1(c, 'stagger'); });
+fsDef('joker', c => (c.me.mem.ars || 0) >= c.T ? 20 : 14, c => { if ((c.me.mem.ars || 0) >= c.T) c.me.mem.ars += 2; });
+fsDef('hero', 18);
+fsDef('banjo', 15, c => { c.me.mem.feathers = Math.min(5, (c.me.mem.feathers ?? 5) + 1); });
+fsDef('terry', c => c.me.hp < 40 ? 21 : 15);
+fsDef('byleth', 16, c => { if (c.me.mem.dp) { c.me.mem.dp = 0; E.announce(c.g, c.me, 'Divine Pulse is restored!'); } });
+fsDef('minmin', 14, c => st1(c, 'lock', 1, 'C'));
+fsDef('steve', 14, c => { c.me.mem.tier = Math.min(3, (c.me.mem.tier || 0) + 1); });
+fsDef('seph', 13, c => {
+  const opts = ['stagger', 'paralyze', 'lock', 'weaken'];
+  for (let k = 0; k < 2; k++) { const e = opts.splice(Math.floor(c.g.rng() * opts.length), 1)[0];
+    if (e === 'lock') st1(c, 'lock', 1, ['A', 'C', 'G'][Math.floor(c.g.rng() * 3)]); else if (e === 'weaken') weaken(c.opp, 5, c.g); else st1(c, e); }
+});
+fsDef('pyra', c => isP(c.me) ? 14 : 12, c => { if (isP(c.me)) burn(c.g, c.opp, 3, 2); else { st1(c, 'stagger'); gain(c.g, c.me, 2); } });
+fsDef('kazuya', 16, c => heal(c.me, 4, c.g));
+fsDef('sora', 14, c => drain(c.opp, 2, c.g));
 
 const KITS = require('../data/kits.json');
 for (const f of F) { const k = KITS.find(x => x.id === f.id); f.passiveName = k ? k.passive.name : 'Passive'; f.fsName = k ? k.finalSmash : 'Final Smash'; }

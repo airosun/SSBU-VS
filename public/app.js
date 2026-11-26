@@ -91,7 +91,7 @@ function kitHTML(s, sideKey) {
   return `<details class="kitBox" data-side="${sideKey}" ${open ? 'open' : ''} ontoggle="kitToggle(this)"><summary>Kit · ${esc(k.passive.name)} · ${esc(s.skill.name)}</summary>
     <div><b>${esc(k.passive.name)}</b> <span class="kt">Passive</span><div>${esc(k.passive.text)}</div></div>
     <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : s.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
-    <div><b>${esc(s.fs)}</b> <span class="tag FS">Final Smash</span> <span class="kt">8 meter</span><div>14 damage that can't be stopped.</div></div>
+    <div><b>${esc(s.fs)}</b> <span class="tag FS">Final Smash</span> <span class="kt">8 meter</span><div>${esc((k.finalSmashText || '').replace(/^Pyra – .*?Mythra – /, m => m))}</div></div>
   </details>`;
 }
 function sideHTML(s, player, mine) {
@@ -180,10 +180,11 @@ function drawControls(st) {
     acts.splice(fsAt < 0 ? acts.length : fsAt, 0, { kind: 'skill', type: st.me.skill.type, blocked: st.skillBlocked || 'Unavailable' });
   }
   $('#actions').innerHTML = acts.map((a, i) => {
-    const label = a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>`
+    const label = a.kind === 'dodge' ? 'DODGE<br><small>Avoids Final Smashes</small>'
+      : a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>`
       : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${a.blocked ? esc(a.blocked) : `${TYPE[a.type]} skill · ${st.me.skill.cost} meter`}</small>`
       : a.blocked ? `${TYPE[a.type]}<br><small>🔒 ${esc(a.blocked)}</small>` : TYPE[a.type];
-    return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind} ${a.blocked ? 'blocked' : ''}" data-i="${i}" ${st.waiting || a.blocked ? 'disabled' : ''}>${label}</button>`;
+    return `<button class="${a.kind === 'fs' ? 'FS' : a.kind === 'dodge' ? 'D' : a.type} ${a.kind} ${a.blocked ? 'blocked' : ''}" data-i="${i}" ${st.waiting || a.blocked ? 'disabled' : ''}>${label}</button>`;
   }).join('');
   document.querySelectorAll('#actions button').forEach(b => b.onclick = () => {
     const a = acts[+b.dataset.i];
@@ -244,7 +245,7 @@ async function playReveal(st) {
     burst(rv.winner === 'me' ? 'YOU WIN THE READ!' : 'READ!');
   } else if (rv.kind === 'clash') { $('#meSlot').classList.add('clash'); $('#oppSlot').classList.add('clash'); burst('CLASH!'); }
   else if (rv.kind === 'whiff') burst('WHIFF');
-  else if (rv.kind === 'fs') burst(rv.acts.find(a => a.type === 'FS').title.toUpperCase() + '!');
+  else if (rv.kind === 'fs') burst(rv.acts.some(a => a.type === 'D') ? 'DODGED!' : rv.acts.find(a => a.type === 'FS').title.toUpperCase() + '!');
   await wait(1100);
   for (const a of rv.announce || []) { callout(a); await wait(1300); }                       // unique effects
   animateBars($('#meSide'), meB, st.me); animateBars($('#oppSide'), oppB, st.opp);         // bars drop / charge

@@ -70,6 +70,7 @@ function tryResolve(r) {
     if (a.kind === 'basic') st.acts[a.type]++;
     if (a.kind === 'skill') { st.skillUses++; if (out.winner === i) st.skillWins++; }
     if (a.kind === 'fs') st.fsUses++;
+    if (a.kind === 'dodge') st.dodges = (st.dodges || 0) + 1;
     if (out.kind === 'win') { if (out.winner === i) { st.wins++; st.streak++; st.bestStreak = Math.max(st.bestStreak, st.streak); } else { st.losses++; st.streak = 0; } }
     else { st.streak = 0; if (out.kind === 'clash') st.clashes++; if (out.kind === 'whiff') st.whiffs++; }
     st.meterSpent += spent[i]; st.meterGained += g.p[i].meter - before.meter[i] + spent[i];

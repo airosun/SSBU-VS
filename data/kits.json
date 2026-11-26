@@ -14,7 +14,8 @@
    "cost": 2,
    "text": "+7 damage and Gain 1 (coins)."
   },
-  "finalSmash": "Mario Finale"
+  "finalSmash": "Mario Finale",
+  "finalSmashText": "14 damage + Burn 3 (2 turns)."
  },
  {
   "id": "dk",
@@ -31,7 +32,8 @@
    "cost": 3,
    "text": "+9 damage."
   },
-  "finalSmash": "Jungle Rush"
+  "finalSmash": "Jungle Rush",
+  "finalSmashText": "12 damage + Stagger + Paralyze. Donkey Kong gains Charge 3."
  },
  {
   "id": "link",
@@ -48,7 +50,8 @@
    "cost": 2,
    "text": "+2 damage and Burn 6 (1 turn)."
   },
-  "finalSmash": "Ancient Bow & Arrow"
+  "finalSmash": "Ancient Bow & Arrow",
+  "finalSmashText": "19 damage that ignores Armor, Weaken and all damage reduction."
  },
  {
   "id": "samus",
@@ -65,7 +68,8 @@
    "cost": 2,
    "text": "+5 damage, plus +2 per stack, then clear all stacks."
   },
-  "finalSmash": "Zero Laser"
+  "finalSmash": "Zero Laser",
+  "finalSmashText": "10 damage + Burn 3 (3 turns)."
  },
  {
   "id": "dsamus",
@@ -82,7 +86,8 @@
    "cost": 2,
    "text": "+2 damage and Burn 2 (2 turns) (Phazon)."
   },
-  "finalSmash": "Phazon Laser"
+  "finalSmash": "Phazon Laser",
+  "finalSmashText": "10 damage + Burn 2 (2 turns) + Drain 2."
  },
  {
   "id": "yoshi",
@@ -99,7 +104,8 @@
    "cost": 2,
    "text": "+2 damage and Lock Attack."
   },
-  "finalSmash": "Stampede!"
+  "finalSmash": "Stampede!",
+  "finalSmashText": "16 damage. Yoshi gains Armor 4 next turn."
  },
  {
   "id": "kirby",
@@ -116,7 +122,8 @@
    "cost": 2,
    "text": "+7 damage and Copy: Inhale becomes the opponent's skill (same type, cost and effect) until it loses, then reverts to Inhale."
   },
-  "finalSmash": "Ultra Sword"
+  "finalSmash": "Ultra Sword",
+  "finalSmashText": "15 damage + Heal 5."
  },
  {
   "id": "fox",
@@ -133,7 +140,8 @@
    "cost": 2,
    "text": "+9 damage. If the opponent used their skill, also deal its listed bonus damage back to them (max +8)."
   },
-  "finalSmash": "Team Star Fox"
+  "finalSmash": "Team Star Fox",
+  "finalSmashText": "12 damage + Lock Counter. Fox gains Charge 3."
  },
  {
   "id": "pikachu",
@@ -150,7 +158,8 @@
    "cost": 2,
    "text": "+6 damage."
   },
-  "finalSmash": "Volt Tackle"
+  "finalSmash": "Volt Tackle",
+  "finalSmashText": "15 damage + Paralyze (2 turns)."
  },
  {
   "id": "luigi",
@@ -167,7 +176,8 @@
    "cost": 2,
    "text": "+6 damage, Drain 1 and Gain 1."
   },
-  "finalSmash": "Poltergust G-00"
+  "finalSmash": "Poltergust G-00",
+  "finalSmashText": "11 damage + Drain 2, and Luigi gains the meter he drained."
  },
  {
   "id": "ness",
@@ -184,7 +194,8 @@
    "cost": 2,
    "text": "+3 damage and Burn 2 (2 turns)."
   },
-  "finalSmash": "PK Starstorm"
+  "finalSmash": "PK Starstorm",
+  "finalSmashText": "9 damage + Burn 2 (5 turns): the stars keep falling."
  },
  {
   "id": "falcon",
@@ -201,7 +212,8 @@
    "cost": 3,
    "text": "+16 damage. Endlag: if Falcon Punch loses, the opponent's hit deals +5 to you."
   },
-  "finalSmash": "Blue Falcon"
+  "finalSmash": "Blue Falcon",
+  "finalSmashText": "16 damage. Show Me Your Moves! starts at its max (+6 on Falcon's next Attack win)."
  },
  {
   "id": "jiggly",
@@ -218,7 +230,8 @@
    "cost": 3,
    "text": "+21 damage. You become Drowsy: next turn you are Staggered and Paralyzed."
   },
-  "finalSmash": "Puff Up"
+  "finalSmash": "Puff Up",
+  "finalSmashText": "14 damage + Lock Attack."
  },
  {
   "id": "peach",
@@ -235,7 +248,8 @@
    "cost": 2,
    "text": "+4 damage and Paralyze."
   },
-  "finalSmash": "Peach Blossom"
+  "finalSmash": "Peach Blossom",
+  "finalSmashText": "10 damage; the opponent falls asleep (Staggered and Paralyzed next turn). Peach Heals 5."
  },
  {
   "id": "daisy",
@@ -252,7 +266,8 @@
    "cost": 2,
    "text": "+5 damage and Heal 3."
   },
-  "finalSmash": "Daisy Blossom"
+  "finalSmash": "Daisy Blossom",
+  "finalSmashText": "10 damage + Heal 9."
  },
  {
   "id": "bowser",
@@ -269,7 +284,8 @@
    "cost": 2,
    "text": "+4 damage; +3 more if you have less HP than the opponent."
   },
-  "finalSmash": "Giga Bowser Punch"
+  "finalSmash": "Giga Bowser Punch",
+  "finalSmashText": "20 damage."
  },
  {
   "id": "ics",
@@ -286,7 +302,8 @@
    "cost": 2,
    "text": "+5 damage. If you also win with Grab next turn (basic or skill), that win deals +6."
   },
-  "finalSmash": "Iceberg"
+  "finalSmash": "Iceberg",
+  "finalSmashText": "10 damage + Burn 3 (3 turns) from frostbite."
  },
  {
   "id": "sheik",
@@ -303,7 +320,8 @@
    "cost": 2,
    "text": "+4 damage and Weaken 5."
   },
-  "finalSmash": "Sheikah Dance"
+  "finalSmash": "Sheikah Dance",
+  "finalSmashText": "14 damage + Weaken 6."
  },
  {
   "id": "zelda",
@@ -320,7 +338,8 @@
    "cost": 2,
    "text": "+4 damage and Heal 2."
   },
-  "finalSmash": "Triforce of Wisdom"
+  "finalSmash": "Triforce of Wisdom",
+  "finalSmashText": "14 damage, or 22 if the opponent is below 40 HP."
  },
  {
   "id": "doc",
@@ -337,7 +356,8 @@
    "cost": 2,
    "text": "+3 damage and Stagger."
   },
-  "finalSmash": "Doctor Finale"
+  "finalSmash": "Doctor Finale",
+  "finalSmashText": "14 damage + Heal 5."
  },
  {
   "id": "pichu",
@@ -354,7 +374,8 @@
    "cost": 2,
    "text": "+6 damage and Recoil 2."
   },
-  "finalSmash": "Volt Tackle"
+  "finalSmash": "Volt Tackle",
+  "finalSmashText": "19 damage + Paralyze. Pichu takes Recoil 3."
  },
  {
   "id": "falco",
@@ -371,7 +392,8 @@
    "cost": 2,
    "text": "+8 damage and Stagger."
   },
-  "finalSmash": "Team Star Fox"
+  "finalSmash": "Team Star Fox",
+  "finalSmashText": "14 damage + Stagger + Paralyze."
  },
  {
   "id": "marth",
@@ -388,7 +410,8 @@
    "cost": 2,
    "text": "+7 damage; +5 more if the opponent used their skill."
   },
-  "finalSmash": "Critical Hit"
+  "finalSmash": "Critical Hit",
+  "finalSmashText": "14 damage. If it leaves the opponent below 20 HP, they're KO'd."
  },
  {
   "id": "lucina",
@@ -405,7 +428,8 @@
    "cost": 2,
    "text": "+2 damage and Lock Counter."
   },
-  "finalSmash": "Critical Hit"
+  "finalSmash": "Critical Hit",
+  "finalSmashText": "16 damage. If it leaves the opponent below 15 HP, they're KO'd."
  },
  {
   "id": "ylink",
@@ -422,7 +446,8 @@
    "cost": 2,
    "text": "+6 damage and Lock Counter."
   },
-  "finalSmash": "Triforce Slash"
+  "finalSmash": "Triforce Slash",
+  "finalSmashText": "16 damage + Stagger."
  },
  {
   "id": "ganon",
@@ -439,7 +464,8 @@
    "cost": 2,
    "text": "+3 damage and Stagger."
   },
-  "finalSmash": "Ganon, The Demon King"
+  "finalSmash": "Ganon, The Demon King",
+  "finalSmashText": "16 damage + Stagger. Ganondorf can't be Staggered or Locked next turn."
  },
  {
   "id": "mewtwo",
@@ -456,7 +482,8 @@
    "cost": 2,
    "text": "+6 damage. The opponent can't use their skill for 2 turns."
   },
-  "finalSmash": "Psystrike"
+  "finalSmash": "Psystrike",
+  "finalSmashText": "12 damage + Stagger (2 turns) + Paralyze."
  },
  {
   "id": "roy",
@@ -473,7 +500,8 @@
    "cost": 3,
    "text": "+11 damage; +3 more if you have less HP than the opponent."
   },
-  "finalSmash": "Critical Hit"
+  "finalSmash": "Critical Hit",
+  "finalSmashText": "15 damage + Burn 4 (1 turn)."
  },
  {
   "id": "chrom",
@@ -490,7 +518,8 @@
    "cost": 2,
    "text": "+8 damage and Paralyze."
   },
-  "finalSmash": "Awakening Aether"
+  "finalSmash": "Awakening Aether",
+  "finalSmashText": "15 damage + Heal 4."
  },
  {
   "id": "gnw",
@@ -507,7 +536,8 @@
    "cost": 2,
    "text": "Roll 1–9 and deal +(roll + 4) damage. On a 9, deal +19 instead. On a 1, you also take Recoil 3."
   },
-  "finalSmash": "Octopus"
+  "finalSmash": "Octopus",
+  "finalSmashText": "12 damage + Lock Grab + Drain 1."
  },
  {
   "id": "mk",
@@ -524,7 +554,8 @@
    "cost": 2,
    "text": "+5 damage and Charge 5."
   },
-  "finalSmash": "Darkness Illusion"
+  "finalSmash": "Darkness Illusion",
+  "finalSmashText": "16 damage that ignores Armor. Meta Knight gains 1 meter."
  },
  {
   "id": "pit",
@@ -541,7 +572,8 @@
    "cost": 2,
    "text": "+5 damage and Armor 5."
   },
-  "finalSmash": "Lightning Chariot"
+  "finalSmash": "Lightning Chariot",
+  "finalSmashText": "15 damage + Weaken 5."
  },
  {
   "id": "dpit",
@@ -558,7 +590,8 @@
    "cost": 2,
    "text": "+8 damage. Ignores Armor and Weaken."
   },
-  "finalSmash": "Dark Pit Staff"
+  "finalSmash": "Dark Pit Staff",
+  "finalSmashText": "19 damage that ignores Armor and Weaken."
  },
  {
   "id": "zss",
@@ -575,7 +608,8 @@
    "cost": 2,
    "text": "+6 damage, Paralyze and Stagger."
   },
-  "finalSmash": "Zero Laser"
+  "finalSmash": "Zero Laser",
+  "finalSmashText": "12 damage + Paralyze + Lock Counter."
  },
  {
   "id": "wario",
@@ -592,7 +626,8 @@
    "cost": 2,
    "text": "+3 damage and Heal 4."
   },
-  "finalSmash": "Wario-Man"
+  "finalSmash": "Wario-Man",
+  "finalSmashText": "13 damage. Wario becomes Wario-Man for 2 turns: his wins deal +3."
  },
  {
   "id": "snake",
@@ -609,7 +644,8 @@
    "cost": 2,
    "text": "+3 damage and plant C4: the next time the opponent wins against you, it detonates and deals 8 damage to them."
   },
-  "finalSmash": "Covering Fire"
+  "finalSmash": "Covering Fire",
+  "finalSmashText": "9 damage + Burn 5 (2 turns): missiles keep landing. Snake's meter stays hidden."
  },
  {
   "id": "ike",
@@ -626,7 +662,8 @@
    "cost": 3,
    "text": "+12 damage."
   },
-  "finalSmash": "Great Aether"
+  "finalSmash": "Great Aether",
+  "finalSmashText": "14 damage + Heal 6."
  },
  {
   "id": "pt",
@@ -643,7 +680,8 @@
    "cost": 1,
    "text": "+5 damage, then switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
   },
-  "finalSmash": "Triple Finish"
+  "finalSmash": "Triple Finish",
+  "finalSmashText": "18 damage (all three Pokémon attack). The active Pokémon doesn't change."
  },
  {
   "id": "diddy",
@@ -660,7 +698,8 @@
    "cost": 2,
    "text": "+7 damage and Gain 1."
   },
-  "finalSmash": "Hyper Rocketbarrel"
+  "finalSmash": "Hyper Rocketbarrel",
+  "finalSmashText": "15 damage. Diddy Kong gains 1 meter."
  },
  {
   "id": "lucas",
@@ -677,7 +716,8 @@
    "cost": 2,
    "text": "+6 damage. Lock the basic action the opponent chose this turn."
   },
-  "finalSmash": "PK Starstorm"
+  "finalSmash": "PK Starstorm",
+  "finalSmashText": "10 damage + Burn 3 (2 turns) + Heal 3."
  },
  {
   "id": "sonic",
@@ -694,7 +734,8 @@
    "cost": 2,
    "text": "+7 damage; +3 more if you won last turn."
   },
-  "finalSmash": "Super Sonic"
+  "finalSmash": "Super Sonic",
+  "finalSmashText": "12 damage. Sonic gains Armor 4 for 2 turns."
  },
  {
   "id": "dedede",
@@ -711,7 +752,8 @@
    "cost": 2,
    "text": "+5 damage and Stagger (spit out as a star)."
   },
-  "finalSmash": "Dede-rush"
+  "finalSmash": "Dede-rush",
+  "finalSmashText": "16 damage + Stagger (trapped in the Gordo cage)."
  },
  {
   "id": "olimar",
@@ -728,7 +770,8 @@
    "cost": 2,
    "text": "+10 damage, +2 per Pikmin. Uses up all Pikmin."
   },
-  "finalSmash": "End of Day"
+  "finalSmash": "End of Day",
+  "finalSmashText": "12 damage. Olimar gains 3 Pikmin."
  },
  {
   "id": "lucario",
@@ -745,7 +788,8 @@
    "cost": 2,
    "text": "+6 damage."
   },
-  "finalSmash": "Aura Storm"
+  "finalSmash": "Aura Storm",
+  "finalSmashText": "10 damage, +1 for every 10 HP Lucario is missing (max +10)."
  },
  {
   "id": "rob",
@@ -762,7 +806,8 @@
    "cost": 2,
    "text": "+9 damage."
   },
-  "finalSmash": "Guided Robo Beam"
+  "finalSmash": "Guided Robo Beam",
+  "finalSmashText": "18 damage that ignores Armor."
  },
  {
   "id": "tlink",
@@ -779,7 +824,8 @@
    "cost": 2,
    "text": "+6 damage and Heal 2."
   },
-  "finalSmash": "Triforce Slash"
+  "finalSmash": "Triforce Slash",
+  "finalSmashText": "14 damage + Lock Counter."
  },
  {
   "id": "wolf",
@@ -796,7 +842,8 @@
    "cost": 2,
    "text": "+7 damage. Ignores Armor and Weaken."
   },
-  "finalSmash": "Team Star Wolf"
+  "finalSmash": "Team Star Wolf",
+  "finalSmashText": "13 damage + Weaken 4 + Stagger."
  },
  {
   "id": "villager",
@@ -813,7 +860,8 @@
    "cost": 2,
    "text": "+2 damage. Each later use deals +3 more than the last (max +13)."
   },
-  "finalSmash": "Dream Home"
+  "finalSmash": "Dream Home",
+  "finalSmashText": "13 damage. Villager gains Armor 6 next turn (safe inside the new house)."
  },
  {
   "id": "megaman",
@@ -830,7 +878,8 @@
    "cost": 2,
    "text": "+4 damage and Armor 4 (2 turns)."
   },
-  "finalSmash": "Mega Legends"
+  "finalSmash": "Mega Legends",
+  "finalSmashText": "16 damage + Weaken 4."
  },
  {
   "id": "wft",
@@ -847,7 +896,8 @@
    "cost": 2,
    "text": "+2 damage, Heal 5 and Charge 3."
   },
-  "finalSmash": "Wii Fit"
+  "finalSmash": "Wii Fit",
+  "finalSmashText": "12 damage. Wii Fit Trainer Heals 4 and gains Charge 4."
  },
  {
   "id": "rosa",
@@ -864,7 +914,8 @@
    "cost": 2,
    "text": "+2 damage and Drain 1."
   },
-  "finalSmash": "Grand Star"
+  "finalSmash": "Grand Star",
+  "finalSmashText": "12 damage. Luma is fully restored (and returns if it was knocked out)."
  },
  {
   "id": "mac",
@@ -881,7 +932,8 @@
    "cost": 3,
    "text": "+15 damage."
   },
-  "finalSmash": "Giga Mac Rush"
+  "finalSmash": "Giga Mac Rush",
+  "finalSmashText": "16 damage. Little Mac gains 1 KO Star."
  },
  {
   "id": "greninja",
@@ -898,7 +950,8 @@
    "cost": 2,
    "text": "+11 damage."
   },
-  "finalSmash": "Secret Ninja Attack"
+  "finalSmash": "Secret Ninja Attack",
+  "finalSmashText": "16 damage + Stagger."
  },
  {
   "id": "palutena",
@@ -915,7 +968,8 @@
    "cost": 2,
    "text": "+6 damage and Weaken 4."
   },
-  "finalSmash": "Black Hole Laser"
+  "finalSmash": "Black Hole Laser",
+  "finalSmashText": "10 damage + Drain 3."
  },
  {
   "id": "pacman",
@@ -932,7 +986,8 @@
    "cost": 2,
    "text": "+5 damage, plus +1 for each turn since you last threw it (Cherry +1 … Key +8, max +8)."
   },
-  "finalSmash": "Super PAC-MAN"
+  "finalSmash": "Super PAC-MAN",
+  "finalSmashText": "14 damage. Bonus Fruit jumps straight to Key (+8)."
  },
  {
   "id": "robin",
@@ -949,7 +1004,8 @@
    "cost": 2,
    "text": "+3 damage and Heal 5."
   },
-  "finalSmash": "Pair Up"
+  "finalSmash": "Pair Up",
+  "finalSmashText": "12 damage. Robin's next 2 wins deal +3 (Chrom backs him up)."
  },
  {
   "id": "shulk",
@@ -966,7 +1022,8 @@
    "cost": 2,
    "text": "+5 damage and Charge 4."
   },
-  "finalSmash": "Chain Attack"
+  "finalSmash": "Chain Attack",
+  "finalSmashText": "16 damage + Charge 4 (Shulk's next win deals +4)."
  },
  {
   "id": "bjr",
@@ -983,7 +1040,8 @@
    "cost": 2,
    "text": "+4 damage and Burn 5 (1 turn)."
   },
-  "finalSmash": "Shadow Mario Paint"
+  "finalSmash": "Shadow Mario Paint",
+  "finalSmashText": "10 damage + Weaken 4 + Lock Attack."
  },
  {
   "id": "duckhunt",
@@ -1000,7 +1058,8 @@
    "cost": 2,
    "text": "+2 damage and Burn 2 (3 turns)."
   },
-  "finalSmash": "NES Zapper Posse"
+  "finalSmash": "NES Zapper Posse",
+  "finalSmashText": "18 damage in three shots of 6 (Armor reduces each shot)."
  },
  {
   "id": "ryu",
@@ -1017,7 +1076,8 @@
    "cost": 2,
    "text": "+6 damage. Shoryuken wins Attack clashes outright, even against Attack skills."
   },
-  "finalSmash": "Shin Shoryuken"
+  "finalSmash": "Shin Shoryuken",
+  "finalSmashText": "20 damage."
  },
  {
   "id": "ken",
@@ -1034,7 +1094,8 @@
    "cost": 2,
    "text": "+7 damage and Charge 3."
   },
-  "finalSmash": "Shinryuken"
+  "finalSmash": "Shinryuken",
+  "finalSmashText": "14 damage + Stagger + Paralyze."
  },
  {
   "id": "cloud",
@@ -1051,7 +1112,8 @@
    "cost": 2,
    "text": "+7 damage."
   },
-  "finalSmash": "Omnislash"
+  "finalSmash": "Omnislash",
+  "finalSmashText": "15 damage. Cloud's Limit is refilled."
  },
  {
   "id": "corrin",
@@ -1068,7 +1130,8 @@
    "cost": 2,
    "text": "+6 damage and Lock Attack."
   },
-  "finalSmash": "Torrential Roar"
+  "finalSmash": "Torrential Roar",
+  "finalSmashText": "12 damage + Lock Attack + Weaken 3."
  },
  {
   "id": "bayo",
@@ -1085,7 +1148,8 @@
    "cost": 2,
    "text": "+4 damage and Charge 6."
   },
-  "finalSmash": "Infernal Climax"
+  "finalSmash": "Infernal Climax",
+  "finalSmashText": "12 damage + Paralyze. Bayonetta gains Charge 6."
  },
  {
   "id": "inkling",
@@ -1102,7 +1166,8 @@
    "cost": 2,
    "text": "+5 damage and apply 2 extra Ink."
   },
-  "finalSmash": "Killer Wail"
+  "finalSmash": "Killer Wail",
+  "finalSmashText": "12 damage and covers the opponent in 3 Ink."
  },
  {
   "id": "ridley",
@@ -1119,7 +1184,8 @@
    "cost": 2,
    "text": "+11 damage."
   },
-  "finalSmash": "Plasma Scream"
+  "finalSmash": "Plasma Scream",
+  "finalSmashText": "14 damage. The opponent loses 2 meter."
  },
  {
   "id": "simon",
@@ -1136,7 +1202,8 @@
    "cost": 2,
    "text": "+4 damage and Burn 3 (2 turns)."
   },
-  "finalSmash": "Grand Cross"
+  "finalSmash": "Grand Cross",
+  "finalSmashText": "10 damage + Burn 2 (3 turns) + Stagger."
  },
  {
   "id": "richter",
@@ -1153,7 +1220,8 @@
    "cost": 2,
    "text": "+3 damage and Burn 4 (1 turn)."
   },
-  "finalSmash": "Grand Cross"
+  "finalSmash": "Grand Cross",
+  "finalSmashText": "12 damage + Burn 4 (1 turn) + Heal 3."
  },
  {
   "id": "krool",
@@ -1170,7 +1238,8 @@
    "cost": 2,
    "text": "+5 damage and fully restore Belly Armor."
   },
-  "finalSmash": "Blast-o-Matic"
+  "finalSmash": "Blast-o-Matic",
+  "finalSmashText": "21 damage. K. Rool takes Recoil 3."
  },
  {
   "id": "isabelle",
@@ -1187,7 +1256,8 @@
    "cost": 2,
    "text": "+5 damage and Drain 1."
   },
-  "finalSmash": "Dream Town Hall"
+  "finalSmash": "Dream Town Hall",
+  "finalSmashText": "14 damage + Heal 5."
  },
  {
   "id": "incin",
@@ -1204,7 +1274,8 @@
    "cost": 2,
    "text": "+5 damage."
   },
-  "finalSmash": "Max Malicious Moonsault"
+  "finalSmash": "Max Malicious Moonsault",
+  "finalSmashText": "14 damage, or 20 if Incineroar has less HP than the opponent (Revenge)."
  },
  {
   "id": "plant",
@@ -1221,7 +1292,8 @@
    "cost": 3,
    "text": "+9 damage."
   },
-  "finalSmash": "Petey Piranha"
+  "finalSmash": "Petey Piranha",
+  "finalSmashText": "12 damage + Lock Grab + Stagger."
  },
  {
   "id": "joker",
@@ -1238,7 +1310,8 @@
    "cost": 2,
    "text": "+3 damage; +6 more while Arsene is out."
   },
-  "finalSmash": "All-Out Attack"
+  "finalSmash": "All-Out Attack",
+  "finalSmashText": "14 damage, or 20 while Arsene is out, and Arsene stays 2 more turns."
  },
  {
   "id": "hero",
@@ -1255,7 +1328,8 @@
    "cost": 2,
    "text": "Random spell: Kaboom (+8), Sizz (+3, Burn 2 for 2 turns), Psyche Up (+1, Charge 8) or Thwack (+1; instant KO if the opponent is below 25 HP)."
   },
-  "finalSmash": "Gigaslash"
+  "finalSmash": "Gigaslash",
+  "finalSmashText": "18 damage."
  },
  {
   "id": "banjo",
@@ -1272,7 +1346,8 @@
    "cost": 2,
    "text": "+4 damage. Wins Attack clashes outright. Only 5 uses per match (Golden Feathers)."
   },
-  "finalSmash": "The Mighty Jinjonator"
+  "finalSmash": "The Mighty Jinjonator",
+  "finalSmashText": "15 damage. Banjo & Kazooie regain 1 Golden Feather."
  },
  {
   "id": "terry",
@@ -1289,7 +1364,8 @@
    "cost": 2,
    "text": "+16 damage."
   },
-  "finalSmash": "Triple Wolf"
+  "finalSmash": "Triple Wolf",
+  "finalSmashText": "15 damage, or 21 while Terry is below 40 HP (GO!)."
  },
  {
   "id": "byleth",
@@ -1306,7 +1382,8 @@
    "cost": 2,
    "text": "+2 damage and Lock Counter."
   },
-  "finalSmash": "Progenitor God Ruptured Heaven"
+  "finalSmash": "Progenitor God Ruptured Heaven",
+  "finalSmashText": "16 damage. Divine Pulse is restored if it was used."
  },
  {
   "id": "minmin",
@@ -1323,7 +1400,8 @@
    "cost": 2,
    "text": "+6 damage and Weaken 3."
   },
-  "finalSmash": "ARMS Rush"
+  "finalSmash": "ARMS Rush",
+  "finalSmashText": "14 damage + Lock Counter."
  },
  {
   "id": "steve",
@@ -1340,7 +1418,8 @@
    "cost": 2,
    "text": "+7 damage."
   },
-  "finalSmash": "House of Boom"
+  "finalSmash": "House of Boom",
+  "finalSmashText": "14 damage. Steve's tools upgrade one tier."
  },
  {
   "id": "seph",
@@ -1357,7 +1436,8 @@
    "cost": 2,
    "text": "+11 damage; if the opponent used their skill, Drain 2."
   },
-  "finalSmash": "Supernova"
+  "finalSmash": "Supernova",
+  "finalSmashText": "13 damage + 2 random effects from: Stagger, Paralyze, Lock (random action), Weaken 5."
  },
  {
   "id": "pyra",
@@ -1374,7 +1454,8 @@
    "cost": 2,
    "text": "Pyra – Prominence Revolt: +6 damage. Mythra – Foresight: +3 damage and Charge 4."
   },
-  "finalSmash": "Burning Sword / Sacred Arrow"
+  "finalSmash": "Burning Sword / Sacred Arrow",
+  "finalSmashText": "Pyra – Burning Sword: 14 damage + Burn 3 (2 turns). Mythra – Sacred Arrow: 12 damage + Stagger + Gain 2."
  },
  {
   "id": "kazuya",
@@ -1391,7 +1472,8 @@
    "cost": 2,
    "text": "+6 damage."
   },
-  "finalSmash": "Final Blaster"
+  "finalSmash": "Final Blaster",
+  "finalSmashText": "16 damage. Kazuya Heals 4."
  },
  {
   "id": "sora",
@@ -1408,6 +1490,7 @@
    "cost": 2,
    "text": "Cycles each use: Firaga (+7, Burn 2 for 2 turns) → Blizzaga (+7, Lock the basic action the opponent chose) → Thundaga (+10)."
   },
-  "finalSmash": "Sealing the Keyhole"
+  "finalSmash": "Sealing the Keyhole",
+  "finalSmashText": "14 damage + Drain 2."
  }
 ]
