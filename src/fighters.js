@@ -517,7 +517,8 @@ def('joker', 'Joker', {
 def('hero', 'Hero', {
   winBonus: c => Math.min(3, Math.floor((c.T - 1) / 5)),
   skill: { name: 'Command Selection', type: 'A', cost: 2, listed: 7,
-    bonus: c => { const r = Math.floor(c.g.rng() * 4); c.me.mem.spell = r; E.ustat(c.g, c.me, `${['Kaboom', 'Sizz', 'Psyche Up', 'Thwack'][r]} cast`);
+    bonus: c => { const r = Math.floor(c.g.rng() * 4); c.me.mem.spell = r; const sp = ['Kaboom', 'Sizz', 'Psyche Up', 'Thwack'][r]; E.ustat(c.g, c.me, `${sp} cast`);
+      E.announce(c.g, c.me, `Command Selection: ${sp}!` + (r === 3 && c.opp.hp < 25 ? ' Instant KO!' : ''));
       const b = [10, 5, 3, 3][r] + N.hero.s; return r === 3 && c.opp.hp < 25 ? 999 : b; },
     rider: c => { const r = c.me.mem.spell; if (r === 1) burn(c.g, c.opp, 2, 2); if (r === 2) charge(c.me, 8, c.g); } },
 });

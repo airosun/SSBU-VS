@@ -566,3 +566,8 @@ img, svg { max-width: 100%; }
 @keyframes poisonPulse { 50% { box-shadow: inset 0 -38px 34px -10px #b05cffbb, 0 0 18px #a64dffaa; } }
 .pwrap.has-freeze .portrait { box-shadow: inset 0 0 26px #9fe3ffaa, 0 0 14px #9fe3ff99; filter: saturate(.7) brightness(1.05); }
 .fxb.fx-warioman img { border-radius: 50%; }
+/* opponent's Smash Meter fills right-to-left: run the rainbow (and each segment's slice of it) the same way */
+#oppSide .seg.on {
+  background-image: linear-gradient(270deg, #ff3b30, #ff9500, #ffd60a, #34c759, #0aa2ff, #5856d6, #bf5af2);
+  background-position: calc((var(--n) - 1 - var(--i)) / max(1, var(--n) - 1) * 100%) 0;
+}
