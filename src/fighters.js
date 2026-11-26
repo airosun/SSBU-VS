@@ -150,7 +150,7 @@ def('pikachu', 'Pikachu', {
 });
 // 9 Luigi
 def('luigi', 'Luigi', {
-  winBonus: c => isA(c.act) && c.g.rng() < 0.2 ? (E.ustat(c.g, c.me, 'Misfires'), N.luigi.p) : 0,
+  winBonus: c => isA(c.act) && c.g.rng() < 0.2 ? (E.ustat(c.g, c.me, 'Misfires'), E.announce(c.g, c.me, `Misfire! Luigi's attack rockets for +${N.luigi.p}!`), N.luigi.p) : 0,
   skill: { name: 'Poltergust G-00.0', type: 'G', cost: 2, listed: 3, bonus: () => N.luigi.s,
     rider: c => { const t = Math.min(1, c.opp.meter); drain(c.opp, 1, c.g); gain(c.g, c.me, 1); } },
 });
@@ -258,7 +258,7 @@ def('chrom', 'Chrom', {
 def('gnw', 'Mr. Game & Watch', {
   onTie: c => gain(c.g, c.me, 1),
   skill: { name: 'Judge', type: 'A', cost: 2, listed: 5,
-    bonus: c => { const r = 1 + Math.floor(c.g.rng() * 9); E.ustat(c.g, c.me, 'Judge rolls'); if (r === 9) E.ustat(c.g, c.me, 'Judge 9s'); if (r === 1) selfDmg(c.me, 3, c.g); return N.gnw.s + (r === 9 ? 15 : r); } },
+    bonus: c => { const r = 1 + Math.floor(c.g.rng() * 9); E.ustat(c.g, c.me, 'Judge rolls'); if (r === 9) E.ustat(c.g, c.me, 'Judge 9s'); E.announce(c.g, c.me, `Judge: ${r}!` + (r === 9 ? ' Critical hit!' : r === 1 ? ' It backfires!' : '')); if (r === 1) selfDmg(c.me, 3, c.g); return N.gnw.s + (r === 9 ? 15 : r); } },
 });
 // 27 Meta Knight
 def('mk', 'Meta Knight', {
@@ -679,8 +679,11 @@ fsDef('minmin', 14, c => st1(c, 'lock', 1, 'C'));
 fsDef('steve', 14, c => { c.me.mem.tier = Math.min(3, (c.me.mem.tier || 0) + 1); });
 fsDef('seph', 13, c => {
   const opts = ['stagger', 'paralyze', 'lock', 'weaken'];
+  const LBL = { stagger: 'Stagger', paralyze: 'Paralyze', weaken: 'Weaken 5' }, TY = { A: 'Attack', C: 'Counter', G: 'Grab' }, got = [];
   for (let k = 0; k < 2; k++) { const e = opts.splice(Math.floor(c.g.rng() * opts.length), 1)[0];
-    if (e === 'lock') st1(c, 'lock', 1, ['A', 'C', 'G'][Math.floor(c.g.rng() * 3)]); else if (e === 'weaken') weaken(c.opp, 5, c.g); else st1(c, e); }
+    if (e === 'lock') { const t = ['A', 'C', 'G'][Math.floor(c.g.rng() * 3)]; got.push(`Lock ${TY[t]}`); st1(c, 'lock', 1, t); }
+    else { got.push(LBL[e]); if (e === 'weaken') weaken(c.opp, 5, c.g); else st1(c, e); } }
+  E.announce(c.g, c.me, `Supernova: ${got.join(' + ')}!`);
 });
 fsDef('pyra', c => isP(c.me) ? 14 : 12, c => { if (isP(c.me)) burn(c.g, c.opp, 3, 2); else { st1(c, 'stagger'); gain(c.g, c.me, 2); } });
 fsDef('kazuya', 16, c => heal(c.me, 4, c.g));
