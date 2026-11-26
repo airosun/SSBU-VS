@@ -547,15 +547,15 @@ img, svg { max-width: 100%; }
 #turn, #status { position: relative; z-index: 8; }
 #turn { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--bg); }
 .cards { padding-block: 26px; box-sizing: content-box; }
-.cards.ended .slot { opacity: .35; filter: grayscale(.5); transition: opacity .5s, filter .5s; }
+.cards.ended .slot { opacity: .1; filter: grayscale(.5); transition: opacity .5s, filter .5s; }
 #resultBanner { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 12; text-align: center;
   padding: 14px 22px; border-radius: 16px; background: #12141bf2; border: 2px solid var(--accent); box-shadow: 0 16px 40px #000c, 0 0 24px #f2b23355;
   width: max-content; max-width: 96%; animation: rbIn .5s cubic-bezier(.2, 1.5, .4, 1); }
 #resultBanner.hidden { display: none; }
 #resultBanner .rbTop { font-size: 34px; font-weight: 900; letter-spacing: 2px; color: var(--accent); line-height: 1; }
 #resultBanner .rbWho { font-size: 17px; font-weight: 800; margin-top: 6px; color: var(--text); }
-#resultBanner.theirs { border-color: #ff6b6b; } #resultBanner.theirs .rbTop { color: #ff6b6b; }
-#resultBanner.draw { border-color: #9aa1b5; } #resultBanner.draw .rbTop { color: #cfd5e6; }
+#resultBanner.theirs { border-color: #ff6b6b; }
+#resultBanner.draw { border-color: #9aa1b5; }
 @keyframes rbIn { from { transform: translate(-50%, -50%) scale(.6); opacity: 0; } }
 @media (max-width: 700px) { .cards { padding-block: 16px; } #resultBanner .rbTop { font-size: 24px; } #resultBanner .rbWho { font-size: 13px; } }
 
@@ -575,3 +575,141 @@ img, svg { max-width: 100%; }
 #oppSide .hp .fill { background: linear-gradient(270deg, #2fbf71, #6be39a); }
 #oppSide .hp .fill.mid { background: linear-gradient(270deg, #e0a526, #f2c85b); }
 #oppSide .hp .fill.low { background: linear-gradient(270deg, #d63d3d, #f06b6b); }
+
+/* ================= Smash-style typography ================= */
+@font-face { font-family: 'Barlow'; font-weight: 400; font-display: swap; src: url(fonts/barlow-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 500; font-display: swap; src: url(fonts/barlow-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 600; font-display: swap; src: url(fonts/barlow-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 700 900; font-display: swap; src: url(fonts/barlow-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 700; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-700-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 800; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-800-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 900; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-900-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 700; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 800; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-800-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 900; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-900-normal.woff2) format('woff2'); }
+
+body, button, input, select { font-family: 'Barlow', system-ui, sans-serif; }
+/* heavy italic display face for names, numbers, buttons and announcer text */
+h1, h2, .cname, .card h3, #turn, #burst, .vs, .face.front .t, #actions button, .mode b, .mode strong, .callout, .floatNum,
+.lbl span:last-child, .fruitNum, .bellyNum, .logTitle, .lturn h4, .pname, .tag, #status, .randomBtn, .statsBtn, button {
+  font-family: 'Smash', 'Barlow', system-ui, sans-serif; font-style: italic; font-weight: 800; letter-spacing: .02em; }
+.cname, #burst, .face.front .t, .vs, h1 { font-weight: 900; text-transform: uppercase; letter-spacing: .03em; }
+.cname { -webkit-text-stroke: .5px #0006; text-shadow: 0 2px 0 #0008; }
+#turn { text-transform: uppercase; letter-spacing: .08em; }
+#actions button { text-transform: uppercase; letter-spacing: .05em; font-size: 18px; }
+#actions button small { font-family: 'Barlow', sans-serif; font-style: normal; text-transform: none; letter-spacing: 0; }
+.lbl, .hp .lbl { font-family: 'Smash', sans-serif; font-style: italic; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.floatNum { font-size: 24px; -webkit-text-stroke: 1px #000; }
+#burst { font-size: 34px; color: #fff; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill; text-shadow: 0 3px 0 #000, 0 0 18px var(--accent); }
+.callout { font-style: italic; font-size: 17px; letter-spacing: .02em; }
+.kitBox, .kitBox summary, .kit, .rsub, .small, .lturn div, #log, .face.front .s { font-family: 'Barlow', system-ui, sans-serif; font-style: normal; }
+.lturn div.ann, .lturn div.skl-line { font-family: 'Barlow', sans-serif; }
+
+/* ================= GAME! — full-screen announcer slam ================= */
+#resultBanner { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 60; pointer-events: none;
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; width: max-content; max-width: 100vw; animation: none; }
+#resultBanner::before { /* white impact flash over the whole screen */
+  content: ''; position: fixed; inset: -50vh -50vw; background: #fff; opacity: 0; animation: gameFlash .55s ease-out; pointer-events: none; }
+#resultBanner .rbRays { position: absolute; left: calc(50% - 85vmax); top: calc(50% - 85vmax); width: 170vmax; height: 170vmax;
+  background: repeating-conic-gradient(from 0deg, #ffffff16 0 4deg, transparent 4deg 13deg),
+    radial-gradient(closest-side, #000c 0 22%, #0008 38%, transparent 62%);
+  -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 60%); mask: radial-gradient(closest-side, #000 20%, transparent 60%);
+  animation: gameRays 1.4s ease-out both, spin 40s linear infinite 1.4s; z-index: -1; }
+#resultBanner .rbTop { position: relative; font-family: 'Smash', 'Barlow', sans-serif; font-style: italic; font-weight: 900;
+  font-size: clamp(84px, 15vw, 210px); line-height: .9; letter-spacing: .01em; padding: 0 .12em;
+  color: #1a0400; -webkit-text-stroke: .12em #1a0400; /* bottom layer: thick dark outline */
+  filter: drop-shadow(0 6px 0 #000) drop-shadow(0 0 22px #ff6a0099); animation: gameSlam .7s cubic-bezier(.15, 1.6, .35, 1) both; }
+#resultBanner .rbTop::before, #resultBanner .rbTop::after { content: attr(data-t); position: absolute; inset: 0; padding: 0 .12em; }
+#resultBanner .rbTop::before { color: #fff; -webkit-text-stroke: .055em #fff; } /* middle layer: white rim */
+#resultBanner .rbTop::after { /* top layer: the fiery gradient fill */
+  color: transparent; -webkit-text-stroke: 0; -webkit-background-clip: text; background-clip: text;
+  background-image: linear-gradient(180deg, #fffbd1 0%, #ffe14a 28%, #ffad1f 50%, #ff5a1a 70%, #d4120f 100%); }
+#resultBanner .rbWho { font-size: 17px; font-weight: 800; margin-top: 6px; color: var(--text); }
+#resultBanner.theirs { border-color: #ff6b6b; }
+#resultBanner.draw { border-color: #9aa1b5; }
+@keyframes rbIn { from { transform: translate(-50%, -50%) scale(.6); opacity: 0; } }
+@media (max-width: 700px) { .cards { padding-block: 16px; } #resultBanner .rbTop { font-size: 24px; } #resultBanner .rbWho { font-size: 13px; } }
+
+/* ---------- Dodge, Poison, Frozen ---------- */
+#actions .D { background: linear-gradient(135deg, #8b93a8, #5f6780); color: #fff; }
+.face.front.D { border-color: #8b93a8; box-shadow: inset 0 -40px 40px -30px #8b93a8; }
+.pwrap.has-poison .portrait { box-shadow: inset 0 -30px 30px -10px #9b30ff99, 0 0 12px #a64dff88; animation: poisonPulse 1.6s infinite; }
+@keyframes poisonPulse { 50% { box-shadow: inset 0 -38px 34px -10px #b05cffbb, 0 0 18px #a64dffaa; } }
+.pwrap.has-freeze .portrait { box-shadow: inset 0 0 26px #9fe3ffaa, 0 0 14px #9fe3ff99; filter: saturate(.7) brightness(1.05); }
+.fxb.fx-warioman img { border-radius: 50%; }
+/* opponent's Smash Meter fills right-to-left: run the rainbow (and each segment's slice of it) the same way */
+#oppSide .seg.on {
+  background-image: linear-gradient(270deg, #ff3b30, #ff9500, #ffd60a, #34c759, #0aa2ff, #5856d6, #bf5af2);
+  background-position: calc((var(--n) - 1 - var(--i)) / max(1, var(--n) - 1) * 100%) 0;
+}
+/* opponent's HP drains toward the right, so its gradient runs the other way too */
+#oppSide .hp .fill { background: linear-gradient(270deg, #2fbf71, #6be39a); }
+#oppSide .hp .fill.mid { background: linear-gradient(270deg, #e0a526, #f2c85b); }
+#oppSide .hp .fill.low { background: linear-gradient(270deg, #d63d3d, #f06b6b); }
+
+/* ================= Smash-style typography ================= */
+@font-face { font-family: 'Barlow'; font-weight: 400; font-display: swap; src: url(fonts/barlow-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 500; font-display: swap; src: url(fonts/barlow-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 600; font-display: swap; src: url(fonts/barlow-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow'; font-weight: 700 900; font-display: swap; src: url(fonts/barlow-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 700; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-700-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 800; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-800-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 900; font-style: italic; font-display: swap; src: url(fonts/barlow-condensed-latin-900-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 700; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 800; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-800-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Smash'; font-weight: 900; font-style: normal; font-display: swap; src: url(fonts/barlow-condensed-latin-900-normal.woff2) format('woff2'); }
+
+body, button, input, select { font-family: 'Barlow', system-ui, sans-serif; }
+/* heavy italic display face for names, numbers, buttons and announcer text */
+h1, h2, .cname, .card h3, #turn, #burst, .vs, .face.front .t, #actions button, .mode b, .mode strong, .callout, .floatNum,
+.lbl span:last-child, .fruitNum, .bellyNum, .logTitle, .lturn h4, .pname, .tag, #status, .randomBtn, .statsBtn, button {
+  font-family: 'Smash', 'Barlow', system-ui, sans-serif; font-style: italic; font-weight: 800; letter-spacing: .02em; }
+.cname, #burst, .face.front .t, .vs, h1 { font-weight: 900; text-transform: uppercase; letter-spacing: .03em; }
+.cname { -webkit-text-stroke: .5px #0006; text-shadow: 0 2px 0 #0008; }
+#turn { text-transform: uppercase; letter-spacing: .08em; }
+#actions button { text-transform: uppercase; letter-spacing: .05em; font-size: 18px; }
+#actions button small { font-family: 'Barlow', sans-serif; font-style: normal; text-transform: none; letter-spacing: 0; }
+.lbl, .hp .lbl { font-family: 'Smash', sans-serif; font-style: italic; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.floatNum { font-size: 24px; -webkit-text-stroke: 1px #000; }
+#burst { font-size: 34px; color: #fff; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill; text-shadow: 0 3px 0 #000, 0 0 18px var(--accent); }
+.callout { font-style: italic; font-size: 17px; letter-spacing: .02em; }
+.kitBox, .kitBox summary, .kit, .rsub, .small, .lturn div, #log, .face.front .s { font-family: 'Barlow', system-ui, sans-serif; font-style: normal; }
+.lturn div.ann, .lturn div.skl-line { font-family: 'Barlow', sans-serif; }
+
+/* ================= GAME! — full-screen announcer slam ================= */
+#resultBanner { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 60; pointer-events: none;
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; width: max-content; max-width: 100vw; animation: none; }
+#resultBanner::before { /* white impact flash over the whole screen */
+  content: ''; position: fixed; inset: -50vh -50vw; background: #fff; opacity: 0; animation: gameFlash .55s ease-out; pointer-events: none; }
+#resultBanner .rbRays { position: absolute; left: calc(50% - 85vmax); top: calc(50% - 85vmax); width: 170vmax; height: 170vmax;
+  background: repeating-conic-gradient(from 0deg, #ffffff16 0 4deg, transparent 4deg 13deg),
+    radial-gradient(closest-side, #000c 0 22%, #0008 38%, transparent 62%);
+  -webkit-mask: radial-gradient(closest-side, #000 20%, transparent 60%); mask: radial-gradient(closest-side, #000 20%, transparent 60%);
+  animation: gameRays 1.4s ease-out both, spin 40s linear infinite 1.4s; z-index: -1; }
+#resultBanner .rbTop { position: relative; font-family: 'Smash', 'Barlow', sans-serif; font-style: italic; font-weight: 900;
+  font-size: clamp(84px, 15vw, 210px); line-height: .9; letter-spacing: .01em; color: transparent; padding: 0 .12em;
+  background: linear-gradient(180deg, #fffbd1 0%, #ffe14a 30%, #ffad1f 52%, #ff5a1a 72%, #d4120f 100%); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-stroke: 0; filter: drop-shadow(0 6px 0 #000) drop-shadow(0 0 22px #ff6a0099);
+  animation: gameSlam .7s cubic-bezier(.15, 1.6, .35, 1) both; }
+#resultBanner .rbTop::before { /* thick dark outline sits under the gradient fill */
+  content: attr(data-t); position: absolute; inset: 0; padding: 0 .12em; z-index: -1; color: #1a0400;
+  -webkit-text-stroke: .11em #1a0400; }
+#resultBanner .rbTop::after { /* thin white rim just inside the outline */
+  content: attr(data-t); position: absolute; inset: 0; padding: 0 .12em; z-index: -1; color: transparent; -webkit-text-stroke: .045em #fff; }
+#resultBanner .rbWho { font-family: 'Smash', sans-serif; font-style: italic; font-weight: 900; text-transform: uppercase; letter-spacing: .04em;
+  font-size: clamp(20px, 3.2vw, 38px); margin-top: .25em; color: #fff; -webkit-text-stroke: .08em #000; paint-order: stroke fill;
+  text-shadow: 0 4px 0 #000; animation: gameWho .5s .55s ease-out both; }
+#resultBanner.theirs .rbTop::after { background-image: linear-gradient(180deg, #ffe0e0 0%, #ff8a8a 30%, #ff3b3b 55%, #b3101c 78%, #5c0410 100%); } #resultBanner.theirs .rbTop { filter: drop-shadow(0 6px 0 #000) drop-shadow(0 0 22px #ff1f3d88); }
+#resultBanner.draw .rbTop::after { background-image: linear-gradient(180deg, #ffffff 0%, #e6ebf5 40%, #a9b2c7 70%, #6b7489 100%); } #resultBanner.draw .rbTop { filter: drop-shadow(0 6px 0 #000) drop-shadow(0 0 18px #ffffff55); }
+@keyframes gameSlam { 0% { transform: scale(3.2) skewX(-8deg); opacity: 0; filter: blur(8px) drop-shadow(0 6px 0 #000); }
+  55% { transform: scale(.94); opacity: 1; filter: blur(0) drop-shadow(0 6px 0 #000) drop-shadow(0 0 30px #ffb000); }
+  75% { transform: scale(1.04); } 100% { transform: scale(1); } }
+@keyframes gameFlash { 0% { opacity: 0; } 25% { opacity: .85; } 100% { opacity: 0; } }
+@keyframes gameRays { 0% { opacity: 0; transform: scale(.3); } 40% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+@keyframes gameWho { from { opacity: 0; transform: translateY(14px) scale(.9); } }
+@keyframes spin { to { rotate: 360deg; } }
+@media (max-width: 700px) { #resultBanner { top: 38%; } #resultBanner .rbTop { font-size: 22vw; } #resultBanner .rbWho { font-size: 5.4vw; } }
+@media (prefers-reduced-motion: reduce) { #resultBanner .rbTop, #resultBanner .rbRays, #resultBanner::before, #resultBanner .rbWho { animation: none; } }
+.rps span, .rulesStrip b, #grid .card h3, .face.front .t, .tag, .chip, .badge { font-family: 'Smash', 'Barlow', sans-serif; font-style: italic; font-weight: 800; }
+.rulesStrip b { font-size: 30px; font-weight: 900; }
+.rps span { letter-spacing: .06em; }
