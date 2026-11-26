@@ -59,6 +59,15 @@ socket.on('lobby', l => {
 });
 
 // ---------- side panels ----------
+function kitHTML(s) {
+  const k = BY[s.id]; if (!k) return '';
+  const src = s.skill.copiedFrom && BY[s.skill.copiedFrom] ? BY[s.skill.copiedFrom].skill : k.skill;
+  const type = TYPE[s.skill.type] || s.skill.type;
+  return `<div class="kitBox">
+    <div><b>${esc(k.passive.name)}</b> <span class="kt">Passive</span><div>${esc(k.passive.text)}</div></div>
+    <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : k.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
+  </div>`;
+}
 function sideHTML(s, player, mine) {
   const pct = 100 * s.hp / s.maxHp;
   const meter = s.meter === null ? '<div class="hiddenMeter">Meter hidden (Cardboard Box)</div>'
@@ -66,7 +75,8 @@ function sideHTML(s, player, mine) {
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
     <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div><div class="cname">${s.name}</div>
-      <div class="small">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
+      <div class="small hideSmall">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
+    ${kitHTML(s)}
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
     <div class="hp ${s.fx.hp ? 'fx-' + s.fx.hp : ''}"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>
     <div class="lbl"><span>Smash Meter</span><span class="mnum">${s.meter === null ? '?' : `${s.meter} / ${s.meterMax}`}</span></div>
@@ -117,6 +127,7 @@ function burst(txt) { const b = $('#burst'); b.textContent = txt; b.className = 
 function drawControls(st) {
   $('#turn').textContent = st.over ? 'GAME OVER' : `TURN ${st.turn}`;
   $('#artPick').classList.toggle('hidden', !st.shulk || st.over);
+  $('#pulsePick').classList.toggle('hidden', !st.pulse || st.over);
   $('#actions').innerHTML = st.over ? '' : st.actions.map((a, i) => {
     const label = a.kind === 'fs' ? 'FINAL SMASH' : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${TYPE[a.type]} skill · ${st.me.skill.cost} meter</small>` : TYPE[a.type];
     return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind}" data-i="${i}" ${st.waiting ? 'disabled' : ''}>${label}</button>`;
@@ -124,7 +135,9 @@ function drawControls(st) {
   document.querySelectorAll('#actions button').forEach(b => b.onclick = () => {
     const a = st.actions[+b.dataset.i];
     const art = st.shulk ? (document.querySelector('input[name=art]:checked') || {}).value : undefined;
-    socket.emit('act', { ...a, art, turn: st.turn });
+    const pulse = st.pulse && $('#pulseBox').checked;
+    socket.emit('act', { ...a, art, pulse, turn: st.turn });
+    $('#pulseBox').checked = false;
     document.querySelectorAll('#actions button').forEach(x => (x.disabled = true));
     cardBack($('#meCard'), true);
   });
@@ -155,7 +168,7 @@ async function playReveal(st) {
   const oppB = { ...prev.opp, hp: rv.before.hp[1], meter: rv.before.meter[1] };
   drawSides({ ...st, me: meB, opp: oppB });
   $('#turn').textContent = `TURN ${rv.turn}`;
-  $('#actions').innerHTML = ''; $('#artPick').classList.add('hidden'); $('#after').classList.add('hidden');
+  $('#actions').innerHTML = ''; $('#artPick').classList.add('hidden'); $('#pulsePick').classList.add('hidden'); $('#after').classList.add('hidden');
   $('#status').textContent = 'Reveal!';
   resetStage({ waiting: true, oppReady: true });
   cardFront($('#meCard'), rv.acts[0], prev.me); cardFront($('#oppCard'), rv.acts[1], prev.opp);

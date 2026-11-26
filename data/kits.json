@@ -1222,7 +1222,7 @@
   "series": "Fire Emblem",
   "passive": {
    "name": "Divine Pulse",
-   "text": "Once per match, after a turn where you lose 10+ HP, undo up to 10 of that damage."
+   "text": "Once per match, arm Divine Pulse before locking in: if you lose that turn, undo up to 10 of the damage you took. If you don’t lose, it stays ready."
   },
   "skill": {
    "name": "Sword of the Creator",

@@ -535,7 +535,12 @@ def('terry', 'Terry', {
 });
 // 75 Byleth — Divine Pulse auto-used on a lethal or 15+ damage turn
 def('byleth', 'Byleth', {
-  onTurnEnd: c => { if (c.res === 'lose' && !c.me.mem.dp && (c.me.dmgTurn >= N.byleth.thr || c.me.hp <= 0)) { c.me.mem.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.emit(c.g, `Divine Pulse! Byleth undoes ${u} damage.`); } },
+  // Players arm Divine Pulse before locking in (mem.dpArmed true/false). The CPU (dpArmed undefined) uses it automatically on a lethal or 10+ damage turn.
+  onTurnEnd: c => {
+    const m = c.me.mem; if (m.dp || c.res !== 'lose' || c.me.dmgTurn <= 0) return;
+    const fire = m.dpArmed === undefined ? (c.me.dmgTurn >= N.byleth.thr || c.me.hp <= 0) : m.dpArmed;
+    if (fire) { m.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.emit(c.g, `Divine Pulse! Byleth undoes ${u} damage.`); }
+  },
   skill: { name: 'Sword of the Creator', type: 'G', cost: 2, listed: 5, bonus: () => N.byleth.s, rider: c => setStatus(c.g, c.opp, 'lock', 1, 'C') },
 });
 // 76 Min Min

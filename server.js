@@ -49,7 +49,10 @@ function tryResolve(r) {
   if (r.cpu && !r.pending[1]) r.pending[1] = AI.chooseActions(g)[1];
   if (!r.pending[0] || !r.pending[1]) return push(r);
   const acts = r.pending.map(a => ({ kind: a.kind, type: a.type }));
-  r.pending.forEach((a, i) => { g.p[i].mem.artPick = a.art || null; });
+  r.pending.forEach((a, i) => {
+    g.p[i].mem.artPick = a.art || null;
+    if (g.p[i].f.id === 'byleth' && !r.seats[i].cpu) g.p[i].mem.dpArmed = !!a.pulse;   // human Byleth chooses
+  });
   const turn = g.T, names = r.seats.map(s => s.name);
   const before = { hp: g.p.map(p => Math.max(0, p.hp)), meter: g.p.map(p => p.meter) };
   const labels = acts.map((a, i) => actLabel(g.p[i], a));
@@ -110,7 +113,7 @@ io.on('connection', sock => {
     if (a.turn !== room.game.T) return; // stale click from a previous turn
     const legal = E.legalActions(room.game, i);
     if (!legal.some(l => l.kind === a.kind && l.type === a.type)) return sock.emit('err', 'You can’t do that this turn.');
-    room.pending[i] = { kind: a.kind, type: a.type, art: ['buster', 'shield', 'speed'].includes(a.art) ? a.art : null };
+    room.pending[i] = { kind: a.kind, type: a.type, art: ['buster', 'shield', 'speed'].includes(a.art) ? a.art : null, pulse: !!a.pulse };
     tryResolve(room);
   });
   sock.on('rematch', () => {

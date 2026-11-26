@@ -96,7 +96,7 @@ function side(g, i, self) {
   return {
     id: p.f.id, art: art(p), name: p.f.name, passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
-    skill: { name: sk.name, type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, protean: p.f.id === 'greninja' },
+    skill: { name: sk.name, type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, copiedFrom: p.copy ? (require('./fighters').FIGHTERS.find(f => f.skill === p.copy) || {}).id : null, protean: p.f.id === 'greninja' },
     fx: effects(p, o, g, self, !self),
     statuses: statuses(p, g), resources: res,
   };
@@ -121,7 +121,7 @@ function view(g, seat, pending, reveal) {
     me: side(g, seat, true), opp: side(g, 1 - seat, false),
     actions: g.over ? [] : E.legalActions(g, seat),
     waiting: !!pending[seat], oppReady: !!pending[1 - seat],
-    shulk: g.p[seat].f.id === 'shulk', reveal: rv,
+    shulk: g.p[seat].f.id === 'shulk', pulse: g.p[seat].f.id === 'byleth' && !g.p[seat].mem.dp, reveal: rv,
   };
 }
 

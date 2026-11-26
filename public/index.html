@@ -12,14 +12,23 @@
 <main>
   <!-- Home -->
   <section id="home" class="screen">
-    <label>Your name <input id="name" maxlength="16" placeholder="Player"></label>
-    <div class="row">
-      <button id="cpuBtn">Play vs CPU</button>
-      <button id="createBtn">Create room</button>
+    <div class="hero">
+      <div class="rps"><span class="A">Attack</span><i>beats</i><span class="G">Grab</span><i>beats</i><span class="C">Counter</span><i>beats</i><span class="A">Attack</span></div>
+      <h2>Read your opponent. Win the exchange.</h2>
+      <p>83 fighters, each with a passive and a signature skill. Both players lock in at once, then the cards flip.</p>
     </div>
-    <div class="row">
-      <input id="code" maxlength="4" placeholder="Room code">
-      <button id="joinBtn" class="ghost">Join room</button>
+    <div class="homeCard">
+      <label class="nameField"><span>Your name</span><input id="name" maxlength="16" placeholder="Player"></label>
+      <div class="modes">
+        <button id="cpuBtn" class="mode"><b>Play vs CPU</b><small>Jump straight into a match</small></button>
+        <button id="createBtn" class="mode alt"><b>Create a room</b><small>Get a code to share with a friend</small></button>
+      </div>
+      <div class="joinRow"><input id="code" maxlength="4" placeholder="ROOM CODE"><button id="joinBtn" class="ghost">Join room</button></div>
+    </div>
+    <div class="rulesStrip">
+      <div><b>10</b><span>damage for winning an exchange</span></div>
+      <div><b>8</b><span>meter for a Final Smash (14 unstoppable damage)</span></div>
+      <div><b>1–3</b><span>meter per skill: it beats a basic action of its own type</span></div>
     </div>
   </section>
 
@@ -49,6 +58,9 @@
         <div id="status"></div>
       </div>
       <div class="side" id="oppSide"></div>
+    </div>
+    <div id="pulsePick" class="row center hidden">
+      <label class="pulseToggle"><input type="checkbox" id="pulseBox"> <b>Arm Divine Pulse</b> <small>if you lose this turn, undo up to 10 damage (once per match)</small></label>
     </div>
     <div id="artPick" class="row center hidden">
       <span>Monado Art:</span>
