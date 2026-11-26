@@ -143,13 +143,18 @@ function drawControls(st) {
   $('#pulsePick').classList.toggle('hidden', !st.pulse || st.over);
   // the skill button is always shown; greyed out with the reason when it can't be used
   const acts = st.over ? [] : st.actions.slice();
+  // locked basic actions stay visible too, greyed out
+  if (!st.over) ['A', 'C', 'G'].forEach((t, i) => {
+    if (!acts.some(a => a.kind === 'basic' && a.type === t)) acts.splice(i, 0, { kind: 'basic', type: t, blocked: 'Locked' });
+  });
   if (!st.over && !acts.some(a => a.kind === 'skill')) {
     const fsAt = acts.findIndex(a => a.kind === 'fs');
     acts.splice(fsAt < 0 ? acts.length : fsAt, 0, { kind: 'skill', type: st.me.skill.type, blocked: st.skillBlocked || 'Unavailable' });
   }
   $('#actions').innerHTML = acts.map((a, i) => {
     const label = a.kind === 'fs' ? `FINAL SMASH<br><small>${esc(st.me.fs)}</small>`
-      : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${a.blocked ? esc(a.blocked) : `${TYPE[a.type]} skill · ${st.me.skill.cost} meter`}</small>` : TYPE[a.type];
+      : a.kind === 'skill' ? `${esc(st.me.skill.name)}<br><small>${a.blocked ? esc(a.blocked) : `${TYPE[a.type]} skill · ${st.me.skill.cost} meter`}</small>`
+      : a.blocked ? `${TYPE[a.type]}<br><small>🔒 ${esc(a.blocked)}</small>` : TYPE[a.type];
     return `<button class="${a.kind === 'fs' ? 'FS' : a.type} ${a.kind} ${a.blocked ? 'blocked' : ''}" data-i="${i}" ${st.waiting || a.blocked ? 'disabled' : ''}>${label}</button>`;
   }).join('');
   document.querySelectorAll('#actions button').forEach(b => b.onclick = () => {
