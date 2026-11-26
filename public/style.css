@@ -511,3 +511,22 @@ img, svg { max-width: 100%; }
 #oppSide .res .cells { flex-direction: row; } #oppSide .res .w-bar .track, #oppSide .res .w-luma .track { direction: ltr; }
 .res .w-luma .lumaInfo { max-width: 200px; }
 .res .w-routine .row-ico { justify-content: center; }
+
+/* ---------- pop-out log ---------- */
+.logBtns { position: absolute; right: 8px; top: 6px; display: flex; gap: 6px; z-index: 2; }
+.logBtns .logToggle { position: static; }
+.logPop { padding: 3px 10px; font-size: 11px; }
+.logShade { display: none; position: fixed; inset: 0; background: #000a; z-index: 40; backdrop-filter: blur(2px); }
+.logShade.on { display: block; }
+.logBox.popped { position: fixed; inset: 5vh 5vw; z-index: 41; margin: 0; display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px #000c; border-color: #3a4156; animation: popIn .22s ease; }
+@keyframes popIn { from { transform: scale(.96); opacity: 0; } }
+.logBox.popped::before { content: 'Battle log'; display: block; padding: 12px 16px 8px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 13px; color: var(--accent); border-bottom: 1px solid var(--line); }
+.logBox.popped .logBtns { top: 8px; right: 10px; }
+.logBox.popped #log { max-height: none; flex: 1; overflow: auto; font-size: 13.5px; }
+.logBox.popped .lturn { font-size: 13.5px; padding: 10px 16px; } .logBox.popped .lturn h4 { font-size: 12px; }
+@media (max-width: 700px) {
+  .logBtns { position: static; justify-content: flex-end; padding: 6px 8px 0; } .logBtns .logToggle { margin: 0; }
+  .logBox.popped { inset: 0; border-radius: 0; } .logBox.popped .logBtns { position: absolute; padding: 0; }
+  .logBox.popped #log, .logBox.popped .lturn { font-size: 12.5px; }
+}

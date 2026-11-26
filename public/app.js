@@ -37,6 +37,20 @@ $('#statsBtn').onclick = () => { if (lastStats) { renderStats(lastStats); $('#st
 $('#rematchBtn').onclick = () => socket.emit('rematch');
 $('#newBtn').onclick = () => { myPick = null; socket.emit('newFighters'); };
 $('#logToggle').onclick = () => { const c = $('#logBox').classList.toggle('collapsed'); $('#logToggle').textContent = c ? 'Show full log ▾' : 'Hide full log ▴'; };
+// pop the log out into a large panel, and back
+let logWasCollapsed = true;
+function setLogPopped(on) {
+  const box = $('#logBox');
+  if (on) { logWasCollapsed = box.classList.contains('collapsed'); box.classList.remove('collapsed'); }
+  else box.classList.toggle('collapsed', logWasCollapsed);
+  box.classList.toggle('popped', on); $('#logShade').classList.toggle('on', on);
+  $('#logPop').textContent = on ? '⤡ Collapse' : '⤢ Pop out';
+  $('#logToggle').classList.toggle('hidden', on);
+  $('#logToggle').textContent = box.classList.contains('collapsed') ? 'Show full log ▾' : 'Hide full log ▴';
+}
+$('#logPop').onclick = () => setLogPopped(!$('#logBox').classList.contains('popped'));
+$('#logShade').onclick = () => setLogPopped(false);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#logBox').classList.contains('popped')) setLogPopped(false); });
 $('#homeBtn').onclick = () => { socket.emit('leave'); myPick = null; resetBattle(); show('home'); };
 
 function resetBattle() { shown = null; queued = null; animating = false; lastAnimTurn = 0; logTurnsShown = 0; $('#log').innerHTML = ''; }
