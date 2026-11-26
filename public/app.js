@@ -239,6 +239,11 @@ socket.on('state', st => {
 
 
 // ---------- post-battle stats ----------
+function mechList(p, side, player) {
+  const u = Object.entries(p.unique || {}).filter(([, v]) => v).sort((a, b) => b[1] - a[1]);
+  return `<div class="mech"><div class="mechHead">${img(side.art, side.name)}<div><div class="pname">${esc(player)}</div><b>${esc(side.name)}</b></div></div>
+    ${u.length ? u.map(([k, v]) => `<div class="mrow"><span>${esc(k)}</span><b>${v}</b></div>`).join('') : '<div class="small">No special mechanics came into play this match.</div>'}</div>`;
+}
 function renderStats(st) {
   const S = st.stats, me = st.seat, op = 1 - me, P = S.players;
   const sides = [st.me, st.opp], idx = [me, op];
@@ -284,6 +289,8 @@ function renderStats(st) {
     <h3 class="sh">HP over time</h3>
     <svg class="hpchart" viewBox="0 0 ${W} ${H}">${grid}${ticks}${line(me, 'l1')}${line(op, 'l2')}</svg>
     <div class="legend"><span class="k1"></span>${esc(names[0])} (${sides[0].name}) <span class="k2"></span>${esc(names[1])} (${sides[1].name})</div>
+    <h3 class="sh">Fighter mechanics</h3>
+    <div class="mechs">${[0, 1].map(i => mechList(P[idx[i]], sides[i], names[i])).join('')}</div>
     <h3 class="sh">Action mix</h3>
     <div class="mixes"><div><div class="small">${esc(names[0])}</div>${mix(P[me])}</div><div><div class="small">${esc(names[1])}</div>${mix(P[op])}</div></div>`;
 }

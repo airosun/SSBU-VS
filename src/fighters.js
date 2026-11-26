@@ -117,7 +117,7 @@ def('link', 'Link', {
 // 4 Samus
 def('samus', 'Samus', {
   onTurnEnd: c => { if (c.res !== 'win') c.me.mem.cs = Math.min(5, (c.me.mem.cs || 0) + 1); },
-  skill: { name: 'Charge Shot', type: 'A', cost: 2, listed: 6, bonus: c => N.samus.s + N.samus.per * (c.me.mem.cs || 0), rider: c => { c.me.mem.cs = 0; } },
+  skill: { name: 'Charge Shot', type: 'A', cost: 2, listed: 6, bonus: c => N.samus.s + N.samus.per * (c.me.mem.cs || 0), rider: c => { E.ustat(c.g, c.me, 'Charge Shot stacks fired', c.me.mem.cs || 0); c.me.mem.cs = 0; } },
   potential: p => 1.6 * (p.mem.cs || 0),
 });
 // 4e Dark Samus
@@ -134,7 +134,7 @@ def('yoshi', 'Yoshi', {
 def('kirby', 'Kirby', {
   onWin: c => { if (isG(c.act)) heal(c.me, N.kirby.p, c.g); },
   skill: { name: 'Inhale', type: 'G', cost: 2, listed: 2, bonus: () => N.kirby.s,
-    rider: c => { const os = c.opp.copy || c.opp.f.skill; if (os.name !== 'Inhale') { c.me.copy = os; E.emit(c.g, `Kirby copies ${os.name}!`); } } },
+    rider: c => { const os = c.opp.copy || c.opp.f.skill; if (os.name !== 'Inhale') { c.me.copy = os; E.emit(c.g, `Kirby copies ${os.name}!`); E.ustat(c.g, c.me, 'Skills copied'); } } },
   onSkillLose: c => { if (c.me.copy) E.emit(c.g, 'Kirby loses the copied ability.'); c.me.copy = null; },
 });
 // 7 Fox
@@ -150,7 +150,7 @@ def('pikachu', 'Pikachu', {
 });
 // 9 Luigi
 def('luigi', 'Luigi', {
-  winBonus: c => isA(c.act) && c.g.rng() < 0.2 ? N.luigi.p : 0,
+  winBonus: c => isA(c.act) && c.g.rng() < 0.2 ? (E.ustat(c.g, c.me, 'Misfires'), N.luigi.p) : 0,
   skill: { name: 'Poltergust G-00.0', type: 'G', cost: 2, listed: 3, bonus: () => N.luigi.s,
     rider: c => { const t = Math.min(1, c.opp.meter); drain(c.opp, 1, c.g); gain(c.g, c.me, 1); } },
 });
@@ -258,7 +258,7 @@ def('chrom', 'Chrom', {
 def('gnw', 'Mr. Game & Watch', {
   onTie: c => gain(c.g, c.me, 1),
   skill: { name: 'Judge', type: 'A', cost: 2, listed: 5,
-    bonus: c => { const r = 1 + Math.floor(c.g.rng() * 9); if (r === 1) selfDmg(c.me, 3, c.g); return N.gnw.s + (r === 9 ? 15 : r); } },
+    bonus: c => { const r = 1 + Math.floor(c.g.rng() * 9); E.ustat(c.g, c.me, 'Judge rolls'); if (r === 9) E.ustat(c.g, c.me, 'Judge 9s'); if (r === 1) selfDmg(c.me, 3, c.g); return N.gnw.s + (r === 9 ? 15 : r); } },
 });
 // 27 Meta Knight
 def('mk', 'Meta Knight', {
@@ -283,7 +283,7 @@ def('zss', 'Zero Suit Samus', {
 });
 // 30 Wario
 def('wario', 'Wario', {
-  winBonus: c => isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.emit(c.g, 'WARIO WAFT! Full gas released.'), N.wario.p) : 0,
+  winBonus: c => isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.emit(c.g, 'WARIO WAFT! Full gas released.'), E.ustat(c.g, c.me, 'Wario Wafts'), N.wario.p) : 0,
   onTurnEnd: c => { c.me.mem.gas = Math.min(5, (c.me.mem.gas || 0) + 1); },
   skill: { name: 'Chomp', type: 'G', cost: 2, listed: 4, bonus: () => N.wario.s, rider: c => heal(c.me, N.wario.heal, c.g) },
   potential: p => 1.5 * (p.mem.gas || 0),
@@ -292,7 +292,7 @@ def('wario', 'Wario', {
 def('snake', 'Snake', {
   hiddenMeter: true,
   onLose: c => { if (c.me.mem.c4) { c.me.mem.c4 = 0; selfDmg(c.opp, N.snake.c4, c.g, 'C4 detonates'); } },
-  skill: { name: 'C4', type: 'A', cost: 2, listed: 2, bonus: () => N.snake.s, rider: c => { c.me.mem.c4 = 1; } },
+  skill: { name: 'C4', type: 'A', cost: 2, listed: 2, bonus: () => N.snake.s, rider: c => { c.me.mem.c4 = 1; E.ustat(c.g, c.me, 'C4 planted'); } },
   potential: p => (p.mem.c4 ? 6 : 0),
 });
 // 32 Ike
@@ -305,7 +305,7 @@ const PT_SPEC = ['C', 'G', 'A'];
 const PIKMIN = ['red', 'blue', 'yellow', 'white', 'purple'];
 def('pt', 'Pokémon Trainer', {
   winBonus: c => c.act.type === PT_SPEC[c.me.mem.poke || 0] ? N.pt.p : 0,
-  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.emit(c.g, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); } },
+  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.emit(c.g, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); E.ustat(c.g, c.me, 'Pokémon switches'); } },
 });
 // 36 Diddy Kong
 def('diddy', 'Diddy Kong', {
@@ -332,7 +332,7 @@ def('dedede', 'King Dedede', {
 def('olimar', 'Olimar', {
   onTurnEnd: c => { const m = c.me.mem; m.pik = m.pik || 0; const pc = m.pc || [];
     if (c.res === 'win' && m.pik < 3) { m.pik++; m.pc = [...pc, PIKMIN[(Math.random() * 5) | 0]]; } else if (c.res === 'lose' && m.pik > 0) { m.pik--; m.pc = pc.slice(0, -1); } },
-  skill: { name: 'Pikmin Throw', type: 'G', cost: 2, listed: 7, bonus: c => N.olimar.s + N.olimar.per * (c.me.mem.pik || 0), rider: c => { c.me.mem.pik = 0; c.me.mem.pc = []; } },
+  skill: { name: 'Pikmin Throw', type: 'G', cost: 2, listed: 7, bonus: c => N.olimar.s + N.olimar.per * (c.me.mem.pik || 0), rider: c => { E.ustat(c.g, c.me, 'Pikmin thrown', c.me.mem.pik || 0); c.me.mem.pik = 0; c.me.mem.pc = []; } },
   potential: p => 1.5 * (p.mem.pik || 0),
 });
 // 41 Lucario
@@ -355,7 +355,7 @@ def('wolf', 'Wolf', {
 // 45 Villager
 def('villager', 'Villager', {
   winBonus: c => { const v = c.me.mem.pocket || 0; c.me.mem.pocket = 0; return v; },
-  onWin: c => { if (opSkill(c)) { const os = c.opp.copy || c.opp.f.skill; c.me.mem.pocket = Math.min(8, os.listed || 0); c.me.mem.pocketFrom = `${c.opp.f.name}'s ${os.name}`; } },
+  onWin: c => { if (opSkill(c)) { const os = c.opp.copy || c.opp.f.skill; c.me.mem.pocket = Math.min(8, os.listed || 0); E.ustat(c.g, c.me, 'Damage pocketed', c.me.mem.pocket); c.me.mem.pocketFrom = `${c.opp.f.name}'s ${os.name}`; } },
   skill: { name: 'Timber', type: 'A', cost: 2, listed: 6, bonus: c => Math.min(12, N.villager.s + 3 * (c.me.mem.tu || 0)),
     onUse: c => { c.me.mem.tuNext = (c.me.mem.tu || 0) + 1; }, rider: () => {} },
   onTurnEnd: c => { if (c.me.mem.tuNext) { c.me.mem.tu = c.me.mem.tuNext; c.me.mem.tuNext = 0; } },
@@ -364,7 +364,7 @@ def('villager', 'Villager', {
 // 46 Mega Man
 def('megaman', 'Mega Man', {
   winBonus: c => c.me.mem.wg || 0,
-  onWin: c => { if (opSkill(c)) c.me.mem.wg = Math.min(3, (c.me.mem.wg || 0) + 1); },
+  onWin: c => { if (opSkill(c)) { if ((c.me.mem.wg || 0) < 3) E.ustat(c.g, c.me, 'Weapons gotten'); c.me.mem.wg = Math.min(3, (c.me.mem.wg || 0) + 1); } },
   skill: { name: 'Leaf Shield', type: 'C', cost: 2, listed: 3, bonus: () => N.megaman.s, rider: c => setStatus(c.g, c.me, 'armor', 2, N.megaman.ar) },
   potential: p => 4 * (p.mem.wg || 0),
 });
@@ -377,14 +377,14 @@ def('wft', 'Wii Fit Trainer', {
 // 48 Rosalina & Luma
 def('rosa', 'Rosalina & Luma', {
   initMem: () => ({ luma: N.rosa.luma, down: 0 }),
-  absorb: (c, d) => { const m = c.me.mem; if (m.luma > 0) { const t = Math.min(m.luma, d); m.luma -= t; d -= t; if (m.luma === 0) { m.down = c.T; E.emit(c.g, 'Luma is knocked out! It returns in ' + N.rosa.re + ' turns.'); } } return d; },
+  absorb: (c, d) => { const m = c.me.mem; if (m.luma > 0) { const t = Math.min(m.luma, d); m.luma -= t; d -= t; if (m.luma === 0) { m.down = c.T; E.emit(c.g, 'Luma is knocked out! It returns in ' + N.rosa.re + ' turns.'); E.ustat(c.g, c.me, 'Luma knockouts'); } } return d; },
   onTurnEnd: c => { const m = c.me.mem; if (m.luma === 0 && c.T - m.down >= N.rosa.re) { m.luma = N.rosa.luma; E.emit(c.g, 'Luma returns!'); } },
   skill: { name: 'Gravitational Pull', type: 'C', cost: 2, listed: 4, bonus: () => N.rosa.s, rider: c => drain(c.opp, 1, c.g) },
   potential: p => p.mem.luma || 0,
 });
 // 49 Little Mac
 def('mac', 'Little Mac', {
-  onWin: c => { if (isC(c.act)) c.me.mem.ko = Math.min(2, (c.me.mem.ko || 0) + 1); },
+  onWin: c => { if (isC(c.act)) { if ((c.me.mem.ko || 0) < 2) E.ustat(c.g, c.me, 'KO Stars earned'); c.me.mem.ko = Math.min(2, (c.me.mem.ko || 0) + 1); } },
   vuln: c => isG(c.oppAct) ? 2 : 0,
   skill: { name: 'KO Uppercut', type: 'A', cost: p => 3 - (p.mem.ko || 0), minCost: 1, listed: 13, bonus: () => N.mac.s,
     onUse: c => { c.me.mem.ko = 0; } },
@@ -444,7 +444,7 @@ def('cloud', 'Cloud', {
   onHit: (c, d) => { const m = c.me.mem; if (m.limit) return; m.acc = (m.acc || 0) + d; if (m.acc >= 20) { m.limit = 1; m.acc = 0; E.emit(c.g, 'Cloud\'s Limit is ready!'); } },
   costMod: p => p.mem.limit ? -99 : 0,
   skill: { name: 'Cross Slash', type: 'A', cost: 2, listed: 6, bonus: c => N.cloud.s + (c.me.mem.limitUsed ? N.cloud.lim : 0),
-    onUse: c => { c.me.mem.limitUsed = c.me.mem.limit ? 1 : 0; c.me.mem.limit = 0; } },
+    onUse: c => { c.me.mem.limitUsed = c.me.mem.limit ? 1 : 0; if (c.me.mem.limit) E.ustat(c.g, c.me, 'Limit Breaks'); c.me.mem.limit = 0; } },
   potential: p => p.mem.limit ? 10 : (p.mem.acc || 0) * 0.3,
 });
 // 62 Corrin
@@ -460,7 +460,7 @@ def('bayo', 'Bayonetta', {
 // 64 Inkling
 def('inkling', 'Inkling', {
   hitBonus: c => c.me.mem.ink || 0,
-  onWin: c => { c.me.mem.ink = Math.min(3, (c.me.mem.ink || 0) + 1 + (c.act.kind === 'skill' ? 2 : 0)); },
+  onWin: c => { const b = c.me.mem.ink || 0; c.me.mem.ink = Math.min(3, b + 1 + (c.act.kind === 'skill' ? 2 : 0)); E.ustat(c.g, c.me, 'Ink applied', c.me.mem.ink - b); },
   onTurnEnd: c => { if (c.res !== 'win') c.me.mem.ink = Math.max(0, (c.me.mem.ink || 0) - 1); },
   skill: { name: 'Splat Roller', type: 'G', cost: 2, listed: 3, bonus: () => N.inkling.s },
   potential: p => 1.5 * (p.mem.ink || 0),
@@ -484,7 +484,7 @@ def('richter', 'Richter', {
 // 67 King K. Rool
 def('krool', 'King K. Rool', {
   initMem: () => ({ belly: 20, broke: 0 }),
-  reduce: (c, d) => { const m = c.me.mem; if (c.oppAct && c.oppAct.type === 'A' && m.belly > 0) { const r = Math.min(N.krool.p, d, m.belly); m.belly -= r; if (m.belly === 0) m.broke = c.T; return d - r; } return d; },
+  reduce: (c, d) => { const m = c.me.mem; if (c.oppAct && c.oppAct.type === 'A' && m.belly > 0) { const r = Math.min(N.krool.p, d, m.belly); m.belly -= r; if (m.belly === 0) { m.broke = c.T; E.emit(c.g, 'K. Rool\'s Belly Armor breaks!'); E.ustat(c.g, c.me, 'Belly Armor breaks'); } return d - r; } return d; },
   onTurnEnd: c => { const m = c.me.mem; if (m.belly === 0 && c.T - m.broke >= 5) m.belly = 20; },
   skill: { name: 'Gut Check', type: 'C', cost: 2, listed: 5, bonus: () => N.krool.s, rider: c => { c.me.mem.belly = 20; } },
   potential: p => (p.mem.belly || 0) * 0.3,
@@ -507,7 +507,7 @@ def('plant', 'Piranha Plant', {
 // 71 Joker
 const arsene = (p, T) => (p.mem.ars || 0) >= T;
 def('joker', 'Joker', {
-  onHit: (c, d) => { const m = c.me.mem; if (arsene(c.me, c.T + 1)) return; m.acc = (m.acc || 0) + d; if (m.acc >= 30) { m.acc = 0; m.ars = c.T + 4; E.emit(c.g, 'Joker summons Arsene for 4 turns!'); } },
+  onHit: (c, d) => { const m = c.me.mem; if (arsene(c.me, c.T + 1)) return; m.acc = (m.acc || 0) + d; if (m.acc >= 30) { m.acc = 0; m.ars = c.T + 4; E.emit(c.g, 'Joker summons Arsene for 4 turns!'); E.ustat(c.g, c.me, 'Arsene summons'); } },
   winBonus: c => arsene(c.me, c.T) ? N.joker.p : 0,
   costMod: (p, o, g) => arsene(p, g.T) ? -1 : 0,
   skill: { name: "Rebel's Guard", type: 'C', cost: 2, listed: 3, bonus: c => N.joker.s + (arsene(c.me, c.T) ? N.joker.x : 0) },
@@ -517,7 +517,7 @@ def('joker', 'Joker', {
 def('hero', 'Hero', {
   winBonus: c => Math.min(3, Math.floor((c.T - 1) / 5)),
   skill: { name: 'Command Selection', type: 'A', cost: 2, listed: 7,
-    bonus: c => { const r = Math.floor(c.g.rng() * 4); c.me.mem.spell = r;
+    bonus: c => { const r = Math.floor(c.g.rng() * 4); c.me.mem.spell = r; E.ustat(c.g, c.me, `${['Kaboom', 'Sizz', 'Psyche Up', 'Thwack'][r]} cast`);
       const b = [10, 5, 3, 3][r] + N.hero.s; return r === 3 && c.opp.hp < 25 ? 999 : b; },
     rider: c => { const r = c.me.mem.spell; if (r === 1) burn(c.g, c.opp, 2, 2); if (r === 2) charge(c.me, 8, c.g); } },
 });
@@ -539,7 +539,7 @@ def('byleth', 'Byleth', {
   onTurnEnd: c => {
     const m = c.me.mem; if (m.dp || c.res !== 'lose' || c.me.dmgTurn <= 0) return;
     const fire = m.dpArmed === undefined ? (c.me.dmgTurn >= N.byleth.thr || c.me.hp <= 0) : m.dpArmed;
-    if (fire) { m.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.emit(c.g, `Divine Pulse! Byleth undoes ${u} damage.`); }
+    if (fire) { m.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.emit(c.g, `Divine Pulse! Byleth undoes ${u} damage.`); E.ustat(c.g, c.me, 'Damage undone by Divine Pulse', u); }
   },
   skill: { name: 'Sword of the Creator', type: 'G', cost: 2, listed: 5, bonus: () => N.byleth.s, rider: c => setStatus(c.g, c.opp, 'lock', 1, 'C') },
 });
@@ -551,7 +551,7 @@ def('minmin', 'Min Min', {
 // 77 Steve
 def('steve', 'Steve', {
   winBonus: c => c.me.mem.tier || 0,
-  onTurnEnd: c => { if (turnsDiv(c.T, 4) && (c.me.mem.tier || 0) < 3) { c.me.mem.tier = (c.me.mem.tier || 0) + 1; E.emit(c.g, `Steve crafts ${['', 'Stone', 'Iron', 'Diamond'][c.me.mem.tier]} tools.`); } },
+  onTurnEnd: c => { if (turnsDiv(c.T, 4) && (c.me.mem.tier || 0) < 3) { c.me.mem.tier = (c.me.mem.tier || 0) + 1; E.emit(c.g, `Steve crafts ${['', 'Stone', 'Iron', 'Diamond'][c.me.mem.tier]} tools.`); E.ustat(c.g, c.me, 'Tool upgrades'); } },
   onSkillLose: c => { c.me.mem.tier = Math.max(0, (c.me.mem.tier || 0) - 1); },
   skill: { name: 'Minecart', type: 'G', cost: 2, listed: 6, bonus: () => N.steve.s },
   potential: p => 4 * (p.mem.tier || 0),
@@ -567,7 +567,7 @@ const isP = p => (p.mem.form || 'P') === 'P';
 def('pyra', 'Pyra / Mythra', {
   winBonus: c => isP(c.me) ? N.pyra.p : 0,
   onWin: c => { if (!isP(c.me)) gain(c.g, c.me, 1); },
-  onTurnEnd: c => { if (c.act.kind === 'skill') { c.me.mem.form = isP(c.me) ? 'M' : 'P'; E.emit(c.g, `Aegis Swap: ${isP(c.me) ? 'Pyra' : 'Mythra'} takes over.`); } },
+  onTurnEnd: c => { if (c.act.kind === 'skill') { c.me.mem.form = isP(c.me) ? 'M' : 'P'; E.emit(c.g, `Aegis Swap: ${isP(c.me) ? 'Pyra' : 'Mythra'} takes over.`); E.ustat(c.g, c.me, 'Aegis Swaps'); } },
   skill: { name: 'Prominence Revolt / Foresight', type: p => isP(p) ? 'A' : 'C', cost: 2, listed: 7,
     bonus: c => N.pyra.s + (isP(c.me) ? N.pyra.sP : N.pyra.sM), rider: c => { if (!isP(c.me)) charge(c.me, 4, c.g); } },
 });
@@ -578,9 +578,9 @@ def('kazuya', 'Kazuya', {
 });
 // 82 Sora
 def('sora', 'Sora', {
-  onLethal: c => { if (!c.me.mem.sc && c.me.hp + c.me.dmgTurn >= N.sora.req) { c.me.mem.sc = 1; c.me.hp = 1; E.emit(c.g, 'Second Chance! Sora hangs on with 1 HP.'); } },
+  onLethal: c => { if (!c.me.mem.sc && c.me.hp + c.me.dmgTurn >= N.sora.req) { c.me.mem.sc = 1; c.me.hp = 1; E.emit(c.g, 'Second Chance! Sora hangs on with 1 HP.'); E.ustat(c.g, c.me, 'Second Chance saves'); } },
   skill: { name: 'Magic Cycle', type: 'A', cost: 2, listed: 5,
-    onUse: c => { c.me.mem.sp = c.me.mem.spn || 0; c.me.mem.spn = ((c.me.mem.spn || 0) + 1) % 3; },
+    onUse: c => { c.me.mem.sp = c.me.mem.spn || 0; E.ustat(c.g, c.me, `${['Firaga', 'Blizzaga', 'Thundaga'][c.me.mem.sp]} cast`); c.me.mem.spn = ((c.me.mem.spn || 0) + 1) % 3; },
     bonus: c => N.sora.x + (c.me.mem.sp === 2 ? N.sora.th : N.sora.s),
     rider: c => { const s = c.me.mem.sp; if (s === 0) burn(c.g, c.opp, 2, 2); if (s === 1 && c.oppAct.kind === 'basic') setStatus(c.g, c.opp, 'lock', 1, c.oppAct.type); } },
 });

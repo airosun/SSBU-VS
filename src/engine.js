@@ -40,21 +40,24 @@ function gain(g, p, n, quiet) {
   if (active(p, 'paralyze', g.T)) { if (!quiet) emit(g, `${who(g, p)} is Paralyzed and gains no meter.`); return; }
   const before = p.meter;
   p.meter = Math.min(RULES.METER_MAX, p.meter + n);
-  if (!quiet && g.src && p.meter > before) emit(g, `${who(g, p)} gains ${p.meter - before} meter (${g.src}).`);
+  if (!quiet && g.src && p.meter > before) { emit(g, `${who(g, p)} gains ${p.meter - before} meter (${g.src}).`); if (!g.srcP || g.srcP === p) ustat(g, p, `Meter from ${g.src}`, p.meter - before); }
 }
 function drain(p, n, g) {
   const t = Math.min(n, p.meter); p.meter -= t;
   if (g && t) emit(g, `${who(g, p)} loses ${t} meter${g.src ? ` (${g.src})` : ''}.`);
 }
 function stat(g, p) { return g && g.stats ? g.stats[g.p.indexOf(p)] : null; }
+// fighter-specific stat counters, shown in the post-battle "Fighter mechanics" section
+function ustat(g, p, key, n = 1) { const st = stat(g, p); if (!st || !n) return; st.unique = st.unique || {}; st.unique[key] = (st.unique[key] || 0) + n; }
 function heal(p, n, g) {
   if (p.hp <= 0) return; const b = p.hp; p.hp = Math.min(p.maxHp, p.hp + n);
-  const st = stat(g, p); if (st) st.healed += p.hp - b;
+  const st = stat(g, p); if (st) { st.healed += p.hp - b; if (g.src) ustat(g, p, `HP healed by ${g.src}`, p.hp - b); }
   if (g && p.hp > b) emit(g, `${who(g, p)} heals ${p.hp - b} HP${g.src ? ` (${g.src})` : ''}.`);
 }
 // recoil / burn / trap damage (not a "hit")
-function selfDmg(p, n, g, why) { p.hp -= n; p.dmgTurn += n; const st = stat(g, p); if (st) st.otherTaken += n; if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
-function burn(g, p, x, turns) { p.burns.push({ x, left: turns, start: g.T + 1 }); emit(g, `${who(g, p)} is Burned: ${x} damage at the end of the next ${turns > 1 ? turns + ' turns' : 'turn'}${g.src ? ` (${g.src})` : ''}.`); }
+function selfDmg(p, n, g, why, owner) { p.hp -= n; p.dmgTurn += n; const st = stat(g, p); if (st) st.otherTaken += n;
+  const by = owner || (g && g.srcP); if (g && by && by !== p) ustat(g, by, why === 'Burn' ? 'Burn damage dealt' : `Damage from ${why || g.src}`, n); else if (g && g.src && why !== 'Burn') ustat(g, p, `Recoil taken (${g.src})`, n); if (g) emit(g, `${who(g, p)} takes ${n} damage (${why || g.src || 'effect'}).`); }
+function burn(g, p, x, turns) { p.burns.push({ x, left: turns, start: g.T + 1, by: g.srcP ? g.p.indexOf(g.srcP) : -1 }); emit(g, `${who(g, p)} is Burned: ${x} damage at the end of the next ${turns > 1 ? turns + ' turns' : 'turn'}${g.src ? ` (${g.src})` : ''}.`); }
 function charge(p, n, g) { if (n > p.charge) { p.charge = n; if (g) emit(g, `${who(g, p)} gains Charge ${n}: next win deals +${n}${g.src ? ` (${g.src})` : ''}.`); } }
 function weaken(p, n, g) { if (n > p.weaken) { p.weaken = n; if (g) emit(g, `${who(g, p)} is Weakened ${n}: next win deals ${n} less${g.src ? ` (${g.src})` : ''}.`); } }
 
@@ -107,55 +110,62 @@ function legalActions(g, i) {
 // ---------- hits ----------
 function hook(p, name, ...a) { const fn = p.f[name]; return fn ? (fn(...a) || 0) : 0; }
 // run a fighter hook with its passive (or skill) name as the event source
-function withSrc(g, src, fn) { const prev = g.src; g.src = src; try { return fn(); } finally { g.src = prev; } }
-function part(parts, label, v) { if (parts && v) parts.push(`${v > 0 ? '+' : '−'}${Math.abs(v)} ${label}`); }
+function withSrc(g, src, fn, owner) { const prev = g.src, prevP = g.srcP; g.src = src; if (owner) g.srcP = owner; try { return fn(); } finally { g.src = prev; g.srcP = prevP; } }
+function part(parts, label, v, owner) { if (parts && v) parts.push({ label, v, owner }); }
+const fmtPart = x => x.text || `${x.v > 0 ? '+' : '−'}${Math.abs(x.v)} ${x.label}`;
 
 function hit(g, att, def, o) {
   // o: {base, win, clash, fs, aAct, dAct, ignoreArmor}
   const c = { g, me: att, opp: def, act: o.aAct, oppAct: o.dAct, T: g.T };
   const dc = { g, me: def, opp: att, act: o.dAct, oppAct: o.aAct, T: g.T, win: o.win, clash: o.clash };
-  const parts = g.events ? [] : null;
+  const parts = (g.events || g.stats) ? [] : null;
   const AP = att.f.passiveName, DP = def.f.passiveName;
   let d = o.base, v;
   if (o.win) {
     if (o.aAct.kind === 'skill') {
       const s = skillOf(att);
-      const sn = skillName(att); v = s.bonus ? withSrc(g, sn, () => s.bonus(c)) : 0; d += v; part(parts, sn, v);
+      const sn = skillName(att); v = s.bonus ? withSrc(g, sn, () => s.bonus(c), att) : 0; d += v; part(parts, sn, v, 'a');
       if (s.ignoreArmor) o.ignoreArmor = true;
     }
-    v = withSrc(g, AP, () => hook(att, 'winBonus', c)); d += v; part(parts, AP, v);
-    if (att.charge) { d += att.charge; part(parts, 'Charge', att.charge); att.charge = 0; }
+    v = withSrc(g, AP, () => hook(att, 'winBonus', c), att); d += v; part(parts, AP, v, 'a');
+    if (att.charge) { d += att.charge; part(parts, 'Charge', att.charge, 'a'); att.charge = 0; }
     if (att.weaken) { if (!o.ignoreArmor) { d -= att.weaken; part(parts, 'Weaken', -att.weaken); } att.weaken = 0; }
     if (o.dAct.kind === 'skill') {
       const ds = skillOf(def);
       v = ds.endlag ?? def.f.endlag ?? RULES.ENDLAG; d += v; part(parts, 'Endlag', v);
-      v = hook(att, 'punishBonus', c); d += v; part(parts, AP, v);
+      v = hook(att, 'punishBonus', c); d += v; part(parts, AP, v, 'a');
     }
-    v = hook(def, 'vuln', dc); d += v; part(parts, DP, v);
-    if (att.mem.double > 0) { d *= 2; att.mem.double--; if (parts) parts.push(`×2 ${AP}`); }
+    v = hook(def, 'vuln', dc); d += v; part(parts, DP, v, 'd');
+    if (att.mem.double > 0) { const b0 = d; d *= 2; att.mem.double--; if (parts) parts.push({ text: `×2 ${AP}`, label: AP, v: b0, owner: 'a' }); }
   }
   if (o.clash) {
-    v = hook(att, 'clashDealt', c); d += v; part(parts, AP, v);
-    v = hook(def, 'clashTaken', dc); if (v < -50) { if (parts) parts.push(`blocked by ${DP}`); } else part(parts, DP, v); d += v;
+    v = hook(att, 'clashDealt', c); d += v; part(parts, AP, v, 'a');
+    v = hook(def, 'clashTaken', dc); if (v < -50) { if (parts) parts.push({ text: `blocked by ${DP}`, label: DP, v: -Math.max(0, d), owner: 'd' }); } else part(parts, DP, v, 'd'); d += v;
   }
-  v = hook(att, 'hitBonus', c); d += v; part(parts, AP, v);
+  v = hook(att, 'hitBonus', c); d += v; part(parts, AP, v, 'a');
   if (!o.fs) {
     if (!o.ignoreArmor) { const ar = active(def, 'armor', g.T); if (ar) { d -= ar.v; part(parts, 'Armor', -ar.v); } }
-    if (def.f.reduce) { const b = d; d = def.f.reduce(dc, d); part(parts, DP, d - b); }
-    v = hook(def, 'takeMod', dc); d += v; part(parts, DP, v);
+    if (def.f.reduce) { const b = d; d = def.f.reduce(dc, d); if (parts && d !== b) parts.push({ label: DP, v: d - b, owner: 'd', absorb: def.f.id === 'krool' }); }
+    v = hook(def, 'takeMod', dc); d += v; part(parts, DP, v, 'd');
   }
   d = Math.max(0, Math.round(d));
-  if (def.f.absorb) { const b = d; d = withSrc(g, DP, () => def.f.absorb(dc, d)); if (b !== d && parts) parts.push(`${DP} absorbs ${b - d}`); }
+  if (def.f.absorb) { const b = d; d = withSrc(g, DP, () => def.f.absorb(dc, d)); if (b !== d && parts) parts.push({ text: `${DP} absorbs ${b - d}`, label: DP, v: -(b - d), owner: 'd', absorb: true }); }
   def.hp -= d; def.dmgTurn += d;
   if (g.stats) {
     const a = stat(g, att), b = stat(g, def);
     a.dealt += d; b.hitTaken += d;
     if (d > a.biggest) { a.biggest = d; a.biggestWith = o.fs ? fsNameOf(att) : o.aAct.kind === 'skill' ? skillName(att) : o.clash ? 'Clash' : NAME[o.aAct.type]; a.biggestTurn = g.T; }
     if (o.fs) a.fsDamage += d;
+    for (const x of parts) {
+      if (x.owner === 'a' && x.v > 0 && x.label !== 'Charge') ustat(g, att, `${x.label} bonus damage`, x.v);
+      if (x.owner === 'a' && x.label === 'Charge') ustat(g, att, 'Charge bonus damage', x.v);
+      if (x.owner === 'd' && x.v < 0) ustat(g, def, x.absorb ? `Damage absorbed by ${x.label}` : `Damage blocked by ${x.label}`, -x.v);
+      if (x.owner === 'd' && x.v > 0) ustat(g, def, `Extra damage taken (${x.label})`, x.v);
+    }
   }
   if (g.events) {
     const label = o.fs ? 'FINAL SMASH' : o.clash ? 'clash' : 'hit';
-    emit(g, `${nameOf(att)}'s ${o.fs ? fsNameOf(att) : label} deals ${d} to ${nameOf(def)}${parts.length ? ` (${o.base} base ${parts.join(' ')})` : ''}.`);
+    emit(g, `${nameOf(att)}'s ${o.fs ? fsNameOf(att) : label} deals ${d} to ${nameOf(def)}${parts.length ? ` (${o.base} base ${parts.map(fmtPart).join(' ')})` : ''}.`);
   }
   if (d > 0) { gain(g, def, RULES.HIT_METER, true); if (def.f.onHit) withSrc(g, DP, () => def.f.onHit(dc, d)); }
   return d;
@@ -179,14 +189,14 @@ function fsNameOf(p) { if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P'
 function resolve(g, acts) {
   const T = g.T, P = g.p;
   const res = ['tie', 'tie'];
-  const S = (p, fn) => withSrc(g, p.f.passiveName, fn);
+  const S = (p, fn) => withSrc(g, p.f.passiveName, fn, p);
   for (let i = 0; i < 2; i++) {
     const p = P[i], o = P[1 - i], a = acts[i];
     p.dmgTurn = 0;
     if (a.kind === 'skill') {
       const cost = skillCost(g, p, o); p.meter -= cost; const s = skillOf(p);
-      emit(g, `${nameOf(p)} spends ${cost} meter on ${skillName(p)}.`);
-      if (s.onUse) withSrc(g, skillName(p), () => s.onUse({ g, me: p, opp: o, act: a, oppAct: acts[1 - i], T }));
+      emit(g, `${nameOf(p)} spends ${cost} meter on ${skillName(p)}.`); if (o.f.taxOpp) ustat(g, o, `Extra meter paid by opponent (${o.f.passiveName})`, o.f.taxOpp);
+      if (s.onUse) withSrc(g, skillName(p), () => s.onUse({ g, me: p, opp: o, act: a, oppAct: acts[1 - i], T }), p);
     } else if (a.kind === 'fs') { emit(g, `${nameOf(p)} unleashes a FINAL SMASH: ${fsNameOf(p)}!`); p.meter = 0; }
   }
   for (let i = 0; i < 2; i++) {
@@ -219,7 +229,7 @@ function resolve(g, acts) {
     const cW = { g, me: W, opp: L, act: wa, oppAct: la, T };
     const cL = { g, me: L, opp: W, act: la, oppAct: wa, T };
     hit(g, W, L, { base: RULES.BASE, win: true, aAct: wa, dAct: la });
-    if (wa.kind === 'skill') { const s = skillOf(W); if (s.rider) withSrc(g, skillName(W), () => s.rider(cW)); }
+    if (wa.kind === 'skill') { const s = skillOf(W); if (s.rider) withSrc(g, skillName(W), () => s.rider(cW), W); }
     if (W.f.onWin) S(W, () => W.f.onWin(cW));
     if (L.f.onLose) S(L, () => L.f.onLose(cL));
     if (la.kind === 'skill') { const s = skillOf(L); emit(g, `${nameOf(L)}'s ${skillName(L)} was read.`); if (s.onSkillLose) s.onSkillLose(cL); if (L.f.onSkillLose) S(L, () => L.f.onSkillLose(cL)); }
@@ -234,7 +244,7 @@ function resolve(g, acts) {
   // end of turn
   for (let i = 0; i < 2; i++) {
     const p = P[i];
-    for (const b of p.burns) if (b.start <= T && b.left > 0 && p.hp > 0) { selfDmg(p, b.x, g, 'Burn'); b.left--; }
+    for (const b of p.burns) if (b.start <= T && b.left > 0 && p.hp > 0) { selfDmg(p, b.x, g, 'Burn', b.by >= 0 ? g.p[b.by] : null); b.left--; }
     p.burns = p.burns.filter(b => b.left > 0);
   }
   for (let i = 0; i < 2; i++) {
@@ -252,4 +262,4 @@ function resolve(g, acts) {
 }
 
 module.exports = { RULES, BEATS, makeRng, setStatus, active, gain, drain, heal, selfDmg, burn, charge, weaken,
-  newGame, cloneGame, emit, withSrc, fsNameOf, nameOf, skillName, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
+  newGame, cloneGame, emit, withSrc, fsNameOf, nameOf, skillName, ustat, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };

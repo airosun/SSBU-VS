@@ -446,3 +446,9 @@ img, svg { max-width: 100%; }
 }
 #actions button.blocked { background: #2a2f3f !important; color: #7d849b; box-shadow: none; opacity: 1; cursor: not-allowed; filter: grayscale(1); }
 #actions button.blocked small { opacity: 1; }
+.mechs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mech { background: #161925; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.mechHead { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; } .mechHead .portrait { width: 36px; height: 36px; border-radius: 6px; }
+.mrow { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-top: 1px solid #232838; font-size: 13px; }
+.mrow span { color: var(--dim); } .mrow b { color: var(--accent); }
+@media (max-width: 700px) { .mechs { grid-template-columns: 1fr; } .mrow { font-size: 12px; } }
