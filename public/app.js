@@ -59,28 +59,19 @@ socket.on('lobby', l => {
 });
 
 // ---------- side panels ----------
-function resourceHTML(r) {
-  const ready = r.ready ? ' ready' : '';
-  if (r.kind === 'bar') return `<div class="rbar${ready}"><div class="lbl"><span>${r.label}</span><span>${r.ready && r.readyText ? r.readyText : `${r.value} / ${r.max}`}</span></div>
-      <div class="track"><div style="width:${Math.min(100, 100 * r.value / r.max)}%"></div></div>${r.sub ? `<div class="rsub">${r.sub}</div>` : ''}</div>`;
-  if (r.kind === 'pips') return `<div class="${ready}"><div class="lbl"><span>${r.label}</span><span>${r.value} / ${r.max}</span></div>
-      <div class="pipwrap">${Array.from({ length: r.max }, (_, i) => `<div class="pp ${i < r.value ? 'on' : ''}"></div>`).join('')}</div>${r.sub ? `<div class="rsub">${r.sub}</div>` : ''}</div>`;
-  if (r.kind === 'flag') return `<div class="lbl"><span>${r.label}</span><span class="badge ${r.on ? 'on' : ''}">${r.value}</span></div>`;
-  return `<div class="rtext ${r.ready ? 'readyT' : ''}"><div class="lbl"><span>${r.label}</span><b>${esc(r.value)}</b></div>${r.sub ? `<div class="rsub">${r.sub}</div>` : ''}</div>`;
-}
 function sideHTML(s, player, mine) {
   const pct = 100 * s.hp / s.maxHp;
   const meter = s.meter === null ? '<div class="hiddenMeter">Meter hidden (Cardboard Box)</div>'
     : `<div class="smeter ${s.meter >= s.meterMax ? 'full' : ''}">${Array.from({ length: s.meterMax }, (_, i) => `<div class="seg ${i < s.meter ? 'on' : ''}"></div>`).join('')}</div>`;
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
-    <div class="who">${img(s.art, s.name)}<div><div class="cname">${s.name}</div>
-      <div class="small">${s.passive} · ${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</div></div></div>
+    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div><div><div class="cname">${s.name}</div>
+      <div class="small">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
-    <div class="hp"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>
+    <div class="hp ${s.fx.hp ? 'fx-' + s.fx.hp : ''}"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>
     <div class="lbl"><span>Smash Meter</span><span class="mnum">${s.meter === null ? '?' : `${s.meter} / ${s.meterMax}`}</span></div>
     ${meter}
-    ${s.resources.length ? `<div class="res">${s.resources.map(resourceHTML).join('')}</div>` : ''}
+    ${s.resources.length ? `<div class="res">${s.resources.map(W.render).join('')}</div>` : ''}
     ${s.statuses.length ? `<div class="chips">${s.statuses.map(x => `<span class="chip">${x}</span>`).join('')}</div>` : ''}`;
 }
 function drawSides(st) {

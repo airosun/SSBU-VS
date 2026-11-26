@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>SSBU-VS · Resource preview</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { padding: 20px; } h1 { font-size: 20px; margin: 0 0 4px; } .note { color: var(--dim); margin-bottom: 18px; }
+  .f { margin-bottom: 18px; } .f h2 { font-size: 15px; margin: 0 0 8px; color: var(--accent); }
+  .states { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .st h3 { font-size: 12px; color: var(--dim); margin: 0 0 4px; font-weight: 600; }
+  .st .side { padding: 12px; } .st .side .portrait { width: 64px; height: 64px; } .st .cname { font-size: 18px; }
+</style></head>
+<body>
+<h1>Resource widgets — every fighter, every state</h1>
+<div class="note">Generated from the real game code (<code>node tools/preview-data.js</code>). Left-side layout shown; the opponent's side is mirrored.</div>
+<div id="out"></div>
+<script src="widgets.js"></script>
+<script>
+const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab' };
+const initials = n => n.split(/[\s/&.-]+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+const img = (a, n) => `<div class="portrait"><img src="images/${a}.png" alt="" onerror="this.remove()"><span>${initials(n)}</span></div>`;
+function side(s) {
+  const pct = 100 * s.hp / s.maxHp;
+  return `<div class="side">
+    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div><div><div class="cname">${s.name}</div>
+    <div class="small"><span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span> ${s.skill.cost}</span></div></div></div>
+    <div class="lbl"><span>HP</span><span>${s.hp} / ${s.maxHp}</span></div>
+    <div class="hp ${s.fx.hp ? 'fx-' + s.fx.hp : ''}"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>
+    ${s.resources.length ? `<div class="res">${s.resources.map(W.render).join('')}</div>` : ''}</div>`;
+}
+fetch('preview-data.json').then(r => r.json()).then(list => {
+  document.getElementById('out').innerHTML = list.map(f => `<div class="f"><h2>${f.name}</h2><div class="states">${
+    f.states.map(s => `<div class="st"><h3>${s.label}</h3>${side(s.side === 'opp' ? s.state.opp : s.state.me)}</div>`).join('')}</div></div>`).join('');
+});
+</script>
+</body></html>

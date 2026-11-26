@@ -205,6 +205,7 @@ def('zelda', 'Zelda', {
 });
 // 18 Dr. Mario
 def('doc', 'Dr. Mario', {
+  initMem: () => { const c = ['blue', 'white', 'red', 'yellow'].sort(() => Math.random() - 0.5); return { pill: c.slice(0, 2) }; },
   onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp <= 40 && !c.me.mem.mv) { c.me.mem.mv = 1; heal(c.me, N.doc.p, c.g); } },
   skill: { name: 'Super Sheet', type: 'C', cost: 2, listed: 4, bonus: () => N.doc.s, rider: c => setStatus(c.g, c.opp, 'stagger', 1) },
 });
@@ -301,6 +302,7 @@ def('ike', 'Ike', {
 });
 // 33 Pokémon Trainer
 const PT_SPEC = ['C', 'G', 'A'];
+const PIKMIN = ['red', 'blue', 'yellow', 'white', 'purple'];
 def('pt', 'Pokémon Trainer', {
   winBonus: c => c.act.type === PT_SPEC[c.me.mem.poke || 0] ? N.pt.p : 0,
   skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.emit(c.g, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); } },
@@ -328,8 +330,9 @@ def('dedede', 'King Dedede', {
 });
 // 40 Olimar
 def('olimar', 'Olimar', {
-  onTurnEnd: c => { const m = c.me.mem; m.pik = m.pik || 0; if (c.res === 'win') m.pik = Math.min(3, m.pik + 1); else if (c.res === 'lose') m.pik = Math.max(0, m.pik - 1); },
-  skill: { name: 'Pikmin Throw', type: 'G', cost: 2, listed: 7, bonus: c => N.olimar.s + N.olimar.per * (c.me.mem.pik || 0), rider: c => { c.me.mem.pik = 0; } },
+  onTurnEnd: c => { const m = c.me.mem; m.pik = m.pik || 0; const pc = m.pc || [];
+    if (c.res === 'win' && m.pik < 3) { m.pik++; m.pc = [...pc, PIKMIN[(Math.random() * 5) | 0]]; } else if (c.res === 'lose' && m.pik > 0) { m.pik--; m.pc = pc.slice(0, -1); } },
+  skill: { name: 'Pikmin Throw', type: 'G', cost: 2, listed: 7, bonus: c => N.olimar.s + N.olimar.per * (c.me.mem.pik || 0), rider: c => { c.me.mem.pik = 0; c.me.mem.pc = []; } },
   potential: p => 1.5 * (p.mem.pik || 0),
 });
 // 41 Lucario
@@ -352,7 +355,7 @@ def('wolf', 'Wolf', {
 // 45 Villager
 def('villager', 'Villager', {
   winBonus: c => { const v = c.me.mem.pocket || 0; c.me.mem.pocket = 0; return v; },
-  onWin: c => { if (opSkill(c)) c.me.mem.pocket = Math.min(8, (c.opp.copy || c.opp.f.skill).listed || 0); },
+  onWin: c => { if (opSkill(c)) { const os = c.opp.copy || c.opp.f.skill; c.me.mem.pocket = Math.min(8, os.listed || 0); c.me.mem.pocketFrom = `${c.opp.f.name}'s ${os.name}`; } },
   skill: { name: 'Timber', type: 'A', cost: 2, listed: 6, bonus: c => Math.min(12, N.villager.s + 3 * (c.me.mem.tu || 0)),
     onUse: c => { c.me.mem.tuNext = (c.me.mem.tu || 0) + 1; }, rider: () => {} },
   onTurnEnd: c => { if (c.me.mem.tuNext) { c.me.mem.tu = c.me.mem.tuNext; c.me.mem.tuNext = 0; } },

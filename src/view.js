@@ -6,59 +6,67 @@ const { N } = require('./fighters');
 const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 const POKE = ['Squirtle', 'Ivysaur', 'Charizard'];
 
-// Resource widgets. kind: 'bar' (value/max), 'pips' (value/max), 'text', 'flag' (on/off)
-const bar = (label, value, max, extra = {}) => ({ kind: 'bar', label, value, max, ...extra });
-const pips = (label, value, max, extra = {}) => ({ kind: 'pips', label, value, max, ...extra });
-const text = (label, value, extra = {}) => ({ kind: 'text', label, value, ...extra });
-const flag = (label, on, onText, offText) => ({ kind: 'flag', label, on: !!on, value: on ? onText : offText });
+// Resource widgets, one spec per fighter resource. The client draws each `kind` (public/widgets.js).
 const nextMultiple = (T, n) => Math.ceil(T / n) * n;
+const FRUITS = ['Cherry', 'Strawberry', 'Orange', 'Apple', 'Melon', 'Galaxian', 'Bell', 'Key'];
 
 function resources(p, o, g) {
   const m = p.mem, T = g.T, R = [];
+  const once = (label, icon, state, extra = {}) => R.push({ kind: 'once', label, icon, state, ...extra });
+  const cond = (label, icon, on, hint) => R.push({ kind: 'cond', label, icon, on: !!on, hint });
+  const countdown = (label, icon, every, what) => R.push({ kind: 'countdown', label, icon, now: T % every === 0, turns: nextMultiple(T, every) - T, what });
   switch (p.f.id) {
-    case 'samus': R.push(bar('Charge Shot', m.cs || 0, 5, { ready: (m.cs || 0) >= 5 })); break;
-    case 'wario': R.push(bar('Waft', m.gas || 0, 5, { ready: (m.gas || 0) >= 5, readyText: 'FULL — next Attack win' })); break;
-    case 'olimar': R.push(pips('Pikmin', m.pik || 0, 3)); break;
-    case 'pt': R.push(text('Active Pokémon', POKE[m.poke || 0], { sub: `${['Counter', 'Grab', 'Attack'][m.poke || 0]} wins +${N.pt.p}` })); break;
-    case 'mac': R.push(pips('KO Stars', m.ko || 0, 2, { sub: `KO Uppercut costs ${Math.max(1, 3 - (m.ko || 0))}` })); break;
-    case 'rosa': R.push(m.luma > 0 ? bar('Luma', m.luma, N.rosa.luma) : text('Luma', `Back in ${Math.max(0, N.rosa.re - (T - 1 - m.down))} turns`, { dim: true })); break;
-    case 'krool': R.push(bar('Belly Armor', m.belly, 20, { sub: m.belly ? '' : `Reforms in ${Math.max(0, 5 - (T - 1 - m.broke))} turns` })); break;
-    case 'inkling': R.push(pips('Ink on opponent', m.ink || 0, 3)); break;
-    case 'steve': R.push(pips('Tools', m.tier || 0, 3, { sub: ['Wood', 'Stone', 'Iron', 'Diamond'][m.tier || 0] + ` · next upgrade turn ${nextMultiple(T, 4)}` })); break;
-    case 'banjo': R.push(pips('Golden Feathers', m.feathers ?? 5, 5)); break;
-    case 'megaman': R.push(pips('Weapon Get', m.wg || 0, 3)); break;
-    case 'cloud': R.push(m.limit ? bar('Limit', 20, 20, { ready: true, readyText: 'LIMIT BREAK READY' }) : bar('Limit', m.acc || 0, 20)); break;
-    case 'joker': R.push((m.ars || 0) >= T ? bar('Arsene', m.ars - T + 1, 4, { ready: true, readyText: 'ARSENE IS OUT' }) : bar('Rebellion', m.acc || 0, 30)); break;
-    case 'pyra': R.push(text('Active', (m.form || 'P') === 'P' ? 'Pyra' : 'Mythra', { sub: (m.form || 'P') === 'P' ? 'Skill: Attack' : 'Skill: Counter' })); break;
-    case 'greninja': R.push(text('Protean', `Skill is ${TYPE[m.lb || 'A']}`)); break;
-    case 'villager': R.push(text('Pocket', m.pocket ? `+${m.pocket} stored` : 'Empty')); R.push(pips('Timber growth', Math.min(3, m.tu || 0), 3)); break;
-    case 'snake': R.push(flag('C4', m.c4, 'PLANTED', 'Not planted')); break;
-    case 'ics': R.push(flag('Nana', !m.nanaLost, 'With you', 'Lost')); break;
-    case 'falcon': R.push(pips('Attack streak', Math.min(3, m.st || 0), 3)); break;
-    case 'kirby': R.push(text('Copy Ability', p.copy ? p.copy.name : 'None')); break;
-    case 'sora': R.push(text('Next spell', ['Firaga', 'Blizzaga', 'Thundaga'][m.spn || 0])); R.push(flag('Second Chance', !m.sc, 'Ready', 'Used')); break;
-    case 'pacman': R.push(bar('Bonus Fruit', Math.min(8, T - (m.lt || 0)), 8)); R.push(flag('Power Pellet', !m.ppu, 'Ready', 'Used')); break;
-    case 'hero': R.push(pips('Level', Math.min(3, Math.floor((T - 1) / 5)), 3, { sub: `next level turn ${Math.min(16, 5 * (Math.floor((T - 1) / 5) + 1) + 1)}` })); break;
-    case 'peach': R.push(text('Turnip Pull', T % 4 === 0 ? 'STITCHFACE THIS TURN' : `Stitchface on turn ${nextMultiple(T, 4)}`, { ready: T % 4 === 0 })); break;
-    case 'tlink': R.push(text('Bomb Bag', T % 3 === 0 ? 'BOMB THIS TURN' : `Bomb on turn ${nextMultiple(T, 3)}`, { ready: T % 3 === 0 })); break;
-    case 'isabelle': R.push(text('Lloid Trap', T % 4 === 0 ? 'ARMED THIS TURN' : `Armed on turn ${nextMultiple(T, 4)}`, { ready: T % 4 === 0 })); break;
-    case 'wft': { const h = p.hist.slice(-3).map(x => x.type).filter(t => t !== 'FS'); R.push(m.br ? flag('Balanced Routine', true, 'READY', '') : pips('Routine', new Set(h).size, 3)); break; }
-    case 'shulk': R.push(text('Monado Art', p.mem.artPick ? p.mem.artPick[0].toUpperCase() + p.mem.artPick.slice(1) : 'Auto')); break;
-    case 'zelda': R.push(flag('Phantom Guard', !m.pg, 'Ready', 'Used')); break;
-    case 'doc': R.push(flag('Megavitamin', !m.mv, 'Ready', 'Used')); break;
-    case 'chrom': R.push(flag('Exalted Prince', !m.ep, 'Ready', 'Used')); break;
-    case 'richter': R.push(flag("Hunter's Resolve", m.hr !== 2, m.hr === 1 ? 'ACTIVE' : 'Ready', 'Used')); break;
-    case 'byleth': R.push(flag('Divine Pulse', !m.dp, 'Ready', 'Used')); break;
-    case 'kazuya': R.push(flag('Rage', p.hp < 35, 'RAGE', 'Below 35 HP')); R.push(flag('Rage Drive', !m.rd, 'Ready', 'Used')); break;
-    case 'seph': R.push(flag('One-Winged Angel', o.hp - p.hp >= 30, 'ACTIVE', 'Inactive')); break;
-    case 'terry': R.push(flag('GO!', p.hp < 40, 'ACTIVE', 'Below 40 HP')); break;
-    case 'dsamus': R.push(flag('Phazon Overload', p.meter >= 4, 'ACTIVE', 'Needs 4 meter')); break;
-    case 'link': R.push(flag('Sword Beam', p.hp >= 80, 'ACTIVE', 'Needs 80 HP')); break;
-    case 'daisy': R.push(flag('Sarasaland Spirit', p.hp < 50, 'ACTIVE', 'Below 50 HP')); break;
-    case 'wolf': R.push(flag('Predator', o.hp < 50, 'ACTIVE', 'Opponent above 50')); break;
-    case 'lucario': R.push(pips('Aura', Math.min(4, Math.floor((p.maxHp - p.hp) / 20)), 4)); break;
+    case 'samus': R.push({ kind: 'segbar', style: 'samus', label: 'Charge Shot', value: m.cs || 0, max: 5 }); break;
+    case 'wario': R.push({ kind: 'segbar', style: 'waft', label: 'Waft', value: m.gas || 0, max: 5 }); break;
+    case 'inkling': R.push({ kind: 'segbar', style: 'ink', label: 'Ink on opponent', value: m.ink || 0, max: 3 }); break;
+    case 'cloud': R.push({ kind: 'bar', style: 'limit', label: 'Limit', value: m.limit ? 20 : m.acc || 0, max: 20, text: m.limit ? 'LIMIT BREAK READY' : null }); break;
+    case 'joker': R.push((m.ars || 0) >= T
+      ? { kind: 'bar', style: 'arsene', label: 'Arsene', value: m.ars - T + 1, max: 4, text: `ARSENE · ${m.ars - T + 1} turns left` }
+      : { kind: 'bar', style: 'rebellion', label: 'Rebellion', value: m.acc || 0, max: 30 }); break;
+    case 'rosa': R.push({ kind: 'luma', hp: m.luma, max: N.rosa.luma, back: m.luma > 0 ? 0 : Math.max(0, N.rosa.re - (T - 1 - m.down)) }); break;
+    case 'krool': R.push({ kind: 'belly', value: m.belly, max: 20, back: m.belly ? 0 : Math.max(0, 5 - (T - 1 - m.broke)) }); break;
+    case 'pacman': { const n = Math.min(8, T - (m.lt || 0)); R.push({ kind: 'fruit', idx: n - 1, name: FRUITS[n - 1], bonus: n });
+      once('Power Pellet', 'pellet', m.ppu ? 'used' : 'ready'); break; }
+    case 'banjo': R.push({ kind: 'icons', label: 'Golden Feathers', icon: 'img:golden_feather', value: m.feathers ?? 5, max: 5, mode: 'remove' }); break;
+    case 'mac': R.push({ kind: 'icons', label: 'KO Stars', icon: 'star', value: m.ko || 0, max: 2, color: '#e5413a' }); break;
+    case 'megaman': R.push({ kind: 'icons', label: 'Weapon Get', icon: 'dot', value: m.wg || 0, max: 3, color: '#ffd23f' }); break;
+    case 'lucario': R.push({ kind: 'icons', label: 'Aura', icon: 'flame', value: Math.min(4, Math.floor((p.maxHp - p.hp) / 20)), max: 4, color: '#3d8bfd' }); break;
+    case 'falcon': R.push({ kind: 'icons', label: 'Attack streak', icon: 'tally', value: Math.min(3, m.st || 0), max: 3, color: '#ff7a1a' }); break;
+    case 'olimar': R.push({ kind: 'pikmin', label: 'Pikmin', colors: (m.pc || []).slice(0, m.pik || 0), max: 3 }); break;
+    case 'villager': R.push({ kind: 'villager', saplings: Math.min(3, m.tu || 0), max: 3, pocket: m.pocket || 0, from: m.pocketFrom || '' }); break;
+    case 'steve': R.push({ kind: 'tier', tier: m.tier || 0, names: ['Wood', 'Stone', 'Iron', 'Diamond'], next: (m.tier || 0) < 3 ? nextMultiple(T, 4) : null }); break;
+    case 'hero': { const lv = Math.min(3, Math.floor((T - 1) / 5));
+      R.push({ kind: 'hero', level: lv, xp: lv >= 3 ? 5 : (T - 1) % 5, xpMax: 5, levelUp: T > 1 && (T - 1) % 5 === 0 && (T - 1) / 5 <= 3 }); break; }
+    case 'wft': { const h = p.hist.slice(-3).map(x => x.type).filter(t => t !== 'FS'); R.push({ kind: 'routine', acts: h, ready: !!m.br }); break; }
+    case 'sora': R.push({ kind: 'spell', spell: ['firaga', 'blizzaga', 'thundaga'][m.spn || 0] });
+      once('Second Chance', 'img:sora-icon', m.sc ? 'used' : 'ready'); break;
+    case 'shulk': R.push({ kind: 'art', art: p.mem.artPick || null }); break;
+    case 'ics': once('Nana', 'img:ice-climbers-icon', m.nanaLost ? 'used' : 'ready', { readyText: 'With you', usedText: 'Lost' }); break;
+    case 'peach': countdown('Turnip Pull', 'img:stitch', 4, 'Stitchface'); break;
+    case 'tlink': countdown('Bomb Bag', 'img:bomb', 3, 'Bomb'); break;
+    case 'isabelle': countdown('Lloid Trap', 'img:lloid', 4, 'Lloid Rocket'); break;
+    case 'zelda': once('Phantom Guard', 'shield', m.pg ? 'used' : 'ready'); break;
+    case 'doc': once('Megavitamin', 'pill', m.mv ? 'used' : 'ready', { colors: m.pill || ['red', 'blue'] }); break;
+    case 'chrom': once('Exalted Prince', 'crown', m.ep ? 'used' : 'ready'); break;
+    case 'richter': once("Hunter's Resolve", 'cross', m.hr === 2 ? 'used' : m.hr === 1 ? 'active' : 'ready'); break;
+    case 'byleth': once('Divine Pulse', 'eye', m.dp ? 'used' : 'ready'); break;
+    case 'kazuya': once('Rage Drive', 'img:devil-gene', m.rd ? 'used' : 'ready'); break;
+    case 'seph': cond('One-Winged Angel', 'wing', o.hp - p.hp >= 30, 'Active when 30+ HP behind'); break;
+    case 'terry': cond('GO!', 'go', p.hp < 40, 'Active below 40 HP'); break;
+    case 'dsamus': cond('Phazon Overload', 'plasma', p.meter >= 4, 'Active at 4+ meter'); break;
+    case 'link': cond('Sword Beam', 'sword', p.hp >= 80, 'Active at 80+ HP'); break;
   }
   return R;
+}
+
+// Effects drawn on the HP bar or portrait rather than in the resource area
+function effects(p, o, g, viewerIsP, viewerIsO) {
+  const fx = { hp: null, marks: [] };
+  if (p.f.id === 'kazuya' && p.hp < 35) fx.hp = 'rage';
+  if (p.f.id === 'daisy' && p.hp < 50) fx.hp = 'glow';
+  if (o.f.id === 'wolf' && p.hp < 50) fx.marks.push('crosshair');          // Wolf's Predator targets this side
+  if (o.f.id === 'snake' && o.mem.c4 && viewerIsO) fx.marks.push('c4');    // only Snake's player sees the C4
+  return fx;
 }
 
 function statuses(p, g) {
@@ -83,12 +91,12 @@ function side(g, i, self) {
   const p = g.p[i], o = g.p[1 - i];
   const sk = E.skillOf(p);
   const hidden = !self && p.f.hiddenMeter;
-  let res = resources(p, o, g);
-  if (hidden) res = res.filter(r => r.label !== 'C4');
+  const res = resources(p, o, g);
   return {
     id: p.f.id, art: art(p), name: p.f.name, passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
-    skill: { name: sk.name, type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o) },
+    skill: { name: sk.name, type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, protean: p.f.id === 'greninja' },
+    fx: effects(p, o, g, self, !self),
     statuses: statuses(p, g), resources: res,
   };
 }
