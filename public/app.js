@@ -97,7 +97,7 @@ function kitHTML(s, sideKey) {
 function sideHTML(s, player, mine) {
   const pct = 100 * s.hp / s.maxHp;
   const meter = s.meter === null ? '<div class="hiddenMeter">Meter hidden (Cardboard Box)</div>'
-    : `<div class="smeter ${s.meter >= s.meterMax ? 'full' : ''}">${Array.from({ length: s.meterMax }, (_, i) => `<div class="seg ${i < s.meter ? 'on' : ''}"></div>`).join('')}</div>`;
+    : `<div class="smeter ${s.meter >= s.meterMax ? 'full' : ''}">${Array.from({ length: s.meterMax }, (_, i) => `<div class="seg ${i < s.meter ? 'on' : ''}" style="--n:${s.meterMax};--i:${i}"></div>`).join('')}</div>`;
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
     <div class="cname">${s.name}</div>

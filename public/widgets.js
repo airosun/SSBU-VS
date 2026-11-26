@@ -62,7 +62,7 @@
         <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9f5b0"/><stop offset="1" stop-color="#8fd16a"/></linearGradient></defs>
         <g clip-path="url(#${id})">${parts}</g><path d="${cloud}" fill="none" stroke="#5c6680" stroke-width="2"/></svg></div>`;
     }
-    const cells = Array.from({ length: r.max }, (_, i) => `<div class="cell ${i < r.value ? 'on' : ''}"></div>`).join('');
+    const cells = Array.from({ length: r.max }, (_, i) => `<div class="cell ${i < r.value ? 'on' : ''}" style="--n:${r.max};--i:${i}"></div>`).join('');
     return `<div class="w-seg ${r.style} ${r.value >= r.max ? 'full' : ''}">${lbl(r.label, `${r.value} / ${r.max}`)}<div class="cells">${cells}</div></div>`;
   };
   R.bar = r => `<div class="w-bar ${r.style} ${r.text ? 'ready' : ''}">${lbl(r.label, r.text || `${r.value} / ${r.max}`)}
