@@ -64,7 +64,6 @@ function effects(p, o, g, viewerIsP, viewerIsO) {
   const fx = { hp: null, marks: [] };
   if (p.f.id === 'kazuya' && p.hp < 35) fx.hp = 'rage';
   if (p.f.id === 'daisy' && p.hp < 50) fx.hp = 'glow';
-  if (p.f.id === 'joker' && (p.mem.ars || 0) >= g.T) fx.summon = 'arsene';   // Arsene appears beside Joker
   if (o.f.id === 'wolf' && p.hp < 50) fx.marks.push('crosshair');          // Wolf's Predator targets this side
   if (o.f.id === 'snake' && o.mem.c4 && viewerIsO) fx.marks.push('c4');    // only Snake's player sees the C4
   return fx;
@@ -101,7 +100,9 @@ function statuses(p, g) {
   return s;
 }
 
-function art(p) {
+function art(p, g) {
+  // Joker with Arsene summoned: swap to the art of the two of them together (per costume)
+  if (p.f.id === 'joker' && g && (p.mem.ars || 0) >= g.T) return p.skin ? `${p.skin.art}-arsene` : 'joker-arsene';
   if (p.f.id === 'pt') return `pt-${POKE[p.mem.poke || 0].toLowerCase()}`;
   if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P' ? 'pyra-pyra' : 'pyra-mythra';
   return (p.skin && p.skin.art) || p.f.id;
@@ -113,7 +114,7 @@ function side(g, i, self) {
   const hidden = !self && p.f.hiddenMeter;
   const res = resources(p, o, g);
   return {
-    id: p.f.id, art: art(p), name: E.nameOf(p), fs: E.fsNameOf(p), passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
+    id: p.f.id, art: art(p, g), name: E.nameOf(p), fs: E.fsNameOf(p), passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
     skill: { name: E.skillName(p), type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, copiedFrom: p.copy ? (require('./fighters').FIGHTERS.find(f => f.skill === p.copy) || {}).id : null, protean: p.f.id === 'greninja' },
     fx: effects(p, o, g, self, !self),
