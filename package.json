@@ -1,0 +1,14 @@
+{
+  "name": "ssbu-vs",
+  "version": "0.1.0",
+  "description": "Attack / Counter / Grab battler with the Super Smash Bros. Ultimate cast",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tools/smoke.js",
+    "sim": "node tools/sim.js 100 tools/results.json",
+    "value": "node tools/value.js tools/no-overrides.json 30"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": { "express": "^4.21.2", "socket.io": "^4.8.1" }
+}

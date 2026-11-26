@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSBU-VS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>SSBU<span>-VS</span></h1><button id="howBtn" class="ghost">How to play</button></header>
+
+<main>
+  <!-- Home -->
+  <section id="home" class="screen">
+    <label>Your name <input id="name" maxlength="16" placeholder="Player"></label>
+    <div class="row">
+      <button id="cpuBtn">Play vs CPU</button>
+      <button id="createBtn">Create room</button>
+    </div>
+    <div class="row">
+      <input id="code" maxlength="4" placeholder="Room code">
+      <button id="joinBtn" class="ghost">Join room</button>
+    </div>
+  </section>
+
+  <!-- Fighter select -->
+  <section id="select" class="screen hidden">
+    <div class="bar">
+      <div id="lobbyInfo"></div>
+      <input id="search" placeholder="Search fighters…">
+      <select id="typeFilter">
+        <option value="">All skill types</option><option>Attack</option><option>Counter</option><option>Grab</option><option value="flex">Flexible</option>
+      </select>
+    </div>
+    <div id="grid"></div>
+  </section>
+
+  <!-- Battle -->
+  <section id="battle" class="screen hidden">
+    <div class="sides">
+      <div class="side" id="meSide"></div>
+      <div class="vs">VS<div id="turn"></div></div>
+      <div class="side" id="oppSide"></div>
+    </div>
+    <div id="artPick" class="row hidden">
+      <span>Monado Art:</span>
+      <label><input type="radio" name="art" value="buster"> Buster</label>
+      <label><input type="radio" name="art" value="shield"> Shield</label>
+      <label><input type="radio" name="art" value="speed" checked> Speed</label>
+    </div>
+    <div id="actions"></div>
+    <div id="status"></div>
+    <div id="after" class="row hidden">
+      <button id="rematchBtn">Rematch</button>
+      <button id="newBtn" class="ghost">Pick new fighters</button>
+      <button id="homeBtn" class="ghost">Leave</button>
+    </div>
+    <ol id="log"></ol>
+  </section>
+</main>
+
+<dialog id="how">
+  <h2>How to play</h2>
+  <p>Each turn, both players secretly pick an action. <b>Attack</b> beats <b>Grab</b>, <b>Grab</b> beats <b>Counter</b>, <b>Counter</b> beats <b>Attack</b>. A win deals 10 damage. Attack vs Attack is a clash (5 each); Counter vs Counter or Grab vs Grab whiffs.</p>
+  <p>Basic actions and taking hits build <b>Smash Meter</b> (max 8). Spend it on your fighter's <b>skill</b> — it wins and loses like its type, beats a basic action of the same type, and adds its bonus on a win — or save all 8 for a <b>Final Smash</b> (14 damage, can't be stopped).</p>
+  <p>Your opponent can see your meter and your skill's type, so mix it up.</p>
+  <button onclick="this.closest('dialog').close()">Got it</button>
+</dialog>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

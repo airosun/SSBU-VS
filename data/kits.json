@@ -1,0 +1,1330 @@
+[
+ {
+  "id": "mario",
+  "num": "1",
+  "name": "Mario",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Versatile",
+   "text": "When you win with a different basic action than you chose last turn, +2 damage."
+  },
+  "skill": {
+   "name": "Cape",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+7 damage and Gain 1 (coins)."
+  }
+ },
+ {
+  "id": "dk",
+  "num": "2",
+  "name": "Donkey Kong",
+  "series": "Donkey Kong",
+  "passive": {
+   "name": "Cargo Carry",
+   "text": "After you win with Grab, Charge 4."
+  },
+  "skill": {
+   "name": "Giant Punch",
+   "type": "Attack",
+   "cost": 3,
+   "text": "+9 damage."
+  }
+ },
+ {
+  "id": "link",
+  "num": "3",
+  "name": "Link",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Sword Beam",
+   "text": "While you have 80+ HP, your Attack wins deal +3."
+  },
+  "skill": {
+   "name": "Remote Bomb",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+2 damage and Burn 6 (1 turn)."
+  }
+ },
+ {
+  "id": "samus",
+  "num": "4",
+  "name": "Samus",
+  "series": "Metroid",
+  "passive": {
+   "name": "Charge Beam",
+   "text": "Gain 1 Charge Shot stack each turn you lose or tie (max 5). Stacks are kept if Charge Shot loses."
+  },
+  "skill": {
+   "name": "Charge Shot",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+5 damage, plus +2 per stack, then clear all stacks."
+  }
+ },
+ {
+  "id": "dsamus",
+  "num": "4ε",
+  "name": "Dark Samus",
+  "series": "Metroid",
+  "passive": {
+   "name": "Phazon Overload",
+   "text": "While you have 4+ meter, your wins deal +1."
+  },
+  "skill": {
+   "name": "Grapple Beam",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+2 damage and Burn 2 (2 turns) (Phazon)."
+  }
+ },
+ {
+  "id": "yoshi",
+  "num": "5",
+  "name": "Yoshi",
+  "series": "Yoshi",
+  "passive": {
+   "name": "Flutter Armor",
+   "text": "You take no damage from Attack clashes."
+  },
+  "skill": {
+   "name": "Egg Lay",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+2 damage and Lock Attack."
+  }
+ },
+ {
+  "id": "kirby",
+  "num": "6",
+  "name": "Kirby",
+  "series": "Kirby",
+  "passive": {
+   "name": "Hearty Appetite",
+   "text": "Heal 3 whenever you win with Grab."
+  },
+  "skill": {
+   "name": "Inhale",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+7 damage and Copy: Inhale becomes the opponent's skill (same type, cost and effect) until it loses, then reverts to Inhale."
+  }
+ },
+ {
+  "id": "fox",
+  "num": "7",
+  "name": "Fox",
+  "series": "Star Fox",
+  "passive": {
+   "name": "Blaster Pressure",
+   "text": "In Attack clashes, the opponent takes 2 extra damage."
+  },
+  "skill": {
+   "name": "Reflector",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+9 damage. If the opponent used their skill, also deal its listed bonus damage back to them (max +8)."
+  }
+ },
+ {
+  "id": "pikachu",
+  "num": "8",
+  "name": "Pikachu",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Static",
+   "text": "When the opponent wins against you with a Grab action, they take 3 damage and are Paralyzed."
+  },
+  "skill": {
+   "name": "Thunder",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage."
+  }
+ },
+ {
+  "id": "luigi",
+  "num": "9",
+  "name": "Luigi",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Misfire",
+   "text": "Your Attack wins have a 20% chance to deal +10."
+  },
+  "skill": {
+   "name": "Poltergust G-00.0",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+6 damage, Drain 1 and Gain 1."
+  }
+ },
+ {
+  "id": "ness",
+  "num": "10",
+  "name": "Ness",
+  "series": "EarthBound",
+  "passive": {
+   "name": "PSI Magnet",
+   "text": "Whenever the opponent uses their skill, Gain 1."
+  },
+  "skill": {
+   "name": "PK Fire",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+3 damage and Burn 2 (2 turns)."
+  }
+ },
+ {
+  "id": "falcon",
+  "num": "11",
+  "name": "Captain Falcon",
+  "series": "F-Zero",
+  "passive": {
+   "name": "Show Me Your Moves!",
+   "text": "Each consecutive Attack win deals +2 more than the last (+2, +4, +6 max). Resets when you don't win."
+  },
+  "skill": {
+   "name": "Falcon Punch",
+   "type": "Attack",
+   "cost": 3,
+   "text": "+16 damage. Endlag: if Falcon Punch loses, the opponent's hit deals +5 to you."
+  }
+ },
+ {
+  "id": "jiggly",
+  "num": "12",
+  "name": "Jigglypuff",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Cute Charm",
+   "text": "When the opponent wins against you with a Grab action, they are Staggered."
+  },
+  "skill": {
+   "name": "Rest",
+   "type": "Grab",
+   "cost": 3,
+   "text": "+21 damage. You become Drowsy: next turn you are Staggered and Paralyzed."
+  }
+ },
+ {
+  "id": "peach",
+  "num": "13",
+  "name": "Peach",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Turnip Pull",
+   "text": "On turns 4, 8, 12… your win deals +8 (Stitchface)."
+  },
+  "skill": {
+   "name": "Toad",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+4 damage and Paralyze."
+  }
+ },
+ {
+  "id": "daisy",
+  "num": "13ε",
+  "name": "Daisy",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Sarasaland Spirit",
+   "text": "While below 50 HP, all your wins deal +2."
+  },
+  "skill": {
+   "name": "Daisy Bomber",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+5 damage and Heal 3."
+  }
+ },
+ {
+  "id": "bowser",
+  "num": "14",
+  "name": "Bowser",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Tough Guy",
+   "text": "Take 2 less damage from basic actions (min 1)."
+  },
+  "skill": {
+   "name": "Flying Slam",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+4 damage; +3 more if you have less HP than the opponent."
+  }
+ },
+ {
+  "id": "ics",
+  "num": "15",
+  "name": "Ice Climbers",
+  "series": "Ice Climber",
+  "passive": {
+   "name": "Nana",
+   "text": "Your wins deal +2 while Nana is with you. Nana is lost the first time you drop below 40 HP."
+  },
+  "skill": {
+   "name": "Chain Grab",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+5 damage. If you also win with Grab next turn (basic or skill), that win deals +6."
+  }
+ },
+ {
+  "id": "sheik",
+  "num": "16",
+  "name": "Sheik",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Shadow Step",
+   "text": "When both players choose Counter or both choose Grab (a whiff), the opponent takes 3 damage."
+  },
+  "skill": {
+   "name": "Vanish",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+4 damage and Weaken 5."
+  }
+ },
+ {
+  "id": "zelda",
+  "num": "17",
+  "name": "Zelda",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Phantom Guard",
+   "text": "Once per match, a single hit of 15+ damage is reduced to 10."
+  },
+  "skill": {
+   "name": "Nayru's Love",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+4 damage and Heal 2."
+  }
+ },
+ {
+  "id": "doc",
+  "num": "18",
+  "name": "Dr. Mario",
+  "series": "Dr. Mario",
+  "passive": {
+   "name": "Megavitamin",
+   "text": "Once per match, when you drop to 40 HP or less, Heal 10."
+  },
+  "skill": {
+   "name": "Super Sheet",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+3 damage and Stagger."
+  }
+ },
+ {
+  "id": "pichu",
+  "num": "19",
+  "name": "Pichu",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Live Wire",
+   "text": "Your wins deal +3, but you take Recoil 1 each time you win."
+  },
+  "skill": {
+   "name": "Skull Bash",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage and Recoil 2."
+  }
+ },
+ {
+  "id": "falco",
+  "num": "20",
+  "name": "Falco",
+  "series": "Star Fox",
+  "passive": {
+   "name": "Ace Pilot",
+   "text": "When you win with Attack, Gain 1 extra."
+  },
+  "skill": {
+   "name": "Reflector",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+8 damage and Stagger."
+  }
+ },
+ {
+  "id": "marth",
+  "num": "21",
+  "name": "Marth",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Tipper",
+   "text": "If you won the previous turn, this win deals +3."
+  },
+  "skill": {
+   "name": "Counter",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+7 damage; +5 more if the opponent used their skill."
+  }
+ },
+ {
+  "id": "lucina",
+  "num": "21ε",
+  "name": "Lucina",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Even Blade",
+   "text": "All your wins deal +1."
+  },
+  "skill": {
+   "name": "Shield Breaker",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+2 damage and Lock Counter."
+  }
+ },
+ {
+  "id": "ylink",
+  "num": "22",
+  "name": "Young Link",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Fire Arrow",
+   "text": "Your Attack wins Burn 1 (2 turns)."
+  },
+  "skill": {
+   "name": "Hookshot",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+6 damage and Lock Counter."
+  }
+ },
+ {
+  "id": "ganon",
+  "num": "23",
+  "name": "Ganondorf",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Warlock Might",
+   "text": "Your wins deal +2, but you take +2 damage when you lose to a Grab action."
+  },
+  "skill": {
+   "name": "Flame Choke",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+3 damage and Stagger."
+  }
+ },
+ {
+  "id": "mewtwo",
+  "num": "24",
+  "name": "Mewtwo",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Pressure",
+   "text": "The opponent's skill costs +1 meter."
+  },
+  "skill": {
+   "name": "Disable",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+6 damage. The opponent can't use their skill for 2 turns."
+  }
+ },
+ {
+  "id": "roy",
+  "num": "25",
+  "name": "Roy",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Hilt Strike",
+   "text": "On the turn after you win with Grab, your win deals +2."
+  },
+  "skill": {
+   "name": "Flare Blade",
+   "type": "Attack",
+   "cost": 3,
+   "text": "+11 damage; +3 more if you have less HP than the opponent."
+  }
+ },
+ {
+  "id": "chrom",
+  "num": "25ε",
+  "name": "Chrom",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Exalted Prince",
+   "text": "Once per match, when you drop below 50 HP, Gain 2."
+  },
+  "skill": {
+   "name": "Soaring Slash",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+8 damage and Paralyze."
+  }
+ },
+ {
+  "id": "gnw",
+  "num": "26",
+  "name": "Mr. Game & Watch",
+  "series": "Game & Watch",
+  "passive": {
+   "name": "Flat Line",
+   "text": "Gain 1 extra meter on every clash or whiff."
+  },
+  "skill": {
+   "name": "Judge",
+   "type": "Attack",
+   "cost": 2,
+   "text": "Roll 1–9 and deal +(roll + 4) damage. On a 9, deal +19 instead. On a 1, you also take Recoil 3."
+  }
+ },
+ {
+  "id": "mk",
+  "num": "27",
+  "name": "Meta Knight",
+  "series": "Kirby",
+  "passive": {
+   "name": "Shuttle Reflexes",
+   "text": "When you win with Counter, Gain 1 extra."
+  },
+  "skill": {
+   "name": "Dimensional Cape",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+5 damage and Charge 5."
+  }
+ },
+ {
+  "id": "pit",
+  "num": "28",
+  "name": "Pit",
+  "series": "Kid Icarus",
+  "passive": {
+   "name": "Palutena's Blessing",
+   "text": "Heal 1 at the end of each turn you win."
+  },
+  "skill": {
+   "name": "Guardian Orbitars",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+5 damage and Armor 5."
+  }
+ },
+ {
+  "id": "dpit",
+  "num": "28ε",
+  "name": "Dark Pit",
+  "series": "Kid Icarus",
+  "passive": {
+   "name": "Rebellious",
+   "text": "Your wins deal +3 if the opponent used their skill last turn."
+  },
+  "skill": {
+   "name": "Electroshock Arm",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+8 damage. Ignores Armor and Weaken."
+  }
+ },
+ {
+  "id": "zss",
+  "num": "29",
+  "name": "Zero Suit Samus",
+  "series": "Metroid",
+  "passive": {
+   "name": "Plasma Agility",
+   "text": "When you win with Grab, Gain 1 extra."
+  },
+  "skill": {
+   "name": "Paralyzer",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage, Paralyze and Stagger."
+  }
+ },
+ {
+  "id": "wario",
+  "num": "30",
+  "name": "Wario",
+  "series": "Wario",
+  "passive": {
+   "name": "Wario Waft",
+   "text": "Gain 1 Gas each turn (max 5). Your first Attack win at 5 Gas deals +10 and resets Gas to 0."
+  },
+  "skill": {
+   "name": "Chomp",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+3 damage and Heal 4."
+  }
+ },
+ {
+  "id": "snake",
+  "num": "31",
+  "name": "Snake",
+  "series": "Metal Gear",
+  "passive": {
+   "name": "Cardboard Box",
+   "text": "Your meter is hidden from the opponent."
+  },
+  "skill": {
+   "name": "C4",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+3 damage and plant C4: the next time the opponent wins against you, it detonates and deals 8 damage to them."
+  }
+ },
+ {
+  "id": "ike",
+  "num": "32",
+  "name": "Ike",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Ragnell's Weight",
+   "text": "Your Attack wins deal +3, but you take +2 in Attack clashes."
+  },
+  "skill": {
+   "name": "Counter",
+   "type": "Counter",
+   "cost": 3,
+   "text": "+12 damage."
+  }
+ },
+ {
+  "id": "pt",
+  "num": "33",
+  "name": "Pokémon Trainer",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Triple Team",
+   "text": "Your active Pokémon's specialty wins deal +3: Squirtle – Counter, Ivysaur – Grab, Charizard – Attack. Start with Squirtle."
+  },
+  "skill": {
+   "name": "Pokémon Change",
+   "type": "Counter",
+   "cost": 1,
+   "text": "+5 damage, then switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
+  }
+ },
+ {
+  "id": "diddy",
+  "num": "36",
+  "name": "Diddy Kong",
+  "series": "Donkey Kong",
+  "passive": {
+   "name": "Banana Peel",
+   "text": "If the opponent wins with the same basic action two turns in a row, they slip and take 4 damage."
+  },
+  "skill": {
+   "name": "Monkey Flip",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+7 damage and Gain 1."
+  }
+ },
+ {
+  "id": "lucas",
+  "num": "37",
+  "name": "Lucas",
+  "series": "EarthBound",
+  "passive": {
+   "name": "Late Bloomer",
+   "text": "Your skill costs 1 less (min 1) if you lost last turn."
+  },
+  "skill": {
+   "name": "PK Freeze",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage. Lock the basic action the opponent chose this turn."
+  }
+ },
+ {
+  "id": "sonic",
+  "num": "38",
+  "name": "Sonic",
+  "series": "Sonic the Hedgehog",
+  "passive": {
+   "name": "Momentum",
+   "text": "If you won last turn, Gain 1 extra this turn."
+  },
+  "skill": {
+   "name": "Spin Dash",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+7 damage; +3 more if you won last turn."
+  }
+ },
+ {
+  "id": "dedede",
+  "num": "39",
+  "name": "King Dedede",
+  "series": "Kirby",
+  "passive": {
+   "name": "Royal Heft",
+   "text": "Dedede has 110 Max HP."
+  },
+  "skill": {
+   "name": "Inhale",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+5 damage and Stagger (spit out as a star)."
+  }
+ },
+ {
+  "id": "olimar",
+  "num": "40",
+  "name": "Olimar",
+  "series": "Pikmin",
+  "passive": {
+   "name": "Pikmin Pluck",
+   "text": "Gain 1 Pikmin each turn you win (max 3); lose 1 each turn you lose."
+  },
+  "skill": {
+   "name": "Pikmin Throw",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+10 damage, +2 per Pikmin. Uses up all Pikmin."
+  }
+ },
+ {
+  "id": "lucario",
+  "num": "41",
+  "name": "Lucario",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Aura",
+   "text": "Your wins deal +1 for every 20 HP you're missing (max +4)."
+  },
+  "skill": {
+   "name": "Double Team",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+6 damage."
+  }
+ },
+ {
+  "id": "rob",
+  "num": "42",
+  "name": "R.O.B.",
+  "series": "R.O.B.",
+  "passive": {
+   "name": "Robotic",
+   "text": "You are immune to Stagger and Paralyze."
+  },
+  "skill": {
+   "name": "Robo Beam",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+9 damage."
+  }
+ },
+ {
+  "id": "tlink",
+  "num": "43",
+  "name": "Toon Link",
+  "series": "The Legend of Zelda",
+  "passive": {
+   "name": "Bomb Bag",
+   "text": "On turns 3, 6, 9… your win also Burns 3 (1 turn)."
+  },
+  "skill": {
+   "name": "Spin Attack",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+6 damage and Heal 2."
+  }
+ },
+ {
+  "id": "wolf",
+  "num": "44",
+  "name": "Wolf",
+  "series": "Star Fox",
+  "passive": {
+   "name": "Predator",
+   "text": "Your wins deal +3 against an opponent below 50 HP."
+  },
+  "skill": {
+   "name": "Wolf Flash",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+7 damage. Ignores Armor and Weaken."
+  }
+ },
+ {
+  "id": "villager",
+  "num": "45",
+  "name": "Villager",
+  "series": "Animal Crossing",
+  "passive": {
+   "name": "Pocket",
+   "text": "When you beat the opponent's skill, Pocket its listed bonus damage (max 8); your next win also deals it."
+  },
+  "skill": {
+   "name": "Timber",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+2 damage. Each later use deals +3 more than the last (max +13)."
+  }
+ },
+ {
+  "id": "megaman",
+  "num": "46",
+  "name": "Mega Man",
+  "series": "Mega Man",
+  "passive": {
+   "name": "Weapon Get",
+   "text": "Each time you beat the opponent's skill, permanently gain +1 damage on all wins (max +3)."
+  },
+  "skill": {
+   "name": "Leaf Shield",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+4 damage and Armor 4 (2 turns)."
+  }
+ },
+ {
+  "id": "wft",
+  "num": "47",
+  "name": "Wii Fit Trainer",
+  "series": "Wii Fit",
+  "passive": {
+   "name": "Balanced Routine",
+   "text": "If you've chosen all three basic actions in your last 3 turns, your next win deals +1."
+  },
+  "skill": {
+   "name": "Deep Breathing",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+2 damage, Heal 5 and Charge 3."
+  }
+ },
+ {
+  "id": "rosa",
+  "num": "48",
+  "name": "Rosalina & Luma",
+  "series": "Super Mario Galaxy",
+  "passive": {
+   "name": "Luma",
+   "text": "Luma absorbs the first 10 damage you take. Luma returns 10 turns after being knocked out."
+  },
+  "skill": {
+   "name": "Gravitational Pull",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+2 damage and Drain 1."
+  }
+ },
+ {
+  "id": "mac",
+  "num": "49",
+  "name": "Little Mac",
+  "series": "Punch-Out!!",
+  "passive": {
+   "name": "KO Meter & Glass Jaw",
+   "text": "Counter wins give a KO Star (max 2); each Star cuts KO Uppercut's cost by 1 and is spent on use. You take +2 damage when you lose to a Grab action."
+  },
+  "skill": {
+   "name": "KO Uppercut",
+   "type": "Attack",
+   "cost": 3,
+   "text": "+15 damage."
+  }
+ },
+ {
+  "id": "greninja",
+  "num": "50",
+  "name": "Greninja",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Protean",
+   "text": "Your skill's type becomes the basic action you chose last turn (starts as Attack). The opponent can see it."
+  },
+  "skill": {
+   "name": "Water Shuriken",
+   "type": "Protean",
+   "cost": 2,
+   "text": "+11 damage."
+  }
+ },
+ {
+  "id": "palutena",
+  "num": "54",
+  "name": "Palutena",
+  "series": "Kid Icarus",
+  "passive": {
+   "name": "Goddess of Light",
+   "text": "Heal 2 whenever the opponent loses with their skill."
+  },
+  "skill": {
+   "name": "Reflect Barrier",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+6 damage and Weaken 4."
+  }
+ },
+ {
+  "id": "pacman",
+  "num": "55",
+  "name": "Pac-Man",
+  "series": "Pac-Man",
+  "passive": {
+   "name": "Power Pellet",
+   "text": "Once per match, when you drop below 30 HP, your next 2 wins deal double damage."
+  },
+  "skill": {
+   "name": "Bonus Fruit",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+5 damage, plus +1 for each turn since you last threw it (Cherry +1 … Key +8, max +8)."
+  }
+ },
+ {
+  "id": "robin",
+  "num": "56",
+  "name": "Robin",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Tome Rotation",
+   "text": "After you use your skill, your next basic win deals +3."
+  },
+  "skill": {
+   "name": "Nosferatu",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+3 damage and Heal 5."
+  }
+ },
+ {
+  "id": "shulk",
+  "num": "57",
+  "name": "Shulk",
+  "series": "Xenoblade Chronicles",
+  "passive": {
+   "name": "Monado Arts",
+   "text": "Each turn, choose an Art: Buster (wins +3, take +2), Shield (take −3, wins −2) or Speed (Gain 1 extra, wins −1)."
+  },
+  "skill": {
+   "name": "Vision",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+5 damage and Charge 4."
+  }
+ },
+ {
+  "id": "bjr",
+  "num": "58",
+  "name": "Bowser Jr.",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Clown Car",
+   "text": "Take 1 less damage from all hits. Bowser Jr. has 95 Max HP."
+  },
+  "skill": {
+   "name": "Mechakoopa",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+4 damage and Burn 5 (1 turn)."
+  }
+ },
+ {
+  "id": "duckhunt",
+  "num": "59",
+  "name": "Duck Hunt",
+  "series": "Duck Hunt",
+  "passive": {
+   "name": "The Dog Laughs",
+   "text": "When the opponent loses with their skill, they take +2 extra damage."
+  },
+  "skill": {
+   "name": "Trick Shot",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+2 damage and Burn 2 (3 turns)."
+  }
+ },
+ {
+  "id": "ryu",
+  "num": "60",
+  "name": "Ryu",
+  "series": "Street Fighter",
+  "passive": {
+   "name": "Hadoken Zoning",
+   "text": "The opponent's Grab wins against you deal 2 less."
+  },
+  "skill": {
+   "name": "Shoryuken",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage. Shoryuken wins Attack clashes outright, even against Attack skills."
+  }
+ },
+ {
+  "id": "ken",
+  "num": "60ε",
+  "name": "Ken",
+  "series": "Street Fighter",
+  "passive": {
+   "name": "Rushdown",
+   "text": "Your Attack wins deal +2 if you won last turn."
+  },
+  "skill": {
+   "name": "Tatsumaki Senpukyaku",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+7 damage and Charge 3."
+  }
+ },
+ {
+  "id": "cloud",
+  "num": "61",
+  "name": "Cloud",
+  "series": "Final Fantasy",
+  "passive": {
+   "name": "Limit Break",
+   "text": "After you take 20 total damage, gain Limit: your next skill costs 0 and deals +5."
+  },
+  "skill": {
+   "name": "Cross Slash",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+7 damage."
+  }
+ },
+ {
+  "id": "corrin",
+  "num": "62",
+  "name": "Corrin",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Dragonstone Fang",
+   "text": "Your basic Grab wins deal +3."
+  },
+  "skill": {
+   "name": "Counter Surge",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+6 damage and Lock Attack."
+  }
+ },
+ {
+  "id": "bayo",
+  "num": "63",
+  "name": "Bayonetta",
+  "series": "Bayonetta",
+  "passive": {
+   "name": "Witch Twist",
+   "text": "On the turn after you win with Counter, your win deals +3."
+  },
+  "skill": {
+   "name": "Witch Time",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+4 damage and Charge 6."
+  }
+ },
+ {
+  "id": "inkling",
+  "num": "64",
+  "name": "Inkling",
+  "series": "Splatoon",
+  "passive": {
+   "name": "Ink Coverage",
+   "text": "Your wins apply 1 Ink (max 3; fades 1 per turn you don't win). The opponent takes +1 damage from your hits per Ink."
+  },
+  "skill": {
+   "name": "Splat Roller",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+5 damage and apply 2 extra Ink."
+  }
+ },
+ {
+  "id": "ridley",
+  "num": "65",
+  "name": "Ridley",
+  "series": "Metroid",
+  "passive": {
+   "name": "Big Target",
+   "text": "Your Grab wins deal +4, but you take +2 when you lose to a Counter action."
+  },
+  "skill": {
+   "name": "Space Pirate Rush",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+11 damage."
+  }
+ },
+ {
+  "id": "simon",
+  "num": "66",
+  "name": "Simon",
+  "series": "Castlevania",
+  "passive": {
+   "name": "Vampire Killer",
+   "text": "Your basic Attack wins deal +2."
+  },
+  "skill": {
+   "name": "Holy Water",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+4 damage and Burn 3 (2 turns)."
+  }
+ },
+ {
+  "id": "richter",
+  "num": "66ε",
+  "name": "Richter",
+  "series": "Castlevania",
+  "passive": {
+   "name": "Hunter's Resolve",
+   "text": "Once per match, after you drop below 30 HP, your next win deals +8."
+  },
+  "skill": {
+   "name": "Cross",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+3 damage and Burn 4 (1 turn)."
+  }
+ },
+ {
+  "id": "krool",
+  "num": "67",
+  "name": "King K. Rool",
+  "series": "Donkey Kong",
+  "passive": {
+   "name": "Belly Armor",
+   "text": "Take 4 less damage from Attack-type hits. The armor breaks after absorbing 20 and reforms 5 turns later."
+  },
+  "skill": {
+   "name": "Gut Check",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+5 damage and fully restore Belly Armor."
+  }
+ },
+ {
+  "id": "isabelle",
+  "num": "68",
+  "name": "Isabelle",
+  "series": "Animal Crossing",
+  "passive": {
+   "name": "Lloid Trap",
+   "text": "On turns 4, 8, 12…, if the opponent wins against you, they take 5 damage."
+  },
+  "skill": {
+   "name": "Fishing Rod",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+5 damage and Drain 1."
+  }
+ },
+ {
+  "id": "incin",
+  "num": "69",
+  "name": "Incineroar",
+  "series": "Pokémon",
+  "passive": {
+   "name": "Revenge",
+   "text": "When the opponent wins against you, Charge 3 (doesn't stack)."
+  },
+  "skill": {
+   "name": "Alolan Whip",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+5 damage."
+  }
+ },
+ {
+  "id": "plant",
+  "num": "70",
+  "name": "Piranha Plant",
+  "series": "Super Mario",
+  "passive": {
+   "name": "Poison Breath",
+   "text": "Your Counter wins Burn 2 (2 turns)."
+  },
+  "skill": {
+   "name": "Chewing",
+   "type": "Grab",
+   "cost": 3,
+   "text": "+9 damage."
+  }
+ },
+ {
+  "id": "joker",
+  "num": "71",
+  "name": "Joker",
+  "series": "Persona",
+  "passive": {
+   "name": "Arsene",
+   "text": "After you take 30 total damage, summon Arsene for 4 turns: your wins deal +4 and your skill costs 1 less."
+  },
+  "skill": {
+   "name": "Rebel's Guard",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+3 damage; +6 more while Arsene is out."
+  }
+ },
+ {
+  "id": "hero",
+  "num": "72",
+  "name": "Hero",
+  "series": "Dragon Quest",
+  "passive": {
+   "name": "Level Up",
+   "text": "Every 5 turns, permanently gain +1 damage on wins (max +3)."
+  },
+  "skill": {
+   "name": "Command Selection",
+   "type": "Attack",
+   "cost": 2,
+   "text": "Random spell: Kaboom (+8), Sizz (+3, Burn 2 for 2 turns), Psyche Up (+1, Charge 8) or Thwack (+1; instant KO if the opponent is below 25 HP)."
+  }
+ },
+ {
+  "id": "banjo",
+  "num": "73",
+  "name": "Banjo & Kazooie",
+  "series": "Banjo-Kazooie",
+  "passive": {
+   "name": "Jiggy Collector",
+   "text": "Every 5th win, Heal 10."
+  },
+  "skill": {
+   "name": "Wonderwing",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+4 damage. Wins Attack clashes outright. Only 5 uses per match (Golden Feathers)."
+  }
+ },
+ {
+  "id": "terry",
+  "num": "74",
+  "name": "Terry",
+  "series": "Fatal Fury",
+  "passive": {
+   "name": "GO!",
+   "text": "Below 40 HP, your skill costs 1 less and deals +3."
+  },
+  "skill": {
+   "name": "Power Dunk",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+16 damage."
+  }
+ },
+ {
+  "id": "byleth",
+  "num": "75",
+  "name": "Byleth",
+  "series": "Fire Emblem",
+  "passive": {
+   "name": "Divine Pulse",
+   "text": "Once per match, after a turn where you lose 10+ HP, undo up to 10 of that damage."
+  },
+  "skill": {
+   "name": "Sword of the Creator",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+2 damage and Lock Counter."
+  }
+ },
+ {
+  "id": "minmin",
+  "num": "76",
+  "name": "Min Min",
+  "series": "ARMS",
+  "passive": {
+   "name": "Charged ARMS",
+   "text": "If you win with the same basic action you chose last turn, +3 damage."
+  },
+  "skill": {
+   "name": "Megawatt Punch",
+   "type": "Attack",
+   "cost": 2,
+   "text": "+6 damage and Weaken 3."
+  }
+ },
+ {
+  "id": "steve",
+  "num": "77",
+  "name": "Steve",
+  "series": "Minecraft",
+  "passive": {
+   "name": "Crafting",
+   "text": "Every 4 turns, upgrade your tools: wins +1 / +2 / +3 (Stone, Iron, Diamond). Drop back one tier whenever you lose with your skill."
+  },
+  "skill": {
+   "name": "Minecart",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+7 damage."
+  }
+ },
+ {
+  "id": "seph",
+  "num": "78",
+  "name": "Sephiroth",
+  "series": "Final Fantasy",
+  "passive": {
+   "name": "One-Winged Angel",
+   "text": "While you have 30+ less HP than the opponent, your wins deal +3 and you Gain 1 extra per turn."
+  },
+  "skill": {
+   "name": "Scintilla",
+   "type": "Counter",
+   "cost": 2,
+   "text": "+11 damage; if the opponent used their skill, Drain 2."
+  }
+ },
+ {
+  "id": "pyra",
+  "num": "79",
+  "name": "Pyra / Mythra",
+  "series": "Xenoblade Chronicles 2",
+  "passive": {
+   "name": "Aegis Swap",
+   "text": "After you use your skill, swap between Pyra and Mythra. Pyra: wins deal +2. Mythra: Gain 1 extra on wins. Start as Pyra."
+  },
+  "skill": {
+   "name": "Prominence Revolt (Pyra) / Foresight (Mythra)",
+   "type": "Pyra: Attack / Mythra: Counter",
+   "cost": 2,
+   "text": "Pyra – Prominence Revolt: +6 damage. Mythra – Foresight: +3 damage and Charge 4."
+  }
+ },
+ {
+  "id": "kazuya",
+  "num": "81",
+  "name": "Kazuya",
+  "series": "Tekken",
+  "passive": {
+   "name": "Rage",
+   "text": "Below 35 HP, your wins deal +3. Your first win in Rage deals +8 more (Rage Drive)."
+  },
+  "skill": {
+   "name": "Heaven's Door",
+   "type": "Grab",
+   "cost": 2,
+   "text": "+6 damage."
+  }
+ },
+ {
+  "id": "sora",
+  "num": "82",
+  "name": "Sora",
+  "series": "Kingdom Hearts",
+  "passive": {
+   "name": "Second Chance",
+   "text": "Once per match, if you had 20+ HP at the start of the turn, survive a hit that would KO you with 1 HP."
+  },
+  "skill": {
+   "name": "Magic Cycle",
+   "type": "Attack",
+   "cost": 2,
+   "text": "Cycles each use: Firaga (+7, Burn 2 for 2 turns) → Blizzaga (+7, Lock the basic action the opponent chose) → Thundaga (+10)."
+  }
+ }
+]
