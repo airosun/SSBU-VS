@@ -42,6 +42,7 @@ const S = {
   // effects that show on the opponent's side
   wolf: [['Opponent above 50', { opp: true }], ['Crosshair on opponent', { opp: true, oppHp: 40 }]],
   snake: [['No C4', { opp: true }], ['C4 under opponent (Snake sees it)', { opp: true, mem: { c4: 1 } }]],
+  mario: [['No effects', {}], ['Every debuff', { fx: 'debuffs' }], ['Buffs', { fx: 'buffs' }]],
   kirby: [['Inhale', {}], ['Copied Thunder', { copy: 'pikachu' }]],
   greninja: [['Skill is Attack', {}], ['Skill is Grab', { mem: { lb: 'G' } }]],
 };
@@ -55,6 +56,8 @@ for (const [id, states] of Object.entries(S)) {
     Object.assign(p.mem, o.mem || {});
     if (o.hist) p.hist = o.hist.map(H);
     if (o.copy) p.copy = BY_ID[o.copy].skill;
+    if (o.fx === 'debuffs') { p.burns = [{ x: 3, left: 2, start: 1 }]; p.weaken = 4; p.st.stagger = { from: 1, until: 1 }; p.st.paralyze = { from: 1, until: 1 }; p.st.lock = { from: 1, until: 1, v: 'C' }; }
+    if (o.fx === 'buffs') { p.charge = 5; p.st.armor = { from: 1, until: 2, v: 5 }; }
     const v = view(g, 0, [null, null], null);
     return { label, side: o.opp ? 'opp' : 'me', state: { ...v, names: ['You', 'Opponent'], log: [] } };
   }) });

@@ -87,7 +87,7 @@ function sideHTML(s, player, mine) {
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
     <div class="cname">${s.name}</div>
-    <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div>
+    <div class="who"><div class="pwrap ${W.fxClass(s.effects)}">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}${W.fxBadges(s.effects)}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div>
       <div class="small hideSmall">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
     ${kitHTML(s, mine ? 'me' : 'opp')}
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>

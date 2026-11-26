@@ -70,6 +70,21 @@ function effects(p, o, g, viewerIsP, viewerIsO) {
   return fx;
 }
 
+// Structured effects for the portrait indicators (debuffs first)
+function effectList(p, g) {
+  const T = g.T, out = [];
+  const burnTotal = p.burns.reduce((a, b) => a + b.x * b.left, 0);
+  if (burnTotal) { const per = p.burns.reduce((a, b) => a + (b.start <= T + 1 ? b.x : 0), 0);
+    out.push({ id: 'burn', debuff: true, n: per || p.burns[0].x, tip: `Burn: ${p.burns.map(b => `${b.x} × ${b.left} turn${b.left > 1 ? 's' : ''}`).join(', ')} (${burnTotal} total)` }); }
+  if (p.weaken) out.push({ id: 'weaken', debuff: true, n: p.weaken, tip: `Weakened: next win deals ${p.weaken} less` });
+  if (E.active(p, 'stagger', T)) out.push({ id: 'stagger', debuff: true, tip: "Staggered: can't use their skill this turn" });
+  if (E.active(p, 'paralyze', T)) out.push({ id: 'paralyze', debuff: true, tip: 'Paralyzed: gains no meter this turn' });
+  const l = E.active(p, 'lock', T); if (l) out.push({ id: 'lock', debuff: true, n: l.v, tip: `Locked: can't choose ${TYPE[l.v]} this turn` });
+  if (p.charge) out.push({ id: 'charge', debuff: false, n: p.charge, tip: `Charge: next win deals +${p.charge}` });
+  const a = E.active(p, 'armor', T); if (a) out.push({ id: 'armor', debuff: false, n: a.v, tip: `Armor: takes ${a.v} less damage from hits (until turn ${a.until})` });
+  return out;
+}
+
 function statuses(p, g) {
   const T = g.T, s = [];
   if (E.active(p, 'stagger', T)) s.push('Staggered');
@@ -98,7 +113,7 @@ function side(g, i, self) {
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
     skill: { name: E.skillName(p), type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, copiedFrom: p.copy ? (require('./fighters').FIGHTERS.find(f => f.skill === p.copy) || {}).id : null, protean: p.f.id === 'greninja' },
     fx: effects(p, o, g, self, !self),
-    statuses: statuses(p, g), resources: res,
+    statuses: statuses(p, g), effects: effectList(p, g), resources: res,
   };
 }
 

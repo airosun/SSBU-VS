@@ -25,6 +25,10 @@
     snowflake: c => svg(`<g stroke="${c}" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7"/><path d="M9.5 3.5L12 6l2.5-2.5M9.5 20.5L12 18l2.5 2.5"/></g>`),
     bolt: c => svg(`<path d="M13.5 2L4 13.5h6.5L9 22l11-12.5h-6.7z" fill="${c}"/>`),
     rocket: c => svg(`<path d="M12 2c3 2.5 4.5 6 4.5 10l-1.8 4H9.3l-1.8-4C7.5 8 9 4.5 12 2z" fill="${c}"/><circle cx="12" cy="9.5" r="1.8" fill="#0c0e13"/><path d="M7.5 12L4 16l3.3.5M16.5 12L20 16l-3.3.5M10 17h4l-2 4.5z" fill="${c}"/>`),
+    arrowDown: c => svg(`<path d="M10 3h4v10h4.5L12 21 5.5 13H10z" fill="${c}"/>`),
+    arrowUp: c => svg(`<path d="M10 21h4V11h4.5L12 3 5.5 11H10z" fill="${c}"/>`),
+    spiral: c => svg(`<path d="M12 12m-1.5 0a1.5 1.5 0 1 0 3 0a3.5 3.5 0 1 0-7 0a5.5 5.5 0 1 0 11 0a7.5 7.5 0 1 0-15 0" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/>`),
+    lock: c => svg(`<rect x="5" y="10.5" width="14" height="10.5" rx="2" fill="${c}"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="${c}" stroke-width="2.4"/>`),
     crosshair: c => svg(`<g fill="none" stroke="${c}" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g><circle cx="12" cy="12" r="1.6" fill="${c}"/>`),
   };
   const PILL_C = { blue: '#3d8bfd', white: '#f2f2f2', red: '#e5413a', yellow: '#ffd23f' };
@@ -118,5 +122,14 @@
   const render = r => (R[r.kind] ? R[r.kind](r) : '');
   const mark = (m) => m === 'crosshair' ? `<div class="mark crosshair">${icon('crosshair', '#ff4d4d', true, 56)}</div>`
     : m === 'c4' ? `<div class="mark c4" title="C4 planted">${imgIcon('c4', true, 30)}</div>` : '';
-  window.W = { render, icon, fallback, mark, S };
+  // status indicators drawn on the portrait
+  const FX = { burn: ['flame', '#ff7a1a'], weaken: ['arrowDown', '#c27bff'], stagger: ['spiral', '#ffd23f'], paralyze: ['bolt', '#ffe94d'],
+    lock: ['lock', '#cfd5e6'], charge: ['arrowUp', '#ffd36a'], armor: ['shield', '#6cc4ff'] };
+  const LOCK_L = { A: 'A', C: 'C', G: 'G' };
+  const fxBadges = list => !list || !list.length ? '' : `<div class="fxBadges">${list.map(e => {
+    const [ic, col] = FX[e.id]; const n = e.id === 'lock' ? LOCK_L[e.n] : e.n;
+    return `<span class="fxb ${e.debuff ? 'bad' : 'good'} fx-${e.id}" title="${esc(e.tip)}" tabindex="0" onclick="this.classList.toggle('tip')">${icon(ic, col, true, 18)}${n !== undefined ? `<i>${n}</i>` : ''}<em>${esc(e.tip)}</em></span>`;
+  }).join('')}</div>`;
+  const fxClass = list => (list || []).filter(e => e.debuff).map(e => 'has-' + e.id).join(' ');
+  window.W = { render, icon, fallback, mark, S, fxBadges, fxClass };
 })();

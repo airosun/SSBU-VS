@@ -452,3 +452,29 @@ img, svg { max-width: 100%; }
 .mrow { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-top: 1px solid #232838; font-size: 13px; }
 .mrow span { color: var(--dim); } .mrow b { color: var(--accent); }
 @media (max-width: 700px) { .mechs { grid-template-columns: 1fr; } .mrow { font-size: 12px; } }
+
+/* ---------- status indicators on the portrait ---------- */
+.fxBadges { position: absolute; left: 4px; right: 4px; top: 4px; display: flex; flex-wrap: wrap; gap: 3px; z-index: 2; pointer-events: auto; }
+#oppSide .fxBadges { justify-content: flex-end; }
+.fxb { position: relative; display: inline-flex; align-items: center; gap: 1px; padding: 2px 4px 2px 2px; border-radius: 999px; background: #0c0e13e6; cursor: help; animation: fxIn .35s ease; }
+.fxb.bad { box-shadow: 0 0 0 1.5px #ff4d4d; } .fxb.good { box-shadow: 0 0 0 1.5px #3fd07a; }
+.fxb i { font-style: normal; font-weight: 800; font-size: 11px; color: #fff; line-height: 1; }
+.fxb em { display: none; position: absolute; top: 115%; left: 0; z-index: 10; width: max-content; max-width: 200px; font-style: normal; font-size: 11px; line-height: 1.3;
+  background: #0c0e13; color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 7px; box-shadow: 0 6px 16px #000a; }
+#oppSide .fxb em { left: auto; right: 0; }
+.fxb:hover em, .fxb:focus em, .fxb.tip em { display: block; }
+@keyframes fxIn { from { transform: scale(.4); opacity: 0; } }
+/* portrait tints for debuffs */
+.pwrap .portrait { transition: box-shadow .3s; }
+.pwrap.has-burn .portrait { box-shadow: inset 0 -30px 30px -10px #ff5a0099, 0 0 12px #ff6a0088; animation: burnFlick 1.1s infinite; }
+@keyframes burnFlick { 50% { box-shadow: inset 0 -38px 34px -10px #ff7a1abb, 0 0 18px #ff6a00aa; } }
+.pwrap.has-paralyze .portrait { animation: zap 1.6s infinite; } @keyframes zap { 0%, 88%, 100% { filter: none; } 90%, 94% { filter: brightness(1.6) saturate(.4); } 92% { filter: none; } }
+.pwrap.has-stagger .portrait { animation: wobble 1.4s infinite; } @keyframes wobble { 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
+.pwrap.has-weaken .portrait { box-shadow: inset 0 0 0 200px #8a2be222, 0 0 0 2px #c27bff88; }
+.pwrap.has-lock .portrait { box-shadow: 0 0 0 2px #cfd5e6aa; }
+@media (max-width: 700px) { .fxb { padding: 1px 3px 1px 1px; } .fxb .ico { width: 14px !important; height: 14px !important; } .fxb i { font-size: 9.5px; } .fxBadges { left: 2px; right: 2px; top: 2px; gap: 2px; } }
+/* badges sit in a row along the bottom edge of the portrait so they never cover the face */
+.fxBadges { top: auto; bottom: -9px; left: -4px; right: auto; flex-wrap: nowrap; width: max-content; }
+#oppSide .fxBadges { left: auto; right: -4px; }
+.pwrap:has(.fxBadges) { margin-bottom: 8px; }
+@media (max-width: 700px) { .fxBadges { bottom: -7px; left: -2px; } #oppSide .fxBadges { right: -2px; } .fxb .ico { width: 12px !important; height: 12px !important; } }
