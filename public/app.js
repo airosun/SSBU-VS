@@ -65,15 +65,20 @@ socket.on('lobby', l => {
 });
 
 // ---------- side panels ----------
-function kitHTML(s) {
+// Kit text is open by default on wide screens, folded on phones; remembers your choice per side
+const kitOpen = { me: null, opp: null };
+const wide = () => window.matchMedia('(min-width: 701px)').matches;
+function kitToggle(el) { kitOpen[el.dataset.side] = el.open; }
+function kitHTML(s, sideKey) {
   const k = BY[s.id]; if (!k) return '';
   const src = s.skill.copiedFrom && BY[s.skill.copiedFrom] ? BY[s.skill.copiedFrom].skill : k.skill;
   const type = TYPE[s.skill.type] || s.skill.type;
-  return `<div class="kitBox">
+  const open = kitOpen[sideKey] ?? wide();
+  return `<details class="kitBox" data-side="${sideKey}" ${open ? 'open' : ''} ontoggle="kitToggle(this)"><summary>Kit · ${esc(k.passive.name)} · ${esc(s.skill.name)}</summary>
     <div><b>${esc(k.passive.name)}</b> <span class="kt">Passive</span><div>${esc(k.passive.text)}</div></div>
     <div class="${s.skill.copied ? 'copiedKit' : ''}"><b>${esc(s.skill.copied ? 'Copied: ' + src.name : s.skill.name)}</b> <span class="tag ${type}">${type}</span>${s.skill.cost !== null ? ` <span class="kt">${s.skill.cost} meter</span>` : ''}<div>${esc(src.text)}</div></div>
     <div><b>${esc(s.fs)}</b> <span class="tag FS">Final Smash</span> <span class="kt">8 meter</span><div>14 damage that can't be stopped.</div></div>
-  </div>`;
+  </details>`;
 }
 function sideHTML(s, player, mine) {
   const pct = 100 * s.hp / s.maxHp;
@@ -84,7 +89,7 @@ function sideHTML(s, player, mine) {
     <div class="cname">${s.name}</div>
     <div class="who"><div class="pwrap">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div>
       <div class="small hideSmall">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
-    ${kitHTML(s)}
+    ${kitHTML(s, mine ? 'me' : 'opp')}
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
     <div class="hp ${s.fx.hp ? 'fx-' + s.fx.hp : ''}"><div class="ghost" style="width:${pct}%"></div><div class="fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}" style="width:${pct}%"></div></div>
     <div class="lbl"><span>Smash Meter</span><span class="mnum">${s.meter === null ? '?' : `${s.meter} / ${s.meterMax}`}</span></div>
