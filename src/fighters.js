@@ -355,7 +355,7 @@ def('wolf', 'Wolf', {
 // 45 Villager
 def('villager', 'Villager', {
   winBonus: c => { const v = c.me.mem.pocket || 0; c.me.mem.pocket = 0; return v; },
-  onWin: c => { if (opSkill(c)) { const os = c.opp.copy || c.opp.f.skill; c.me.mem.pocket = Math.min(8, os.listed || 0); E.ustat(c.g, c.me, 'Damage pocketed', c.me.mem.pocket); c.me.mem.pocketFrom = `${c.opp.f.name}'s ${os.name}`; } },
+  onWin: c => { if (opSkill(c)) { const os = c.opp.copy || c.opp.f.skill; c.me.mem.pocket = Math.min(8, os.listed || 0); E.ustat(c.g, c.me, 'Damage pocketed', c.me.mem.pocket); c.me.mem.pocketFrom = `${E.nameOf(c.opp)}'s ${os.name}`; } },
   skill: { name: 'Timber', type: 'A', cost: 2, listed: 6, bonus: c => Math.min(12, N.villager.s + 3 * (c.me.mem.tu || 0)),
     onUse: c => { c.me.mem.tuNext = (c.me.mem.tu || 0) + 1; }, rider: () => {} },
   onTurnEnd: c => { if (c.me.mem.tuNext) { c.me.mem.tu = c.me.mem.tuNext; c.me.mem.tuNext = 0; } },

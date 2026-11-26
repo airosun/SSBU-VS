@@ -7,7 +7,7 @@ const socket = io({ auth: { pid: PID }, reconnectionDelayMax: 3000 });
 const $ = s => document.querySelector(s);
 const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 const wait = ms => new Promise(r => setTimeout(r, ms));
-let KITS = [], BY = {}, myPick = null;
+let KITS = [], BY = {}, SKINS = {}, myPick = null, mySkin = null;
 let shown = null, lastStats = null;          // the state currently drawn on screen
 let animating = false, queued = null, lastAnimTurn = 0, logTurnsShown = 0;
 
@@ -22,6 +22,7 @@ const typeTag = t => ['Attack', 'Counter', 'Grab'].includes(t) ? `<span class="t
 fetch('/api/kits').then(r => r.json()).then(d => {
   KITS = d.kits.slice().sort((a, b) => a.name.localeCompare(b.name));
   BY = Object.fromEntries(KITS.map(k => [k.id, k]));
+  SKINS = d.skins || {};
   renderGrid();
 });
 $('#name').value = localStorage.getItem('ssbuvs-name') || '';
@@ -32,8 +33,8 @@ $('#createBtn').onclick = () => socket.emit('create', { name: nameVal() });
 $('#joinBtn').onclick = () => socket.emit('join', { name: nameVal(), code: $('#code').value });
 $('#howBtn').onclick = () => $('#how').showModal();
 $('#randomBtn').onclick = () => {
-  const k = KITS[(Math.random() * KITS.length) | 0];
-  myPick = k.id; socket.emit('pick', { id: myPick }); renderGrid();
+  const k = KITS[(Math.random() * KITS.length) | 0], l = SKINS[k.id] || [], r = (Math.random() * (l.length + 1)) | 0;
+  choose(k.id, r < l.length ? l[r].id : null);
   const el = document.querySelector(`.card[data-id="${k.id}"]`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
 };
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
@@ -67,12 +68,30 @@ function renderGrid() {
     (!t || (t === 'flex' ? !['Attack', 'Counter', 'Grab'].includes(k.skill.type) : k.skill.type === t))
   ).map(k => `
     <div class="card ${myPick === k.id ? 'picked' : ''}" data-id="${k.id}">
-      ${img(k.id, k.name)}
-      <div><h3>${k.name}</h3><div class="series">${k.series}</div></div>
+      ${img(myPick === k.id && skinById(k.id, mySkin) ? skinById(k.id, mySkin).art : k.id, k.name)}
+      <div><h3>${myPick === k.id && skinById(k.id, mySkin) ? esc(skinById(k.id, mySkin).display || k.name) : k.name}</h3><div class="series">${k.series}${SKINS[k.id] ? ` · <span class="costumes">${SKINS[k.id].length + 1} costumes</span>` : ''}</div></div>
       <div class="kit"><b>${k.passive.name}</b> — ${k.passive.text}<br>
         <b>${k.skill.name}</b> ${typeTag(k.skill.type)} · ${k.skill.cost} meter — ${k.skill.text}</div>
     </div>`).join('');
-  document.querySelectorAll('#grid .card').forEach(c => c.onclick = () => { myPick = c.dataset.id; socket.emit('pick', { id: myPick }); renderGrid(); });
+  document.querySelectorAll('#grid .card').forEach(c => c.onclick = () => SKINS[c.dataset.id] ? costumePicker(c.dataset.id) : choose(c.dataset.id, null));
+}
+const skinById = (id, sid) => sid ? (SKINS[id] || []).find(x => x.id === sid) || null : null;
+function choose(id, skin) {
+  myPick = id; mySkin = skin; socket.emit('pick', { id, skin }); renderGrid();
+  const el = document.querySelector(`.card[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+// costume choice: the default look plus every alternate costume for that fighter
+function costumePicker(id) {
+  const k = BY[id], opts = [{ id: null, name: 'Default', display: null, art: id }, ...SKINS[id]];
+  let m = $('#costumes'); if (!m) { m = document.createElement('div'); m.id = 'costumes'; document.body.appendChild(m); }
+  m.innerHTML = `<div class="cpanel"><div class="chead"><h2>${esc(k.name)}</h2><span>Choose a costume</span><button class="ghost" id="cClose">✕</button></div>
+    <div class="cgrid">${opts.map(o => `<button class="ctile ${myPick === id && mySkin === o.id ? 'on' : ''}" data-skin="${o.id || ''}">
+      ${img(o.art, o.display || k.name)}<b>${esc(o.display || k.name)}</b><small>${o.display === o.name ? 'Alternate costume' : esc(o.name)}</small></button>`).join('')}</div></div>`;
+  m.classList.remove('hidden');
+  const close = () => m.classList.add('hidden');
+  m.onclick = e => { if (e.target === m) close(); };
+  $('#cClose').onclick = close;
+  m.querySelectorAll('.ctile').forEach(b => b.onclick = () => { close(); choose(id, b.dataset.skin || null); });
 }
 
 socket.on('err', m => alert(m));
@@ -93,7 +112,7 @@ socket.on('noRoom', () => {
 });
 socket.on('lobby', l => {
   resetBattle(); show('select');
-  if (l.myPick && myPick !== l.myPick) { myPick = l.myPick; renderGrid(); }
+  if (l.myPick && (myPick !== l.myPick || mySkin !== (l.mySkin || null))) { myPick = l.myPick; mySkin = l.mySkin || null; renderGrid(); }
   const others = l.players.map(p => p ? `${esc(p.name)}${p.picked ? ' ✓' : ''}` : '<i>waiting…</i>').join(' vs ');
   $('#lobbyInfo').innerHTML = l.cpu ? 'Pick your fighter — the CPU picks at random.' : `Room <b>${l.code}</b> · ${others} · share the code with a friend`;
 });
@@ -225,7 +244,7 @@ function drawControls(st) {
   const rb = $('#resultBanner'); rb.classList.toggle('hidden', !st.over);
   document.querySelector('.cards').classList.toggle('ended', !!st.over);
   if (st.over) {
-    const n = i => { const f = i === st.seat ? st.me : st.opp; return st.me.id === st.opp.id ? `${st.names[i]}'s ${f.name}` : f.name; };
+    const n = i => { const f = i === st.seat ? st.me : st.opp; return st.me.name === st.opp.name ? `${st.names[i]}'s ${f.name}` : f.name; };
     rb.className = st.winner === -1 ? 'draw' : st.winner === st.seat ? 'mine' : 'theirs';
     rb.querySelector('.rbWho').textContent = st.winner === -1 ? 'Draw!' : `${n(st.winner)} wins!`;
   }

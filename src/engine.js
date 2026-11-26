@@ -68,19 +68,19 @@ function charge(p, n, g) { if (n > p.charge) { p.charge = n; if (g) emit(g, `${w
 function weaken(p, n, g) { if (n > p.weaken) { p.weaken = n; if (g) emit(g, `${who(g, p)} is Weakened ${n}: next win deals ${n} less${g.src ? ` (${g.src})` : ''}.`); } }
 
 // ---------- players ----------
-function makePlayer(f) {
+function makePlayer(f, skin) {
   const hp = typeof f.maxHp === 'function' ? f.maxHp() : (f.maxHp || RULES.HP);
-  return { f, hp, maxHp: hp, meter: 0, st: {}, burns: [], charge: 0, weaken: 0,
+  return { f, skin: skin || null, hp, maxHp: hp, meter: 0, st: {}, burns: [], charge: 0, weaken: 0,
     mem: f.initMem ? f.initMem() : {}, hist: [], dmgTurn: 0, copy: null };
 }
 function clonePlayer(p) {
   const st = {};
   for (const k in p.st) st[k] = { ...p.st[k] };
-  return { f: p.f, hp: p.hp, maxHp: p.maxHp, meter: p.meter, st, burns: p.burns.map(b => ({ ...b })), charge: p.charge,
+  return { f: p.f, skin: p.skin, hp: p.hp, maxHp: p.maxHp, meter: p.meter, st, burns: p.burns.map(b => ({ ...b })), charge: p.charge,
     weaken: p.weaken, mem: { ...p.mem }, hist: p.hist.slice(-4), dmgTurn: 0, copy: p.copy };
 }
-function newGame(fA, fB, seed) {
-  return { T: 1, p: [makePlayer(fA), makePlayer(fB)], rng: makeRng(seed), over: false, winner: null };
+function newGame(fA, fB, seed, skins = []) {
+  return { T: 1, p: [makePlayer(fA, skins[0]), makePlayer(fB, skins[1])], rng: makeRng(seed), over: false, winner: null };
 }
 function cloneGame(g) {
   return { T: g.T, p: [clonePlayer(g.p[0]), clonePlayer(g.p[1])], rng: g.rng, over: g.over, winner: g.winner, sim: true };
@@ -199,7 +199,7 @@ function finalSmash(g, att, def, aAct, dAct) {
 function nameOf(p) {
   if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P' ? 'Pyra' : 'Mythra';
   if (p.f.id === 'pt') return ['Squirtle', 'Ivysaur', 'Charizard'][p.mem.poke || 0];
-  return p.f.name;
+  return (p.skin && p.skin.display) || p.f.name;   // alternate costumes like Lemmy carry their own name
 }
 // Skill name for the active form: Pyra's Prominence Revolt / Mythra's Foresight
 function skillName(p) {

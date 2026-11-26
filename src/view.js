@@ -104,7 +104,7 @@ function statuses(p, g) {
 function art(p) {
   if (p.f.id === 'pt') return `pt-${POKE[p.mem.poke || 0].toLowerCase()}`;
   if (p.f.id === 'pyra') return (p.mem.form || 'P') === 'P' ? 'pyra-pyra' : 'pyra-mythra';
-  return p.f.id;
+  return (p.skin && p.skin.art) || p.f.id;
 }
 
 function side(g, i, self) {

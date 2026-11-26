@@ -1,0 +1,350 @@
+{
+ "bayo": [
+  {
+   "id": "original",
+   "name": "Bayonetta (Original)",
+   "display": null,
+   "art": "skins/bayo-original"
+  }
+ ],
+ "bjr": [
+  {
+   "id": "larry",
+   "name": "Larry",
+   "display": "Larry",
+   "art": "skins/bjr-larry"
+  },
+  {
+   "id": "roy",
+   "name": "Roy",
+   "display": "Roy",
+   "art": "skins/bjr-roy"
+  },
+  {
+   "id": "wendy",
+   "name": "Wendy",
+   "display": "Wendy",
+   "art": "skins/bjr-wendy"
+  },
+  {
+   "id": "iggy",
+   "name": "Iggy",
+   "display": "Iggy",
+   "art": "skins/bjr-iggy"
+  },
+  {
+   "id": "morton",
+   "name": "Morton",
+   "display": "Morton",
+   "art": "skins/bjr-morton"
+  },
+  {
+   "id": "lemmy",
+   "name": "Lemmy",
+   "display": "Lemmy",
+   "art": "skins/bjr-lemmy"
+  },
+  {
+   "id": "ludwig",
+   "name": "Ludwig",
+   "display": "Ludwig",
+   "art": "skins/bjr-ludwig"
+  }
+ ],
+ "byleth": [
+  {
+   "id": "female",
+   "name": "Byleth (Female)",
+   "display": null,
+   "art": "skins/byleth-female"
+  }
+ ],
+ "cloud": [
+  {
+   "id": "advent-children",
+   "name": "Advent Children",
+   "display": null,
+   "art": "skins/cloud-advent-children"
+  }
+ ],
+ "corrin": [
+  {
+   "id": "female",
+   "name": "Corrin (Female)",
+   "display": null,
+   "art": "skins/corrin-female"
+  }
+ ],
+ "hero": [
+  {
+   "id": "erdrick",
+   "name": "Erdrick",
+   "display": "Erdrick",
+   "art": "skins/hero-erdrick"
+  },
+  {
+   "id": "solo",
+   "name": "Solo",
+   "display": "Solo",
+   "art": "skins/hero-solo"
+  },
+  {
+   "id": "eight",
+   "name": "Eight",
+   "display": "Eight",
+   "art": "skins/hero-eight"
+  }
+ ],
+ "ike": [
+  {
+   "id": "path-of-radiance",
+   "name": "Path of Radiance",
+   "display": null,
+   "art": "skins/ike-path-of-radiance"
+  }
+ ],
+ "inkling": [
+  {
+   "id": "boy",
+   "name": "Inkling Boy",
+   "display": null,
+   "art": "skins/inkling-boy"
+  }
+ ],
+ "isabelle": [
+  {
+   "id": "cardigan",
+   "name": "Cardigan",
+   "display": null,
+   "art": "skins/isabelle-cardigan"
+  }
+ ],
+ "joker": [
+  {
+   "id": "shujin",
+   "name": "Shujin Academy Uniform",
+   "display": null,
+   "art": "skins/joker-shujin"
+  }
+ ],
+ "kazuya": [
+  {
+   "id": "suit",
+   "name": "Business Suit",
+   "display": null,
+   "art": "skins/kazuya-suit"
+  }
+ ],
+ "link": [
+  {
+   "id": "classic",
+   "name": "Classic Tunic",
+   "display": null,
+   "art": "skins/link-classic"
+  }
+ ],
+ "mac": [
+  {
+   "id": "pink-hoodie",
+   "name": "Pink Hoodie",
+   "display": null,
+   "art": "skins/mac-pink-hoodie"
+  },
+  {
+   "id": "wireframe",
+   "name": "Wireframe",
+   "display": "Wireframe Mac",
+   "art": "skins/mac-wireframe"
+  },
+  {
+   "id": "green-hoodie",
+   "name": "Green Hoodie",
+   "display": null,
+   "art": "skins/mac-green-hoodie"
+  }
+ ],
+ "mario": [
+  {
+   "id": "builder",
+   "name": "Builder Mario",
+   "display": "Builder Mario",
+   "art": "skins/mario-builder"
+  },
+  {
+   "id": "wedding",
+   "name": "Wedding Mario",
+   "display": "Wedding Mario",
+   "art": "skins/mario-wedding"
+  }
+ ],
+ "mk": [
+  {
+   "id": "white",
+   "name": "White & Pink",
+   "display": null,
+   "art": "skins/mk-white"
+  },
+  {
+   "id": "dark",
+   "name": "Dark Meta Knight",
+   "display": "Dark Meta Knight",
+   "art": "skins/mk-dark"
+  }
+ ],
+ "olimar": [
+  {
+   "id": "white",
+   "name": "White Suit",
+   "display": null,
+   "art": "skins/olimar-white"
+  }
+ ],
+ "pikachu": [
+  {
+   "id": "libre",
+   "name": "Pikachu Libre",
+   "display": "Pikachu Libre",
+   "art": "skins/pikachu-libre"
+  }
+ ],
+ "plant": [
+  {
+   "id": "pipe",
+   "name": "Warp Pipe",
+   "display": null,
+   "art": "skins/plant-pipe"
+  }
+ ],
+ "ridley": [
+  {
+   "id": "meta",
+   "name": "Meta Ridley",
+   "display": "Meta Ridley",
+   "art": "skins/ridley-meta"
+  }
+ ],
+ "rob": [
+  {
+   "id": "famicom",
+   "name": "Famicom Colors",
+   "display": null,
+   "art": "skins/rob-famicom"
+  }
+ ],
+ "robin": [
+  {
+   "id": "female",
+   "name": "Robin (Female)",
+   "display": null,
+   "art": "skins/robin-female"
+  }
+ ],
+ "seph": [
+  {
+   "id": "no-coat",
+   "name": "No Coat",
+   "display": null,
+   "art": "skins/seph-no-coat"
+  }
+ ],
+ "shulk": [
+  {
+   "id": "swimwear",
+   "name": "Swimwear",
+   "display": null,
+   "art": "skins/shulk-swimwear"
+  }
+ ],
+ "sora": [
+  {
+   "id": "kh2",
+   "name": "Kingdom Hearts II",
+   "display": null,
+   "art": "skins/sora-kh2"
+  },
+  {
+   "id": "valor",
+   "name": "Valor Form",
+   "display": null,
+   "art": "skins/sora-valor"
+  },
+  {
+   "id": "kh3",
+   "name": "Kingdom Hearts III",
+   "display": null,
+   "art": "skins/sora-kh3"
+  },
+  {
+   "id": "timeless-river",
+   "name": "Timeless River",
+   "display": null,
+   "art": "skins/sora-timeless-river"
+  }
+ ],
+ "steve": [
+  {
+   "id": "alex",
+   "name": "Alex",
+   "display": "Alex",
+   "art": "skins/steve-alex"
+  },
+  {
+   "id": "zombie",
+   "name": "Zombie",
+   "display": "Zombie",
+   "art": "skins/steve-zombie"
+  },
+  {
+   "id": "enderman",
+   "name": "Enderman",
+   "display": "Enderman",
+   "art": "skins/steve-enderman"
+  }
+ ],
+ "villager": [
+  {
+   "id": "girl",
+   "name": "Villager (Girl)",
+   "display": null,
+   "art": "skins/villager-girl"
+  }
+ ],
+ "wario": [
+  {
+   "id": "classic",
+   "name": "Classic Overalls",
+   "display": null,
+   "art": "skins/wario-classic"
+  }
+ ],
+ "wft": [
+  {
+   "id": "male",
+   "name": "Wii Fit Trainer (Male)",
+   "display": null,
+   "art": "skins/wft-male"
+  }
+ ],
+ "yoshi": [
+  {
+   "id": "yarn",
+   "name": "Yarn Yoshi",
+   "display": "Yarn Yoshi",
+   "art": "skins/yoshi-yarn"
+  }
+ ],
+ "zss": [
+  {
+   "id": "orange",
+   "name": "Orange Sportswear",
+   "display": null,
+   "art": "skins/zss-orange"
+  },
+  {
+   "id": "blue",
+   "name": "Blue Sportswear",
+   "display": null,
+   "art": "skins/zss-blue"
+  }
+ ]
+}
