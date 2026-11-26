@@ -37,25 +37,33 @@
 
   <!-- Battle -->
   <section id="battle" class="screen hidden">
-    <div class="sides">
+    <div class="arena">
       <div class="side" id="meSide"></div>
-      <div class="vs">VS<div id="turn"></div></div>
+      <div class="stage">
+        <div id="turn"></div>
+        <div class="cards">
+          <div class="slot" id="meSlot"><div class="card3d" id="meCard"><div class="face back"></div><div class="face front"></div></div></div>
+          <div id="burst"></div>
+          <div class="slot" id="oppSlot"><div class="card3d" id="oppCard"><div class="face back"></div><div class="face front"></div></div></div>
+        </div>
+        <div id="status"></div>
+      </div>
       <div class="side" id="oppSide"></div>
     </div>
-    <div id="artPick" class="row hidden">
+    <div id="artPick" class="row center hidden">
       <span>Monado Art:</span>
       <label><input type="radio" name="art" value="buster"> Buster</label>
       <label><input type="radio" name="art" value="shield"> Shield</label>
       <label><input type="radio" name="art" value="speed" checked> Speed</label>
     </div>
     <div id="actions"></div>
-    <div id="status"></div>
-    <div id="after" class="row hidden">
+    <div id="after" class="row center hidden">
       <button id="rematchBtn">Rematch</button>
       <button id="newBtn" class="ghost">Pick new fighters</button>
       <button id="homeBtn" class="ghost">Leave</button>
     </div>
-    <ol id="log"></ol>
+    <h3 class="logTitle">Battle log</h3>
+    <div id="log"></div>
   </section>
 </main>
 

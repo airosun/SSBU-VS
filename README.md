@@ -18,7 +18,14 @@ npm start          # http://localhost:3000
 
 Modes: **Play vs CPU** and **online rooms** (create a room, share the 4-letter code). Deploys to Render with `render.yaml` (free web service, `npm install` / `npm start`).
 
-Fighter art is optional: drop your own images in `public/art/<fighter id>.png` (ids are in `data/kits.json`). Cards show initials until then.
+Fighter art lives in `public/images/<fighter id>.png` (copied from SSBU-mon). Pokémon Trainer and Pyra/Mythra also have per-form images (`pt-squirtle.png`, `pyra-mythra.png`, …) that swap in during battle. Missing images fall back to initials.
+
+## Battle screen
+
+- **Left:** you · **Right:** your opponent. Each side shows player name, fighter, HP bar, Smash Meter, then that fighter's special resources (e.g. Waft bar, Golden Feathers, Luma HP, Belly Armor, KO Stars, Limit, Pikmin) and active effects.
+- **Reveal:** once both players lock in, the two cards flip. The winner's card grows and glows while the loser's shrinks and dims; a clash shakes both cards together in the middle; a whiff leaves both as they are.
+- **Then** HP bars drop (with a red damage trail) and Smash Meters charge or drain.
+- **Battle log:** every turn lists both choices, the outcome, each hit's damage breakdown, procs, heals, statuses, Burns, meter changes and passive triggers.
 
 ## Layout
 
@@ -27,7 +34,7 @@ Fighter art is optional: drop your own images in `public/art/<fighter id>.png` (
 | `src/engine.js` | Core rules and turn resolution (`RULES` holds every global number) |
 | `src/fighters.js` | All 83 kits as hooks; tunable numbers live in `N` at the top |
 | `src/ai.js` | CPU player: one-turn lookahead, solves the payoff matrix as a zero-sum game, then samples |
-| `src/view.js` | What each player may see (Snake's meter is hidden) and the battle log text |
+| `src/view.js` | What each player may see (Snake's meter is hidden), per-fighter resource widgets, turn reveal data |
 | `data/kits.json` | Display text for every passive and skill (keep in sync with `N`) |
 | `server.js` | Express + Socket.IO server: CPU games, rooms, rematches |
 | `public/` | Client (fighter select with search and skill-type filter, battle screen) |
