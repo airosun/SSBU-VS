@@ -478,3 +478,36 @@ img, svg { max-width: 100%; }
 #oppSide .fxBadges { left: auto; right: -4px; }
 .pwrap:has(.fxBadges) { margin-bottom: 8px; }
 @media (max-width: 700px) { .fxBadges { bottom: -7px; left: -2px; } #oppSide .fxBadges { right: -2px; } .fxb .ico { width: 12px !important; height: 12px !important; } }
+
+/* ---------- effect callouts, floating HP numbers, log emphasis ---------- */
+.side { position: relative; }
+.callout { position: absolute; left: 50%; top: 38%; transform: translate(-50%, 0); z-index: 20; width: max-content; max-width: 92%;
+  padding: 10px 16px; border-radius: 12px; font-weight: 800; font-size: 15px; text-align: center; color: #1a1300;
+  background: linear-gradient(135deg, #ffd36a, #f2a51a); box-shadow: 0 10px 30px #000a, 0 0 0 2px #fff3 inset;
+  animation: callout 2.6s cubic-bezier(.2, 1.4, .4, 1) forwards; pointer-events: none; }
+@keyframes callout { 0% { opacity: 0; transform: translate(-50%, 16px) scale(.7); } 12% { opacity: 1; transform: translate(-50%, 0) scale(1.06); }
+  20% { transform: translate(-50%, 0) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -14px) scale(.96); } }
+.floatNum { position: absolute; z-index: 6; font-weight: 900; font-size: 20px; margin-top: -24px; text-shadow: 0 2px 0 #000, 0 0 10px currentColor;
+  animation: floatUp 1.9s ease-out forwards; pointer-events: none; }
+#meSide .floatNum { left: 18px; } #oppSide .floatNum { right: 18px; }
+.floatNum.loss { color: #ff4d4d; } .floatNum.gain { color: #3fd07a; }
+@keyframes floatUp { 0% { opacity: 0; transform: translateY(10px) scale(.6); } 15% { opacity: 1; transform: translateY(0) scale(1.2); } 30% { transform: scale(1); }
+  100% { opacity: 0; transform: translateY(-34px); } }
+.lturn div.ann { color: var(--accent); font-weight: 800; }
+.lturn div.skl-line { color: #9cc4ff; font-weight: 700; }
+@media (max-width: 700px) { .callout { font-size: 12px; padding: 7px 10px; } .floatNum { font-size: 16px; margin-top: -20px; } }
+
+/* ---------- resource widgets centered in their section ---------- */
+.res { justify-items: center; text-align: center; }
+.res > * { width: 100%; max-width: 320px; }
+.res .lbl, #oppSide .res .lbl { flex-direction: row; justify-content: space-between; }
+.res .row-ico, #oppSide .res .row-ico, .res .pipwrap, #oppSide .res .pipwrap { justify-content: center; }
+.res .w-tier, .res .w-state, .res .w-count, .res .w-once, .res .w-cond, .res .w-hero, .res .w-luma,
+#oppSide .res .w-tier, #oppSide .res .w-state, #oppSide .res .w-count, #oppSide .res .w-once, #oppSide .res .w-cond, #oppSide .res .w-hero, #oppSide .res .w-luma
+  { flex-direction: row; justify-content: center; text-align: left; }
+.res .w-belly, #oppSide .res .w-belly, .res .w-art, #oppSide .res .w-art, .res .w-fruit { align-items: center; margin: 0 auto; }
+.res .bellyNum { margin: 0 auto; }
+.res .cloud, #oppSide .res .cloud { margin: 2px auto 0; max-width: 100%; transform: none; }
+#oppSide .res .cells { flex-direction: row; } #oppSide .res .w-bar .track, #oppSide .res .w-luma .track { direction: ltr; }
+.res .w-luma .lumaInfo { max-width: 200px; }
+.res .w-routine .row-ico { justify-content: center; }

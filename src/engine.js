@@ -15,6 +15,8 @@ function makeRng(seed) {
 
 // ---------- event log (only for real games, not CPU lookahead clones) ----------
 function emit(g, text) { if (g.events) g.events.push(text); }
+// A unique effect firing: shown as a callout over that fighter during the reveal and starred in the log
+function announce(g, p, text) { if (!g.events) return; g.events.push('★ ' + text); (g.announce = g.announce || []).push({ side: g.p.indexOf(p), text }); }
 function who(g, p) { return nameOf(p); }
 const STATUS_TXT = { stagger: 'Staggered', paralyze: 'Paralyzed', lock: 'Locked', armor: 'Armor' };
 
@@ -262,4 +264,4 @@ function resolve(g, acts) {
 }
 
 module.exports = { RULES, BEATS, makeRng, setStatus, active, gain, drain, heal, selfDmg, burn, charge, weaken,
-  newGame, cloneGame, emit, withSrc, fsNameOf, nameOf, skillName, ustat, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };
+  newGame, cloneGame, emit, announce, withSrc, fsNameOf, nameOf, skillName, ustat, legalActions, resolve, skillOf, skillType, skillCost, last, wonLast, lostLast };

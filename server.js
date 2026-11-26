@@ -61,7 +61,7 @@ function tryResolve(r) {
   const turn = g.T, names = r.seats.map(s => s.name);
   const before = { hp: g.p.map(p => Math.max(0, p.hp)), meter: g.p.map(p => p.meter) };
   const labels = acts.map((a, i) => actLabel(g.p[i], a));
-  g.events = [];
+  g.events = []; g.announce = [];
   labels.forEach((l, i) => g.events.push(`${names[i]}'s ${E.nameOf(g.p[i])} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
   const spent = acts.map((a, i) => a.kind === 'skill' ? E.skillCost(g, g.p[i], g.p[1 - i]) : a.kind === 'fs' ? g.p[i].meter : 0);
   const out = E.resolve(g, acts);
@@ -80,9 +80,9 @@ function tryResolve(r) {
     g.events.push(`${E.nameOf(p)}: ${Math.max(0, p.hp)}/${p.maxHp} HP (${dh >= 0 ? '+' : ''}${dh}), meter ${p.meter}/${E.RULES.METER_MAX} (${dm >= 0 ? '+' : ''}${dm}).`);
   }
   if (g.over) g.events.push(g.winner === -1 ? 'DRAW!' : `GAME! ${names[g.winner]}'s ${E.nameOf(g.p[g.winner])} wins!`);
-  r.reveal = { turn, kind: out.kind, winner: out.winner, acts: labels, before, events: g.events };
+  r.reveal = { turn, kind: out.kind, winner: out.winner, acts: labels, before, events: g.events, announce: g.announce };
   r.log.push({ turn, lines: g.events });
-  g.events = null;
+  g.events = null; g.announce = null;
   r.pending = [null, null];
   push(r);
 }

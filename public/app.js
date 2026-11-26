@@ -102,7 +102,15 @@ function drawSides(st) {
   $('#oppSide').innerHTML = sideHTML(st.opp, st.names[1 - st.seat], false);
 }
 // Move HP bars and meters from what is on screen to the new values, with animation
+function floatNum(el, diff) {
+  if (!diff) return;
+  const hp = el.querySelector('.hp'); if (!hp) return;
+  const f = document.createElement('div');
+  f.className = 'floatNum ' + (diff < 0 ? 'loss' : 'gain'); f.textContent = (diff > 0 ? '+' : '−') + Math.abs(diff);
+  hp.parentNode.insertBefore(f, hp); setTimeout(() => f.remove(), 1900);
+}
 function animateBars(el, from, to) {
+  floatNum(el, to.hp - from.hp);
   const pct = 100 * to.hp / to.maxHp;
   const fill = el.querySelector('.hp .fill'), ghost = el.querySelector('.hp .ghost');
   fill.className = `fill ${pct <= 30 ? 'low' : pct <= 60 ? 'mid' : ''}`;
@@ -133,6 +141,11 @@ function resetStage(st) {
   for (const k of ['me', 'opp']) { $(`#${k}Slot`).className = 'slot'; $(`#${k}Card`).classList.remove('flipped'); }
   cardBack($('#meCard'), !!st.waiting); cardBack($('#oppCard'), !!st.oppReady);
   $('#burst').className = ''; $('#burst').textContent = '';
+}
+function callout(a) {
+  const side = a.side === 'me' ? '#meSide' : '#oppSide';
+  const c = document.createElement('div'); c.className = 'callout ' + a.side; c.textContent = a.text;
+  $(side).appendChild(c); setTimeout(() => c.remove(), 2600);
 }
 function burst(txt) { const b = $('#burst'); b.textContent = txt; b.className = ''; void b.offsetWidth; b.className = 'go'; }
 
@@ -173,6 +186,7 @@ function drawControls(st) {
   $('#after').classList.toggle('hidden', !st.over);
   $('#rematchBtn').textContent = st.rematch && st.rematch[st.seat] ? 'Waiting for rematch…' : 'Rematch';
 }
+const SKILL_LINE = /spends \d+ meter on |chose .+ skill\)|FINAL SMASH/;
 const HL = /wins the exchange|CLASH|FINAL SMASH|GAME!|DRAW|Priority|outright|was read/;
 function drawLog(st, upToTurn) {
   const entries = st.log.filter(e => e.turn <= upToTurn);
@@ -181,7 +195,7 @@ function drawLog(st, upToTurn) {
   $('#log').innerHTML = entries.slice().reverse().map((e, idx) => `
     <div class="lturn ${idx === 0 && fresh ? 'new' : ''}">
       <h4>${e.turn ? `TURN ${e.turn}` : 'START'}</h4>
-      ${e.lines.map(l => `<div class="${HL.test(l) ? 'hl' : ''}">${esc(l)}</div>`).join('')}
+      ${e.lines.map(l => `<div class="${l.startsWith('★ ') ? 'ann' : SKILL_LINE.test(l) ? 'skl-line' : HL.test(l) ? 'hl' : ''}">${esc(l)}</div>`).join('')}
     </div>`).join('');
   logTurnsShown = entries.length;
 }
@@ -209,6 +223,7 @@ async function playReveal(st) {
   else if (rv.kind === 'whiff') burst('WHIFF');
   else if (rv.kind === 'fs') burst(rv.acts.find(a => a.type === 'FS').title.toUpperCase() + '!');
   await wait(1100);
+  for (const a of rv.announce || []) { callout(a); await wait(1300); }                       // unique effects
   animateBars($('#meSide'), meB, st.me); animateBars($('#oppSide'), oppB, st.opp);         // bars drop / charge
   await wait(1400);
   drawLog(st, rv.turn);                                                                       // turn log

@@ -139,6 +139,7 @@ function view(g, seat, pending, reveal) {
       acts: pick(reveal.acts),
       before: { hp: pick(reveal.before.hp), meter: pick(hideMeter(reveal.before.meter)) },
       events: reveal.events,
+      announce: (reveal.announce || []).map(a => ({ side: a.side === seat ? 'me' : 'opp', text: a.text })),
     };
   }
   return {

@@ -134,7 +134,7 @@ def('yoshi', 'Yoshi', {
 def('kirby', 'Kirby', {
   onWin: c => { if (isG(c.act)) heal(c.me, N.kirby.p, c.g); },
   skill: { name: 'Inhale', type: 'G', cost: 2, listed: 2, bonus: () => N.kirby.s,
-    rider: c => { const os = c.opp.copy || c.opp.f.skill; if (os.name !== 'Inhale') { c.me.copy = os; E.emit(c.g, `Kirby copies ${os.name}!`); E.ustat(c.g, c.me, 'Skills copied'); } } },
+    rider: c => { const os = c.opp.copy || c.opp.f.skill; if (os.name !== 'Inhale') { c.me.copy = os; E.announce(c.g, c.me, `Kirby copies ${os.name}!`); E.ustat(c.g, c.me, 'Skills copied'); } } },
   onSkillLose: c => { if (c.me.copy) E.emit(c.g, 'Kirby loses the copied ability.'); c.me.copy = null; },
 });
 // 7 Fox
@@ -145,7 +145,7 @@ def('fox', 'Fox', {
 });
 // 8 Pikachu
 def('pikachu', 'Pikachu', {
-  onLose: c => { if (isG(c.oppAct)) { selfDmg(c.opp, N.pikachu.p, c.g); setStatus(c.g, c.opp, 'paralyze', 1); } },
+  onLose: c => { if (isG(c.oppAct)) { E.announce(c.g, c.me, 'Static! The grab shocks ' + E.nameOf(c.opp) + '.'); selfDmg(c.opp, N.pikachu.p, c.g); setStatus(c.g, c.opp, 'paralyze', 1); } },
   skill: { name: 'Thunder', type: 'A', cost: 2, listed: 7, bonus: () => N.pikachu.s },
 });
 // 9 Luigi
@@ -174,7 +174,7 @@ def('jiggly', 'Jigglypuff', {
 });
 // 13 Peach
 def('peach', 'Peach', {
-  winBonus: c => turnsDiv(c.T, 4) ? N.peach.p : 0,
+  winBonus: c => turnsDiv(c.T, 4) ? (E.announce(c.g, c.me, 'Peach pulled a Stitchface turnip! +' + N.peach.p + ' damage.'), N.peach.p) : 0,
   skill: { name: 'Toad', type: 'C', cost: 2, listed: 5, bonus: () => N.peach.s, rider: c => setStatus(c.g, c.opp, 'paralyze', 1) },
 });
 // 13e Daisy
@@ -190,7 +190,7 @@ def('bowser', 'Bowser', {
 // 15 Ice Climbers
 def('ics', 'Ice Climbers', {
   winBonus: c => (c.me.mem.nanaLost ? 0 : N.ics.p) + (isG(c.act) && c.me.mem.chain === c.T ? N.ics.f : 0),
-  onTurnEnd: c => { if (c.me.hp < 40 && !c.me.mem.nanaLost) { c.me.mem.nanaLost = true; E.emit(c.g, 'Nana is lost! The Ice Climbers lose their +2.'); } },
+  onTurnEnd: c => { if (c.me.hp < 40 && !c.me.mem.nanaLost) { c.me.mem.nanaLost = true; E.announce(c.g, c.me, 'Nana is lost! The Ice Climbers lose their +2.'); } },
   skill: { name: 'Chain Grab', type: 'G', cost: 2, listed: 4, bonus: () => N.ics.s, rider: c => { c.me.mem.chain = c.T + 1; } },
 });
 // 16 Sheik
@@ -200,13 +200,13 @@ def('sheik', 'Sheik', {
 });
 // 17 Zelda
 def('zelda', 'Zelda', {
-  absorb: (c, d) => { if (d >= 15 && !c.me.mem.pg) { c.me.mem.pg = 1; E.emit(c.g, 'Zelda\'s Phantom Guard activates!'); return Math.min(d, N.zelda.pg); } return d; },
+  absorb: (c, d) => { if (d >= 15 && !c.me.mem.pg) { c.me.mem.pg = 1; E.announce(c.g, c.me, 'Zelda\'s Phantom Guard activates!'); return Math.min(d, N.zelda.pg); } return d; },
   skill: { name: "Nayru's Love", type: 'C', cost: 2, listed: 4, bonus: () => N.zelda.s, rider: c => heal(c.me, N.zelda.heal, c.g) },
 });
 // 18 Dr. Mario
 def('doc', 'Dr. Mario', {
   initMem: () => { const c = ['blue', 'white', 'red', 'yellow'].sort(() => Math.random() - 0.5); return { pill: c.slice(0, 2) }; },
-  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp <= 40 && !c.me.mem.mv) { c.me.mem.mv = 1; heal(c.me, N.doc.p, c.g); } },
+  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp <= 40 && !c.me.mem.mv) { c.me.mem.mv = 1; E.announce(c.g, c.me, 'Dr. Mario used a Megavitamin!'); heal(c.me, N.doc.p, c.g); } },
   skill: { name: 'Super Sheet', type: 'C', cost: 2, listed: 4, bonus: () => N.doc.s, rider: c => setStatus(c.g, c.opp, 'stagger', 1) },
 });
 // 19 Pichu
@@ -251,7 +251,7 @@ def('roy', 'Roy', {
 });
 // 25e Chrom
 def('chrom', 'Chrom', {
-  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 50 && !c.me.mem.ep) { c.me.mem.ep = 1; gain(c.g, c.me, N.chrom.p); } },
+  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 50 && !c.me.mem.ep) { c.me.mem.ep = 1; E.announce(c.g, c.me, 'Exalted Prince! Chrom gains ' + N.chrom.p + ' meter.'); gain(c.g, c.me, N.chrom.p); } },
   skill: { name: 'Soaring Slash', type: 'G', cost: 2, listed: 5, bonus: () => N.chrom.s, rider: c => setStatus(c.g, c.opp, 'paralyze', 1) },
 });
 // 26 Mr. Game & Watch
@@ -283,7 +283,7 @@ def('zss', 'Zero Suit Samus', {
 });
 // 30 Wario
 def('wario', 'Wario', {
-  winBonus: c => isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.emit(c.g, 'WARIO WAFT! Full gas released.'), E.ustat(c.g, c.me, 'Wario Wafts'), N.wario.p) : 0,
+  winBonus: c => isA(c.act) && (c.me.mem.gas || 0) >= 5 ? (c.me.mem.gas = 0, E.announce(c.g, c.me, 'WARIO WAFT! Full gas released.'), E.ustat(c.g, c.me, 'Wario Wafts'), N.wario.p) : 0,
   onTurnEnd: c => { c.me.mem.gas = Math.min(5, (c.me.mem.gas || 0) + 1); },
   skill: { name: 'Chomp', type: 'G', cost: 2, listed: 4, bonus: () => N.wario.s, rider: c => heal(c.me, N.wario.heal, c.g) },
   potential: p => 1.5 * (p.mem.gas || 0),
@@ -291,7 +291,7 @@ def('wario', 'Wario', {
 // 31 Snake
 def('snake', 'Snake', {
   hiddenMeter: true,
-  onLose: c => { if (c.me.mem.c4) { c.me.mem.c4 = 0; selfDmg(c.opp, N.snake.c4, c.g, 'C4 detonates'); } },
+  onLose: c => { if (c.me.mem.c4) { c.me.mem.c4 = 0; E.announce(c.g, c.me, 'C4 detonates on ' + E.nameOf(c.opp) + '!'); selfDmg(c.opp, N.snake.c4, c.g, 'C4 detonates'); } },
   skill: { name: 'C4', type: 'A', cost: 2, listed: 2, bonus: () => N.snake.s, rider: c => { c.me.mem.c4 = 1; E.ustat(c.g, c.me, 'C4 planted'); } },
   potential: p => (p.mem.c4 ? 6 : 0),
 });
@@ -305,11 +305,11 @@ const PT_SPEC = ['C', 'G', 'A'];
 const PIKMIN = ['red', 'blue', 'yellow', 'white', 'purple'];
 def('pt', 'Pokémon Trainer', {
   winBonus: c => c.act.type === PT_SPEC[c.me.mem.poke || 0] ? N.pt.p : 0,
-  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.emit(c.g, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); E.ustat(c.g, c.me, 'Pokémon switches'); } },
+  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.announce(c.g, c.me, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); E.ustat(c.g, c.me, 'Pokémon switches'); } },
 });
 // 36 Diddy Kong
 def('diddy', 'Diddy Kong', {
-  onLose: c => { const h = last(c.opp); if (basic(c.oppAct) && h && h.res === 'win' && h.kind === 'basic' && h.type === c.oppAct.type) selfDmg(c.opp, N.diddy.p, c.g); },
+  onLose: c => { const h = last(c.opp); if (basic(c.oppAct) && h && h.res === 'win' && h.kind === 'basic' && h.type === c.oppAct.type) { E.announce(c.g, c.me, E.nameOf(c.opp) + ' slipped on a Banana Peel!'); selfDmg(c.opp, N.diddy.p, c.g); } },
   skill: { name: 'Monkey Flip', type: 'G', cost: 2, listed: 5, bonus: () => N.diddy.s, rider: c => gain(c.g, c.me, 1) },
 });
 // 37 Lucas
@@ -344,7 +344,7 @@ def('lucario', 'Lucario', {
 def('rob', 'R.O.B.', { immune: true, skill: { name: 'Robo Beam', type: 'A', cost: 2, listed: 6, bonus: () => N.rob.s } });
 // 43 Toon Link
 def('tlink', 'Toon Link', {
-  onWin: c => { if (turnsDiv(c.T, 3)) burn(c.g, c.opp, N.tlink.p, 1); },
+  onWin: c => { if (turnsDiv(c.T, 3)) { E.announce(c.g, c.me, 'Bomb Bag! Toon Link tosses a bomb.'); burn(c.g, c.opp, N.tlink.p, 1); } },
   skill: { name: 'Spin Attack', type: 'C', cost: 2, listed: 5, bonus: () => N.tlink.s, rider: c => heal(c.me, N.tlink.heal, c.g) },
 });
 // 44 Wolf
@@ -377,8 +377,8 @@ def('wft', 'Wii Fit Trainer', {
 // 48 Rosalina & Luma
 def('rosa', 'Rosalina & Luma', {
   initMem: () => ({ luma: N.rosa.luma, down: 0 }),
-  absorb: (c, d) => { const m = c.me.mem; if (m.luma > 0) { const t = Math.min(m.luma, d); m.luma -= t; d -= t; if (m.luma === 0) { m.down = c.T; E.emit(c.g, 'Luma is knocked out! It returns in ' + N.rosa.re + ' turns.'); E.ustat(c.g, c.me, 'Luma knockouts'); } } return d; },
-  onTurnEnd: c => { const m = c.me.mem; if (m.luma === 0 && c.T - m.down >= N.rosa.re) { m.luma = N.rosa.luma; E.emit(c.g, 'Luma returns!'); } },
+  absorb: (c, d) => { const m = c.me.mem; if (m.luma > 0) { const t = Math.min(m.luma, d); m.luma -= t; d -= t; if (m.luma === 0) { m.down = c.T; E.announce(c.g, c.me, 'Luma is knocked out! It returns in ' + N.rosa.re + ' turns.'); E.ustat(c.g, c.me, 'Luma knockouts'); } } return d; },
+  onTurnEnd: c => { const m = c.me.mem; if (m.luma === 0 && c.T - m.down >= N.rosa.re) { m.luma = N.rosa.luma; E.announce(c.g, c.me, 'Luma returns!'); } },
   skill: { name: 'Gravitational Pull', type: 'C', cost: 2, listed: 4, bonus: () => N.rosa.s, rider: c => drain(c.opp, 1, c.g) },
   potential: p => p.mem.luma || 0,
 });
@@ -402,7 +402,7 @@ def('palutena', 'Palutena', {
 });
 // 55 Pac-Man
 def('pacman', 'Pac-Man', {
-  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 30 && !c.me.mem.ppu) { c.me.mem.ppu = 1; c.me.mem.double = 2; E.emit(c.g, 'Power Pellet! Pac-Man\'s next 2 wins deal double damage.'); } },
+  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 30 && !c.me.mem.ppu) { c.me.mem.ppu = 1; c.me.mem.double = 2; E.announce(c.g, c.me, 'Power Pellet! Pac-Man\'s next 2 wins deal double damage.'); } },
   skill: { name: 'Bonus Fruit', type: 'A', cost: 2, listed: 5, bonus: c => N.pacman.s + Math.min(8, N.pacman.rate * (c.T - (c.me.mem.lt || 0))), onUse: c => { c.me.mem.lt = c.T; } },
 });
 // 56 Robin
@@ -441,7 +441,7 @@ def('ken', 'Ken', {
 });
 // 61 Cloud
 def('cloud', 'Cloud', {
-  onHit: (c, d) => { const m = c.me.mem; if (m.limit) return; m.acc = (m.acc || 0) + d; if (m.acc >= 20) { m.limit = 1; m.acc = 0; E.emit(c.g, 'Cloud\'s Limit is ready!'); } },
+  onHit: (c, d) => { const m = c.me.mem; if (m.limit) return; m.acc = (m.acc || 0) + d; if (m.acc >= 20) { m.limit = 1; m.acc = 0; E.announce(c.g, c.me, 'Cloud\'s Limit is ready!'); } },
   costMod: p => p.mem.limit ? -99 : 0,
   skill: { name: 'Cross Slash', type: 'A', cost: 2, listed: 6, bonus: c => N.cloud.s + (c.me.mem.limitUsed ? N.cloud.lim : 0),
     onUse: c => { c.me.mem.limitUsed = c.me.mem.limit ? 1 : 0; if (c.me.mem.limit) E.ustat(c.g, c.me, 'Limit Breaks'); c.me.mem.limit = 0; } },
@@ -478,20 +478,20 @@ def('simon', 'Simon', {
 // 66e Richter
 def('richter', 'Richter', {
   winBonus: c => c.me.mem.hr === 1 ? (c.me.mem.hr = 2, N.richter.p) : 0,
-  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 30 && !c.me.mem.hr) { c.me.mem.hr = 1; E.emit(c.g, 'Hunter\'s Resolve: Richter\'s next win deals +' + N.richter.p + '.'); } },
+  onTurnEnd: c => { if (c.me.hp > 0 && c.me.hp < 30 && !c.me.mem.hr) { c.me.mem.hr = 1; E.announce(c.g, c.me, 'Hunter\'s Resolve: Richter\'s next win deals +' + N.richter.p + '.'); } },
   skill: { name: 'Cross', type: 'A', cost: 2, listed: 8, bonus: () => N.richter.s, rider: c => burn(c.g, c.opp, N.richter.burn, 1) },
 });
 // 67 King K. Rool
 def('krool', 'King K. Rool', {
   initMem: () => ({ belly: 20, broke: 0 }),
-  reduce: (c, d) => { const m = c.me.mem; if (c.oppAct && c.oppAct.type === 'A' && m.belly > 0) { const r = Math.min(N.krool.p, d, m.belly); m.belly -= r; if (m.belly === 0) { m.broke = c.T; E.emit(c.g, 'K. Rool\'s Belly Armor breaks!'); E.ustat(c.g, c.me, 'Belly Armor breaks'); } return d - r; } return d; },
+  reduce: (c, d) => { const m = c.me.mem; if (c.oppAct && c.oppAct.type === 'A' && m.belly > 0) { const r = Math.min(N.krool.p, d, m.belly); m.belly -= r; if (m.belly === 0) { m.broke = c.T; E.announce(c.g, c.me, 'K. Rool\'s Belly Armor breaks!'); E.ustat(c.g, c.me, 'Belly Armor breaks'); } return d - r; } return d; },
   onTurnEnd: c => { const m = c.me.mem; if (m.belly === 0 && c.T - m.broke >= 5) m.belly = 20; },
   skill: { name: 'Gut Check', type: 'C', cost: 2, listed: 5, bonus: () => N.krool.s, rider: c => { c.me.mem.belly = 20; } },
   potential: p => (p.mem.belly || 0) * 0.3,
 });
 // 68 Isabelle
 def('isabelle', 'Isabelle', {
-  onLose: c => { if (turnsDiv(c.T, 4)) selfDmg(c.opp, N.isabelle.p, c.g); },
+  onLose: c => { if (turnsDiv(c.T, 4)) { E.announce(c.g, c.me, 'Lloid Trap! The rocket hits ' + E.nameOf(c.opp) + '.'); selfDmg(c.opp, N.isabelle.p, c.g); } },
   skill: { name: 'Fishing Rod', type: 'G', cost: 2, listed: 4, bonus: () => N.isabelle.s, rider: c => drain(c.opp, 1, c.g) },
 });
 // 69 Incineroar
@@ -507,7 +507,7 @@ def('plant', 'Piranha Plant', {
 // 71 Joker
 const arsene = (p, T) => (p.mem.ars || 0) >= T;
 def('joker', 'Joker', {
-  onHit: (c, d) => { const m = c.me.mem; if (arsene(c.me, c.T + 1)) return; m.acc = (m.acc || 0) + d; if (m.acc >= 30) { m.acc = 0; m.ars = c.T + 4; E.emit(c.g, 'Joker summons Arsene for 4 turns!'); E.ustat(c.g, c.me, 'Arsene summons'); } },
+  onHit: (c, d) => { const m = c.me.mem; if (arsene(c.me, c.T + 1)) return; m.acc = (m.acc || 0) + d; if (m.acc >= 30) { m.acc = 0; m.ars = c.T + 4; E.announce(c.g, c.me, 'Joker summons Arsene for 4 turns!'); E.ustat(c.g, c.me, 'Arsene summons'); } },
   winBonus: c => arsene(c.me, c.T) ? N.joker.p : 0,
   costMod: (p, o, g) => arsene(p, g.T) ? -1 : 0,
   skill: { name: "Rebel's Guard", type: 'C', cost: 2, listed: 3, bonus: c => N.joker.s + (arsene(c.me, c.T) ? N.joker.x : 0) },
@@ -539,7 +539,7 @@ def('byleth', 'Byleth', {
   onTurnEnd: c => {
     const m = c.me.mem; if (m.dp || c.res !== 'lose' || c.me.dmgTurn <= 0) return;
     const fire = m.dpArmed === undefined ? (c.me.dmgTurn >= N.byleth.thr || c.me.hp <= 0) : m.dpArmed;
-    if (fire) { m.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.emit(c.g, `Divine Pulse! Byleth undoes ${u} damage.`); E.ustat(c.g, c.me, 'Damage undone by Divine Pulse', u); }
+    if (fire) { m.dp = 1; const u = Math.min(N.byleth.cap, c.me.dmgTurn); c.me.hp += u; E.announce(c.g, c.me, `Divine Pulse! Byleth undoes ${u} damage.`); E.ustat(c.g, c.me, 'Damage undone by Divine Pulse', u); }
   },
   skill: { name: 'Sword of the Creator', type: 'G', cost: 2, listed: 5, bonus: () => N.byleth.s, rider: c => setStatus(c.g, c.opp, 'lock', 1, 'C') },
 });
@@ -551,7 +551,7 @@ def('minmin', 'Min Min', {
 // 77 Steve
 def('steve', 'Steve', {
   winBonus: c => c.me.mem.tier || 0,
-  onTurnEnd: c => { if (turnsDiv(c.T, 4) && (c.me.mem.tier || 0) < 3) { c.me.mem.tier = (c.me.mem.tier || 0) + 1; E.emit(c.g, `Steve crafts ${['', 'Stone', 'Iron', 'Diamond'][c.me.mem.tier]} tools.`); E.ustat(c.g, c.me, 'Tool upgrades'); } },
+  onTurnEnd: c => { if (turnsDiv(c.T, 4) && (c.me.mem.tier || 0) < 3) { c.me.mem.tier = (c.me.mem.tier || 0) + 1; E.announce(c.g, c.me, `Steve crafts ${['', 'Stone', 'Iron', 'Diamond'][c.me.mem.tier]} tools.`); E.ustat(c.g, c.me, 'Tool upgrades'); } },
   onSkillLose: c => { c.me.mem.tier = Math.max(0, (c.me.mem.tier || 0) - 1); },
   skill: { name: 'Minecart', type: 'G', cost: 2, listed: 6, bonus: () => N.steve.s },
   potential: p => 4 * (p.mem.tier || 0),
@@ -567,18 +567,18 @@ const isP = p => (p.mem.form || 'P') === 'P';
 def('pyra', 'Pyra / Mythra', {
   winBonus: c => isP(c.me) ? N.pyra.p : 0,
   onWin: c => { if (!isP(c.me)) gain(c.g, c.me, 1); },
-  onTurnEnd: c => { if (c.act.kind === 'skill') { c.me.mem.form = isP(c.me) ? 'M' : 'P'; E.emit(c.g, `Aegis Swap: ${isP(c.me) ? 'Pyra' : 'Mythra'} takes over.`); E.ustat(c.g, c.me, 'Aegis Swaps'); } },
+  onTurnEnd: c => { if (c.act.kind === 'skill') { c.me.mem.form = isP(c.me) ? 'M' : 'P'; E.announce(c.g, c.me, `Aegis Swap: ${isP(c.me) ? 'Pyra' : 'Mythra'} takes over.`); E.ustat(c.g, c.me, 'Aegis Swaps'); } },
   skill: { name: 'Prominence Revolt / Foresight', type: p => isP(p) ? 'A' : 'C', cost: 2, listed: 7,
     bonus: c => N.pyra.s + (isP(c.me) ? N.pyra.sP : N.pyra.sM), rider: c => { if (!isP(c.me)) charge(c.me, 4, c.g); } },
 });
 // 81 Kazuya
 def('kazuya', 'Kazuya', {
-  winBonus: c => c.me.hp < 35 ? N.kazuya.p + (c.me.mem.rd ? 0 : (c.me.mem.rd = 1, N.kazuya.rd)) : 0,
+  winBonus: c => c.me.hp < 35 ? N.kazuya.p + (c.me.mem.rd ? 0 : (c.me.mem.rd = 1, E.announce(c.g, c.me, 'RAGE DRIVE! Kazuya\'s hit deals +' + N.kazuya.rd + '.'), N.kazuya.rd)) : 0,
   skill: { name: "Heaven's Door", type: 'G', cost: 2, listed: 7, bonus: () => N.kazuya.s },
 });
 // 82 Sora
 def('sora', 'Sora', {
-  onLethal: c => { if (!c.me.mem.sc && c.me.hp + c.me.dmgTurn >= N.sora.req) { c.me.mem.sc = 1; c.me.hp = 1; E.emit(c.g, 'Second Chance! Sora hangs on with 1 HP.'); E.ustat(c.g, c.me, 'Second Chance saves'); } },
+  onLethal: c => { if (!c.me.mem.sc && c.me.hp + c.me.dmgTurn >= N.sora.req) { c.me.mem.sc = 1; c.me.hp = 1; E.announce(c.g, c.me, 'Second Chance! Sora hangs on with 1 HP.'); E.ustat(c.g, c.me, 'Second Chance saves'); } },
   skill: { name: 'Magic Cycle', type: 'A', cost: 2, listed: 5,
     onUse: c => { c.me.mem.sp = c.me.mem.spn || 0; E.ustat(c.g, c.me, `${['Firaga', 'Blizzaga', 'Thundaga'][c.me.mem.sp]} cast`); c.me.mem.spn = ((c.me.mem.spn || 0) + 1) % 3; },
     bonus: c => N.sora.x + (c.me.mem.sp === 2 ? N.sora.th : N.sora.s),
