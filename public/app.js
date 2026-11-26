@@ -225,7 +225,7 @@ function drawControls(st) {
   const rb = $('#resultBanner'); rb.classList.toggle('hidden', !st.over);
   document.querySelector('.cards').classList.toggle('ended', !!st.over);
   if (st.over) {
-    const n = i => `${st.names[i]}'s ${i === st.seat ? st.me.name : st.opp.name}`;
+    const n = i => { const f = i === st.seat ? st.me : st.opp; return st.me.id === st.opp.id ? `${st.names[i]}'s ${f.name}` : f.name; };
     rb.className = st.winner === -1 ? 'draw' : st.winner === st.seat ? 'mine' : 'theirs';
     rb.querySelector('.rbWho').textContent = st.winner === -1 ? 'Draw!' : `${n(st.winner)} wins!`;
   }

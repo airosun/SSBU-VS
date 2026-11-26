@@ -41,12 +41,14 @@ function push(r) {
     else sock.emit('state', { ...view(r.game, i, r.pending, r.reveal), log: r.log.slice(-300), names: r.seats.map(x => x && x.name), code: r.code, cpu: r.cpu, away: r.seats.map(x => !!(x && x.away)), rematch: r.rematch, stats: r.game.over ? { players: r.game.stats, timeline: r.timeline, turns: r.game.T - 1 } : null });
   });
 }
+// fighters are called by name alone; only a mirror match adds the player's name to tell them apart
+const who = (g, names, i) => g.p[0].f.id === g.p[1].f.id ? `${names[i]}'s ${E.nameOf(g.p[i])}` : E.nameOf(g.p[i]);
 function start(r) {
   r.game = E.newGame(BY_ID[r.picks[0]], BY_ID[r.picks[1]], (Math.random() * 2 ** 31) | 0);
   r.pending = [null, null]; r.rematch = [false, false]; r.reveal = null;
   r.game.stats = [newStats(), newStats()];
   r.timeline = [{ turn: 0, hp: r.game.p.map(p => p.hp), meter: [0, 0] }];
-  r.log = [{ turn: 0, lines: [`Battle start: ${r.seats[0].name}'s ${E.nameOf(r.game.p[0])} vs ${r.seats[1].name}'s ${E.nameOf(r.game.p[1])}`] }];
+  r.log = [{ turn: 0, lines: [`Battle start: ${who(r.game, r.seats.map(x => x.name), 0)} vs ${who(r.game, r.seats.map(x => x.name), 1)}`] }];
   push(r);
 }
 function tryResolve(r) {
@@ -62,7 +64,7 @@ function tryResolve(r) {
   const before = { hp: g.p.map(p => Math.max(0, p.hp)), meter: g.p.map(p => p.meter) };
   const labels = acts.map((a, i) => actLabel(g.p[i], a));
   g.events = []; g.announce = [];
-  labels.forEach((l, i) => g.events.push(`${names[i]}'s ${E.nameOf(g.p[i])} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
+  labels.forEach((l, i) => g.events.push(`${who(g, names, i)} chose ${l.title}${l.sub && l.sub !== 'Basic' ? ` (${l.sub})` : ''}.`));
   const spent = acts.map((a, i) => a.kind === 'skill' ? E.skillCost(g, g.p[i], g.p[1 - i]) : a.kind === 'fs' ? g.p[i].meter : 0);
   const out = E.resolve(g, acts);
   acts.forEach((a, i) => {
@@ -80,7 +82,7 @@ function tryResolve(r) {
     const p = g.p[i], dh = Math.max(0, p.hp) - before.hp[i], dm = p.meter - before.meter[i];
     g.events.push(`${E.nameOf(p)}: ${Math.max(0, p.hp)}/${p.maxHp} HP (${dh >= 0 ? '+' : ''}${dh}), meter ${p.meter}/${E.RULES.METER_MAX} (${dm >= 0 ? '+' : ''}${dm}).`);
   }
-  if (g.over) g.events.push(g.winner === -1 ? 'DRAW!' : `GAME! ${names[g.winner]}'s ${E.nameOf(g.p[g.winner])} wins!`);
+  if (g.over) g.events.push(g.winner === -1 ? 'DRAW!' : `GAME! ${who(g, names, g.winner)} wins!`);
   r.reveal = { turn, kind: out.kind, winner: out.winner, acts: labels, before, events: g.events, announce: g.announce };
   r.log.push({ turn, lines: g.events });
   g.events = null; g.announce = null;
