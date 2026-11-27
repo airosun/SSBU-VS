@@ -349,5 +349,13 @@
  ],
  "_defaults": {
   "isabelle": "Summer"
- }
+ },
+ "pichu": [
+  {
+   "id": "spiky-ear",
+   "name": "Spiky Ear",
+   "display": null,
+   "art": "skins/pichu-spiky-ear"
+  }
+ ]
 }
