@@ -348,7 +348,8 @@
   }
  ],
  "_defaults": {
-  "isabelle": "Summer"
+  "isabelle": "Summer",
+  "pt": "Male"
  },
  "pichu": [
   {
@@ -356,6 +357,14 @@
    "name": "Spiky Ear",
    "display": null,
    "art": "skins/pichu-spiky-ear"
+  }
+ ],
+ "pt": [
+  {
+   "id": "female",
+   "name": "Female",
+   "display": null,
+   "art": "skins/pt-female"
   }
  ]
 }

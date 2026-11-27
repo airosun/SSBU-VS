@@ -62,6 +62,7 @@ function resources(p, o, g) {
 // Effects drawn on the HP bar or portrait rather than in the resource area
 function effects(p, o, g, viewerIsP, viewerIsO) {
   const fx = { hp: null, marks: [] };
+  if (p.f.id === 'pt') { fx.summon = `${(p.skin && p.skin.art) || 'pt'}.png`; fx.summonCls = 'trainer'; }   // the Trainer (male/female) beside the active Pokémon
   if (p.f.id === 'kazuya' && p.hp < 35) fx.hp = 'rage';
   if (p.f.id === 'daisy' && p.hp < 50) fx.hp = 'glow';
   if (o.f.id === 'wolf' && p.hp < 50) fx.marks.push('crosshair');          // Wolf's Predator targets this side

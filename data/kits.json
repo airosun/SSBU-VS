@@ -672,7 +672,7 @@
   "series": "Pokémon",
   "passive": {
    "name": "Triple Team",
-   "text": "Your active Pokémon's specialty wins deal +3: Squirtle – Counter, Ivysaur – Grab, Charizard – Attack. Start with Squirtle."
+   "text": "Your active Pokémon's specialty wins deal +3: Squirtle – Counter, Ivysaur – Grab, Charizard – Attack. You choose which Pokémon starts."
   },
   "skill": {
    "name": "Pokémon Change",
@@ -1446,7 +1446,7 @@
   "series": "Xenoblade Chronicles 2",
   "passive": {
    "name": "Aegis Swap",
-   "text": "After you use your skill, swap between Pyra and Mythra. Pyra: wins deal +2. Mythra: Gain 1 extra on wins. Start as Pyra."
+   "text": "After you use your skill, swap between Pyra and Mythra. Pyra: wins deal +2. Mythra: Gain 1 extra on wins. You choose who starts."
   },
   "skill": {
    "name": "Prominence Revolt (Pyra) / Foresight (Mythra)",

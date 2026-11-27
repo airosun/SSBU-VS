@@ -759,3 +759,6 @@ h1, h2, .cname, .card h3, #turn, #burst, .vs, .face.front .t, #actions button, .
 @keyframes rmark { 50% { transform: rotate(-4deg) scale(1.04); } }
 .randomBtn.picked { box-shadow: 0 0 0 3px #f2b233, 0 0 18px #f2b23388; }
 .randomBtn.picked::after { content: ' ✓'; }
+/* Pokémon Trainer stands beside the active Pokémon */
+.summon.trainer { height: 96px; margin-left: -14px; filter: drop-shadow(0 4px 6px #0008); animation: none; }
+#oppSide .summon.trainer { margin-left: 0; margin-right: -14px; transform: scaleX(-1); }

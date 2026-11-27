@@ -10,6 +10,9 @@ const { FIGHTERS, BY_ID } = require('./src/fighters');
 const KITS = require('./data/kits.json');
 const SKINS = require('./data/skins.json'); // fighter id -> alternate costumes
 const skinOf = (id, sid) => (SKINS[id] || []).find(x => x.id === sid) || null;
+const STARTS = { pt: [0, 1, 2], pyra: ['P', 'M'] };   // Pokémon Trainer: starting Pokémon; Pyra/Mythra: who starts
+const startOf = (id, v) => STARTS[id] && STARTS[id].includes(v) ? v : null;
+const randStart = id => STARTS[id] ? STARTS[id][(Math.random() * STARTS[id].length) | 0] : null;
 const randSkin = id => { const l = SKINS[id] || []; const k = (Math.random() * (l.length + 1)) | 0; return k < l.length ? l[k].id : null; };
 const { view, actLabel } = require('./src/view');
 
@@ -26,14 +29,14 @@ const newStats = () => ({ dealt: 0, hitTaken: 0, otherTaken: 0, healed: 0, bigge
 const code = () => { let c; do c = Math.random().toString(36).slice(2, 6).toUpperCase(); while (rooms.has(c)); return c; };
 
 function newRoom(cpu) {
-  const r = { code: code(), cpu, seats: [null, null], picks: [null, null], skins: [null, null], random: [false, false], game: null, pending: [null, null], log: [], rematch: [false, false], reveal: null };
+  const r = { code: code(), cpu, seats: [null, null], picks: [null, null], skins: [null, null], starts: [null, null], random: [false, false], game: null, pending: [null, null], log: [], rematch: [false, false], reveal: null };
   rooms.set(r.code, r);
   return r;
 }
 function seatOf(r, id) { return r.seats.findIndex(s => s && s.id === id); }
 
 function lobby(r, i = 0) {
-  return { code: r.code, cpu: r.cpu, players: r.seats.map((s, i) => s && { name: s.name, picked: !!r.picks[i], away: !!s.away }), myPick: r.random[i] ? 'random' : r.picks[i], mySkin: r.random[i] ? null : r.skins[i] };
+  return { code: r.code, cpu: r.cpu, players: r.seats.map((s, i) => s && { name: s.name, picked: !!r.picks[i], away: !!s.away }), myPick: r.random[i] ? 'random' : r.picks[i], mySkin: r.random[i] ? null : r.skins[i], myStart: r.random[i] ? null : r.starts[i] };
 }
 function push(r) {
   r.seats.forEach((s, i) => {
@@ -47,8 +50,11 @@ function push(r) {
 // fighters are called by name alone; only a mirror match adds the player's name to tell them apart
 const who = (g, names, i) => E.nameOf(g.p[0]) === E.nameOf(g.p[1]) ? `${names[i]}'s ${E.nameOf(g.p[i])}` : E.nameOf(g.p[i]);
 function start(r) {
-  r.random.forEach((rnd, i) => { if (rnd && r.game) { r.picks[i] = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; r.skins[i] = randSkin(r.picks[i]); } }); // rematch re-rolls Random
+  r.random.forEach((rnd, i) => { if (rnd && r.game) { r.picks[i] = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; r.skins[i] = randSkin(r.picks[i]); r.starts[i] = randStart(r.picks[i]); } }); // rematch re-rolls Random
   r.game = E.newGame(BY_ID[r.picks[0]], BY_ID[r.picks[1]], (Math.random() * 2 ** 31) | 0, [0, 1].map(i => skinOf(r.picks[i], r.skins[i])));
+  r.game.p.forEach((p, i) => { const v = r.starts[i];
+    if (v == null) return;
+    if (p.f.id === 'pt') p.mem.poke = v; else if (p.f.id === 'pyra') p.mem.form = v; });
   r.pending = [null, null]; r.rematch = [false, false]; r.reveal = null;
   r.game.stats = [newStats(), newStats()];
   r.timeline = [{ turn: 0, hp: r.game.p.map(p => p.hp), meter: [0, 0] }];
@@ -106,7 +112,7 @@ function dropSeat(r, i) {
   const s = r.seats[i]; if (s && s.timer) clearTimeout(s.timer);
   r.seats[i] = null;
   if (r.seats.every(x => !x || x.cpu)) { r.seats.forEach(x => x && x.timer && clearTimeout(x.timer)); rooms.delete(r.code); }
-  else { r.game = null; r.picks = [null, null]; r.skins = [null, null]; r.random = [false, false]; r.log = []; r.reveal = null; push(r); }
+  else { r.game = null; r.picks = [null, null]; r.skins = [null, null]; r.starts = [null, null]; r.random = [false, false]; r.log = []; r.reveal = null; push(r); }
 }
 
 io.on('connection', sock => {
@@ -152,12 +158,12 @@ io.on('connection', sock => {
     r.seats[free] = { id: sock.id, pid, name: name || `Player ${free + 1}` };
     push(r);
   });
-  sock.on('pick', ({ id, skin, random }) => {
+  sock.on('pick', ({ id, skin, start: first, random }) => {
     if (!room || room.game || (!random && !BY_ID[id])) return;
     const i = seatOf(room, sock.id); if (i < 0) return;
-    if (random) { id = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; skin = randSkin(id); }   // rolled now, revealed at battle start
-    room.picks[i] = id; room.skins[i] = skinOf(id, skin) ? skin : null; room.random[i] = !!random;
-    if (room.cpu) { room.picks[1] = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; room.skins[1] = randSkin(room.picks[1]); }
+    if (random) { id = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; skin = randSkin(id); first = randStart(id); }   // rolled now, revealed at battle start
+    room.picks[i] = id; room.skins[i] = skinOf(id, skin) ? skin : null; room.starts[i] = startOf(id, first); room.random[i] = !!random;
+    if (room.cpu) { room.picks[1] = FIGHTERS[(Math.random() * FIGHTERS.length) | 0].id; room.skins[1] = randSkin(room.picks[1]); room.starts[1] = randStart(room.picks[1]); }
     if (room.picks.every(Boolean) && room.seats.every(Boolean)) start(room); else push(room);
   });
   sock.on('act', a => {
@@ -178,7 +184,7 @@ io.on('connection', sock => {
   });
   sock.on('newFighters', () => {
     if (!room) return;
-    room.game = null; room.picks = [null, null]; room.skins = [null, null]; room.random = [false, false]; room.log = []; room.reveal = null;
+    room.game = null; room.picks = [null, null]; room.skins = [null, null]; room.starts = [null, null]; room.random = [false, false]; room.log = []; room.reveal = null;
     push(room);
   });
   sock.on('leave', leave);

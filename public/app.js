@@ -7,7 +7,7 @@ const socket = io({ auth: { pid: PID }, reconnectionDelayMax: 3000 });
 const $ = s => document.querySelector(s);
 const TYPE = { A: 'Attack', C: 'Counter', G: 'Grab', FS: 'Final Smash' };
 const wait = ms => new Promise(r => setTimeout(r, ms));
-let KITS = [], BY = {}, SKINS = {}, myPick = null, mySkin = null;
+let KITS = [], BY = {}, SKINS = {}, myPick = null, mySkin = null, myStart = null;
 let shown = null, lastStats = null;          // the state currently drawn on screen
 let animating = false, queued = null, lastAnimTurn = 0, logTurnsShown = 0;
 
@@ -84,8 +84,13 @@ function renderGrid() {
   document.querySelectorAll('#grid .card').forEach(c => c.onclick = () => costumePicker(c.dataset.id));
 }
 const skinById = (id, sid) => sid ? (SKINS[id] || []).find(x => x.id === sid) || null : null;
-function choose(id, skin) {
-  myPick = id; mySkin = skin; socket.emit('pick', { id, skin }); renderGrid();
+// fighters that let you choose who begins the battle
+const STARTS = {
+  pt: { label: 'Starting Pokémon', opts: [{ v: 0, name: 'Squirtle', art: 'pt-squirtle' }, { v: 1, name: 'Ivysaur', art: 'pt-ivysaur' }, { v: 2, name: 'Charizard', art: 'pt-charizard' }] },
+  pyra: { label: 'Starts as', opts: [{ v: 'P', name: 'Pyra', art: 'pyra-pyra' }, { v: 'M', name: 'Mythra', art: 'pyra-mythra' }] },
+};
+function choose(id, skin, start = null) {
+  myPick = id; mySkin = skin; myStart = start; socket.emit('pick', { id, skin, start }); renderGrid();
   const el = document.querySelector(`.card[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 // fighter confirm: preview the fighter, pick a costume if they have any, then Confirm
@@ -93,23 +98,30 @@ const costumesOf = id => [{ id: null, name: (SKINS._defaults || {})[id] || 'Defa
 function costumePicker(id, pre = myPick === id ? mySkin : null) {
   const k = BY[id], opts = costumesOf(id);
   let sel = opts.some(o => o.id === pre) ? pre : null;
+  const SO = STARTS[id];
+  let start = SO ? (myPick === id && SO.opts.some(x => x.v === myStart) ? myStart : SO.opts[0].v) : null;
   let m = $('#costumes'); if (!m) { m = document.createElement('div'); m.id = 'costumes'; document.body.appendChild(m); }
   const draw = () => {
     const o = opts.find(x => x.id === sel), shown = o.display || k.name;
+    const so = SO && SO.opts.find(x => x.v === start);
+    const prevArt = id === 'pyra' ? so.art : o.art, prevName = id === 'pyra' ? `${so.name} starts` : o.name;
     m.innerHTML = `<div class="cpanel">
       <div class="chead"><div><h2>${esc(shown)}</h2><span>${shown !== k.name ? esc(k.name) + ' · ' : ''}${esc(k.series)}</span></div><button class="ghost" id="cClose">✕</button></div>
       <div class="cbody">
-        <div class="cprev">${img(o.art, shown)}<div class="cname2">${esc(o.name)}</div></div>
+        <div class="cprev">${img(prevArt, shown)}<div class="cname2">${esc(prevName)}</div></div>
         <div class="cside">
           <div class="ckit"><b>${esc(k.passive.name)}</b> — ${esc(k.passive.text)}<br><b>${esc(k.skill.name)}</b> ${typeTag(k.skill.type)} · ${k.skill.cost} meter — ${esc(k.skill.text)}</div>
           ${opts.length > 1 ? `<div class="clabel">Costume</div><div class="cgrid">${opts.map(x => `<button class="ctile ${x.id === sel ? 'on' : ''}" data-skin="${x.id || ''}" title="${esc(x.name)}">
             ${img(x.art, x.display || k.name)}<small>${esc(x.name)}</small></button>`).join('')}</div>` : ''}
+          ${SO ? `<div class="clabel">${SO.label}</div><div class="cgrid">${SO.opts.map(x => `<button class="ctile stile ${x.v === start ? 'on' : ''}" data-start="${x.v}">
+            ${img(x.art, x.name)}<small>${esc(x.name)}</small></button>`).join('')}</div>` : ''}
         </div>
       </div>
       <div class="cfoot"><button class="ghost" id="cCancel">Cancel</button><button id="cOk">Confirm ${esc(shown)}</button></div></div>`;
     $('#cClose').onclick = $('#cCancel').onclick = close;
-    $('#cOk').onclick = () => { close(); choose(id, sel); };
-    m.querySelectorAll('.ctile').forEach(b => b.onclick = () => { sel = b.dataset.skin || null; draw(); });
+    $('#cOk').onclick = () => { close(); choose(id, sel, start); };
+    m.querySelectorAll('.ctile:not(.stile)').forEach(b => b.onclick = () => { sel = b.dataset.skin || null; draw(); });
+    m.querySelectorAll('.stile').forEach(b => b.onclick = () => { start = id === 'pt' ? +b.dataset.start : b.dataset.start; draw(); });
   };
   const close = () => { m.classList.add('hidden'); document.removeEventListener('keydown', key); };
   const key = e => { if (e.key === 'Escape') close(); if (e.key === 'Enter') $('#cOk').click(); };
@@ -136,7 +148,7 @@ socket.on('noRoom', () => {
 });
 socket.on('lobby', l => {
   resetBattle(); show('select');
-  if (l.myPick && (myPick !== l.myPick || mySkin !== (l.mySkin || null))) { myPick = l.myPick; mySkin = l.mySkin || null; renderGrid(); }
+  if (l.myPick && (myPick !== l.myPick || mySkin !== (l.mySkin || null))) { myPick = l.myPick; mySkin = l.mySkin || null; myStart = l.myStart ?? null; renderGrid(); }
   const others = l.players.map(p => p ? `${esc(p.name)}${p.picked ? ' ✓' : ''}` : '<i>waiting…</i>').join(' vs ');
   $('#lobbyInfo').innerHTML = l.cpu ? 'Pick your fighter — the CPU picks at random.' : `Room <b>${l.code}</b> · ${others} · share the code with a friend`;
 });
@@ -164,7 +176,7 @@ function sideHTML(s, player, mine) {
   return `
     <div class="pname">${esc(player)}${mine ? ' (you)' : ''}</div>
     <div class="cname">${s.name}</div>
-    <div class="who"><div class="pwrap ${W.fxClass(s.effects)}">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}${W.fxBadges(s.effects)}</div>${s.fx.summon ? `<img class="summon" src="images/${s.fx.summon}.webp" alt="">` : ''}<div>
+    <div class="who"><div class="pwrap ${W.fxClass(s.effects)}">${img(s.art, s.name)}${s.fx.marks.map(W.mark).join('')}${W.fxBadges(s.effects)}</div>${s.fx.summon ? `<img class="summon ${s.fx.summonCls || ''}" src="images/${s.fx.summon}" alt="">` : ''}<div>
       <div class="small hideSmall">${s.passive} · <span class="skl ${s.skill.copied ? 'copied' : ''} ${s.skill.protean ? 'protean' : ''}">${s.skill.copied ? 'Copied: ' : ''}${s.skill.name} <span class="tag ${TYPE[s.skill.type] || 'flex'}">${TYPE[s.skill.type] || s.skill.type}</span>${s.skill.cost !== null ? ` ${s.skill.cost}` : ''}</span></div></div></div>
     ${kitHTML(s, mine ? 'me' : 'opp')}
     <div class="lbl"><span>HP</span><span class="hpnum">${s.hp} / ${s.maxHp}</span></div>
