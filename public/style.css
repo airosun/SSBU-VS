@@ -751,3 +751,11 @@ h1, h2, .cname, .card h3, #turn, #burst, .vs, .face.front .t, #actions button, .
   #costumes .cfoot { position: sticky; bottom: -12px; background: var(--panel); margin-bottom: -12px; padding-bottom: 12px; }
   #costumes #cOk { flex: 1; }
 }
+#costumes .rpanel { width: min(460px, 100%); text-align: left; }
+#costumes .rmark { width: 200px; height: 200px; margin: 4px auto 0; border-radius: 16px; display: grid; place-items: center;
+  font-family: 'Smash', sans-serif; font-style: italic; font-weight: 900; font-size: 140px; line-height: 1; color: #fff;
+  background: radial-gradient(circle at 50% 55%, #6d4fd8, #2a1f55 70%); box-shadow: inset 0 0 0 2px #b48cf255, 0 0 30px #8a6cf255;
+  text-shadow: 0 6px 0 #0008; -webkit-text-stroke: 2px #1b1236; animation: rmark 2.4s ease-in-out infinite; }
+@keyframes rmark { 50% { transform: rotate(-4deg) scale(1.04); } }
+.randomBtn.picked { box-shadow: 0 0 0 3px #f2b233, 0 0 18px #f2b23388; }
+.randomBtn.picked::after { content: ' ✓'; }

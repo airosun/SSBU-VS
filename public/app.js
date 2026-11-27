@@ -32,9 +32,17 @@ $('#cpuBtn').onclick = () => socket.emit('cpu', { name: nameVal() });
 $('#createBtn').onclick = () => socket.emit('create', { name: nameVal() });
 $('#joinBtn').onclick = () => socket.emit('join', { name: nameVal(), code: $('#code').value });
 $('#howBtn').onclick = () => $('#how').showModal();
+// Random stays a secret: just confirm, and the server rolls the fighter and costume when the battle starts
 $('#randomBtn').onclick = () => {
-  const k = KITS[(Math.random() * KITS.length) | 0], l = costumesOf(k.id);
-  costumePicker(k.id, l[(Math.random() * l.length) | 0].id);   // random fighter + costume, still needs Confirm
+  let m = $('#costumes'); if (!m) { m = document.createElement('div'); m.id = 'costumes'; document.body.appendChild(m); }
+  m.innerHTML = `<div class="cpanel rpanel"><div class="chead"><div><h2>Random</h2><span>A surprise fighter and costume, revealed when the battle starts</span></div><button class="ghost" id="cClose">✕</button></div>
+    <div class="rmark">?</div>
+    <div class="cfoot"><button class="ghost" id="cCancel">Cancel</button><button id="cOk">Confirm Random</button></div></div>`;
+  const close = () => { m.classList.add('hidden'); document.removeEventListener('keydown', key); };
+  const key = e => { if (e.key === 'Escape') close(); if (e.key === 'Enter') $('#cOk').click(); };
+  $('#cClose').onclick = $('#cCancel').onclick = close; m.onclick = e => { if (e.target === m) close(); };
+  $('#cOk').onclick = () => { close(); myPick = 'random'; mySkin = null; socket.emit('pick', { random: true }); renderGrid(); };
+  document.addEventListener('keydown', key); m.classList.remove('hidden'); $('#cOk').focus();
 };
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
 $('#statsBtn').onclick = () => { if (lastStats) { renderStats(lastStats); $('#statsDlg').showModal(); } };
@@ -61,6 +69,7 @@ function resetBattle() { shown = null; queued = null; animating = false; lastAni
 
 // ---------- fighter select ----------
 function renderGrid() {
+  $('#randomBtn').classList.toggle('picked', myPick === 'random');
   const q = $('#search').value.toLowerCase(), t = $('#typeFilter').value;
   $('#grid').innerHTML = KITS.filter(k =>
     (!q || (k.name + ' ' + k.series).toLowerCase().includes(q)) &&
