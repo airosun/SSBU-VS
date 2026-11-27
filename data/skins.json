@@ -79,19 +79,19 @@
   {
    "id": "erdrick",
    "name": "Erdrick",
-   "display": "Erdrick",
+   "display": null,
    "art": "skins/hero-erdrick"
   },
   {
    "id": "solo",
    "name": "Solo",
-   "display": "Solo",
+   "display": null,
    "art": "skins/hero-solo"
   },
   {
    "id": "eight",
    "name": "Eight",
-   "display": "Eight",
+   "display": null,
    "art": "skins/hero-eight"
   }
  ],
@@ -113,10 +113,10 @@
  ],
  "isabelle": [
   {
-   "id": "cardigan",
-   "name": "Cardigan",
+   "id": "winter",
+   "name": "Winter",
    "display": null,
-   "art": "skins/isabelle-cardigan"
+   "art": "skins/isabelle-winter"
   }
  ],
  "joker": [
@@ -153,7 +153,7 @@
   {
    "id": "wireframe",
    "name": "Wireframe",
-   "display": "Wireframe Mac",
+   "display": null,
    "art": "skins/mac-wireframe"
   },
   {
@@ -167,50 +167,50 @@
   {
    "id": "builder",
    "name": "Builder Mario",
-   "display": "Builder Mario",
+   "display": null,
    "art": "skins/mario-builder"
   },
   {
    "id": "wedding",
    "name": "Wedding Mario",
-   "display": "Wedding Mario",
+   "display": null,
    "art": "skins/mario-wedding"
   }
  ],
  "mk": [
   {
-   "id": "white",
-   "name": "White & Pink",
+   "id": "galacta",
+   "name": "Galacta Knight",
    "display": null,
-   "art": "skins/mk-white"
+   "art": "skins/mk-galacta"
   },
   {
    "id": "dark",
    "name": "Dark Meta Knight",
-   "display": "Dark Meta Knight",
+   "display": null,
    "art": "skins/mk-dark"
   }
  ],
  "olimar": [
   {
-   "id": "white",
-   "name": "White Suit",
-   "display": null,
-   "art": "skins/olimar-white"
+   "id": "alph",
+   "name": "Alph",
+   "display": "Alph",
+   "art": "skins/olimar-alph"
   }
  ],
  "pikachu": [
   {
    "id": "libre",
    "name": "Pikachu Libre",
-   "display": "Pikachu Libre",
+   "display": null,
    "art": "skins/pikachu-libre"
   }
  ],
  "plant": [
   {
    "id": "pipe",
-   "name": "Warp Pipe",
+   "name": "Pipe",
    "display": null,
    "art": "skins/plant-pipe"
   }
@@ -219,7 +219,7 @@
   {
    "id": "meta",
    "name": "Meta Ridley",
-   "display": "Meta Ridley",
+   "display": null,
    "art": "skins/ridley-meta"
   }
  ],
@@ -241,10 +241,10 @@
  ],
  "seph": [
   {
-   "id": "no-coat",
-   "name": "No Coat",
+   "id": "coatless",
+   "name": "Coatless",
    "display": null,
-   "art": "skins/seph-no-coat"
+   "art": "skins/seph-coatless"
   }
  ],
  "shulk": [
@@ -263,10 +263,10 @@
    "art": "skins/sora-kh2"
   },
   {
-   "id": "valor",
-   "name": "Valor Form",
+   "id": "ddd",
+   "name": "Dream Drop Distance",
    "display": null,
-   "art": "skins/sora-valor"
+   "art": "skins/sora-ddd"
   },
   {
    "id": "kh3",
@@ -327,24 +327,27 @@
  ],
  "yoshi": [
   {
-   "id": "yarn",
-   "name": "Yarn Yoshi",
-   "display": "Yarn Yoshi",
-   "art": "skins/yoshi-yarn"
+   "id": "crafted",
+   "name": "Yoshi's Crafted World",
+   "display": null,
+   "art": "skins/yoshi-crafted"
   }
  ],
  "zss": [
   {
-   "id": "orange",
-   "name": "Orange Sportswear",
+   "id": "casual-zm",
+   "name": "Casual Outfit (Zero Mission)",
    "display": null,
-   "art": "skins/zss-orange"
+   "art": "skins/zss-casual-zm"
   },
   {
-   "id": "blue",
-   "name": "Blue Sportswear",
+   "id": "casual-fusion",
+   "name": "Casual Outfit (Fusion)",
    "display": null,
-   "art": "skins/zss-blue"
+   "art": "skins/zss-casual-fusion"
   }
- ]
+ ],
+ "_defaults": {
+  "isabelle": "Summer"
+ }
 }

@@ -33,9 +33,8 @@ $('#createBtn').onclick = () => socket.emit('create', { name: nameVal() });
 $('#joinBtn').onclick = () => socket.emit('join', { name: nameVal(), code: $('#code').value });
 $('#howBtn').onclick = () => $('#how').showModal();
 $('#randomBtn').onclick = () => {
-  const k = KITS[(Math.random() * KITS.length) | 0], l = SKINS[k.id] || [], r = (Math.random() * (l.length + 1)) | 0;
-  choose(k.id, r < l.length ? l[r].id : null);
-  const el = document.querySelector(`.card[data-id="${k.id}"]`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  const k = KITS[(Math.random() * KITS.length) | 0], l = costumesOf(k.id);
+  costumePicker(k.id, l[(Math.random() * l.length) | 0].id);   // random fighter + costume, still needs Confirm
 };
 $('#search').oninput = renderGrid; $('#typeFilter').onchange = renderGrid;
 $('#statsBtn').onclick = () => { if (lastStats) { renderStats(lastStats); $('#statsDlg').showModal(); } };
@@ -73,25 +72,41 @@ function renderGrid() {
       <div class="kit"><b>${k.passive.name}</b> — ${k.passive.text}<br>
         <b>${k.skill.name}</b> ${typeTag(k.skill.type)} · ${k.skill.cost} meter — ${k.skill.text}</div>
     </div>`).join('');
-  document.querySelectorAll('#grid .card').forEach(c => c.onclick = () => SKINS[c.dataset.id] ? costumePicker(c.dataset.id) : choose(c.dataset.id, null));
+  document.querySelectorAll('#grid .card').forEach(c => c.onclick = () => costumePicker(c.dataset.id));
 }
 const skinById = (id, sid) => sid ? (SKINS[id] || []).find(x => x.id === sid) || null : null;
 function choose(id, skin) {
   myPick = id; mySkin = skin; socket.emit('pick', { id, skin }); renderGrid();
   const el = document.querySelector(`.card[data-id="${id}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
-// costume choice: the default look plus every alternate costume for that fighter
-function costumePicker(id) {
-  const k = BY[id], opts = [{ id: null, name: 'Default', display: null, art: id }, ...SKINS[id]];
+// fighter confirm: preview the fighter, pick a costume if they have any, then Confirm
+const costumesOf = id => [{ id: null, name: (SKINS._defaults || {})[id] || 'Default', display: null, art: id }, ...(SKINS[id] || [])];
+function costumePicker(id, pre = myPick === id ? mySkin : null) {
+  const k = BY[id], opts = costumesOf(id);
+  let sel = opts.some(o => o.id === pre) ? pre : null;
   let m = $('#costumes'); if (!m) { m = document.createElement('div'); m.id = 'costumes'; document.body.appendChild(m); }
-  m.innerHTML = `<div class="cpanel"><div class="chead"><h2>${esc(k.name)}</h2><span>Choose a costume</span><button class="ghost" id="cClose">✕</button></div>
-    <div class="cgrid">${opts.map(o => `<button class="ctile ${myPick === id && mySkin === o.id ? 'on' : ''}" data-skin="${o.id || ''}">
-      ${img(o.art, o.display || k.name)}<b>${esc(o.display || k.name)}</b><small>${o.display === o.name ? 'Alternate costume' : esc(o.name)}</small></button>`).join('')}</div></div>`;
-  m.classList.remove('hidden');
-  const close = () => m.classList.add('hidden');
+  const draw = () => {
+    const o = opts.find(x => x.id === sel), shown = o.display || k.name;
+    m.innerHTML = `<div class="cpanel">
+      <div class="chead"><div><h2>${esc(shown)}</h2><span>${shown !== k.name ? esc(k.name) + ' · ' : ''}${esc(k.series)}</span></div><button class="ghost" id="cClose">✕</button></div>
+      <div class="cbody">
+        <div class="cprev">${img(o.art, shown)}<div class="cname2">${esc(o.name)}</div></div>
+        <div class="cside">
+          <div class="ckit"><b>${esc(k.passive.name)}</b> — ${esc(k.passive.text)}<br><b>${esc(k.skill.name)}</b> ${typeTag(k.skill.type)} · ${k.skill.cost} meter — ${esc(k.skill.text)}</div>
+          ${opts.length > 1 ? `<div class="clabel">Costume</div><div class="cgrid">${opts.map(x => `<button class="ctile ${x.id === sel ? 'on' : ''}" data-skin="${x.id || ''}" title="${esc(x.name)}">
+            ${img(x.art, x.display || k.name)}<small>${esc(x.name)}</small></button>`).join('')}</div>` : ''}
+        </div>
+      </div>
+      <div class="cfoot"><button class="ghost" id="cCancel">Cancel</button><button id="cOk">Confirm ${esc(shown)}</button></div></div>`;
+    $('#cClose').onclick = $('#cCancel').onclick = close;
+    $('#cOk').onclick = () => { close(); choose(id, sel); };
+    m.querySelectorAll('.ctile').forEach(b => b.onclick = () => { sel = b.dataset.skin || null; draw(); });
+  };
+  const close = () => { m.classList.add('hidden'); document.removeEventListener('keydown', key); };
+  const key = e => { if (e.key === 'Escape') close(); if (e.key === 'Enter') $('#cOk').click(); };
   m.onclick = e => { if (e.target === m) close(); };
-  $('#cClose').onclick = close;
-  m.querySelectorAll('.ctile').forEach(b => b.onclick = () => { close(); choose(id, b.dataset.skin || null); });
+  document.addEventListener('keydown', key);
+  draw(); m.classList.remove('hidden'); $('#cOk').focus();
 }
 
 socket.on('err', m => alert(m));
