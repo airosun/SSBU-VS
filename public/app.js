@@ -355,9 +355,16 @@ socket.on('state', st => {
 
 
 // ---------- post-battle stats ----------
+// Pokémon Trainer is shown as the Trainer you picked, not whichever Pokémon finished the match
+const statArt = s => s.id === 'pt' ? s.baseArt : s.art;
+const statName = s => s.id === 'pt' ? s.baseName : s.name;
 function mechList(p, side, player) {
-  const u = Object.entries(p.unique || {}).filter(([, v]) => v).sort((a, b) => b[1] - a[1]);
-  return `<div class="mech"><div class="mechHead">${img(side.art, side.name)}<div><div class="pname">${esc(player)}</div><b>${esc(side.name)}</b></div></div>
+  let u = Object.entries(p.unique || {}).filter(([, v]) => v).sort((a, b) => b[1] - a[1]);
+  if (side.id === 'pt') {   // each Pokémon's damage first, in team order, even if one never got in
+    const team = ['Squirtle', 'Ivysaur', 'Charizard'].map(n => [`Damage dealt by ${n}`, (p.unique || {})[`Damage dealt by ${n}`] || 0]);
+    u = [...team, ...u.filter(([k]) => !k.startsWith('Damage dealt by '))];
+  }
+  return `<div class="mech"><div class="mechHead">${img(statArt(side), statName(side))}<div><div class="pname">${esc(player)}</div><b>${esc(statName(side))}</b></div></div>
     ${u.length ? u.map(([k, v]) => `<div class="mrow"><span>${esc(k)}</span><b>${v}</b></div>`).join('') : '<div class="small">No special mechanics came into play this match.</div>'}</div>`;
 }
 function renderStats(st) {
@@ -399,12 +406,12 @@ function renderStats(st) {
   $('#statsBody').innerHTML = `
     <div class="shead ${st.winner === me ? 'win' : st.winner === -1 ? '' : 'lose'}"><h2>${result}</h2><span>${S.turns} turns</span></div>
     <div class="sfighters">
-      ${[0, 1].map(i => `<div class="sf ${i ? 'r' : ''} ${st.winner === idx[i] ? 'won' : ''}">${img(sides[i].art, sides[i].name)}<div><div class="pname">${esc(names[i])}</div><b>${sides[i].name}</b><div class="small">${sides[i].hp} / ${sides[i].maxHp} HP left</div></div></div>`).join('<div class="svs">VS</div>')}
+      ${[0, 1].map(i => `<div class="sf ${i ? 'r' : ''} ${st.winner === idx[i] ? 'won' : ''}">${img(statArt(sides[i]), statName(sides[i]))}<div><div class="pname">${esc(names[i])}</div><b>${statName(sides[i])}</b><div class="small">${sides[i].hp} / ${sides[i].maxHp} HP left</div></div></div>`).join('<div class="svs">VS</div>')}
     </div>
     <div class="stable">${statRows}</div>
     <h3 class="sh">HP over time</h3>
     <svg class="hpchart" viewBox="0 0 ${W} ${H}">${grid}${ticks}${line(me, 'l1')}${line(op, 'l2')}</svg>
-    <div class="legend"><span class="k1"></span>${esc(names[0])} (${sides[0].name}) <span class="k2"></span>${esc(names[1])} (${sides[1].name})</div>
+    <div class="legend"><span class="k1"></span>${esc(names[0])} (${statName(sides[0])}) <span class="k2"></span>${esc(names[1])} (${statName(sides[1])})</div>
     <h3 class="sh">Fighter mechanics</h3>
     <div class="mechs">${[0, 1].map(i => mechList(P[idx[i]], sides[i], names[i])).join('')}</div>
     <h3 class="sh">Action mix</h3>

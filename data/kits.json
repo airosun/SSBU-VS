@@ -678,7 +678,7 @@
    "name": "Pokémon Change",
    "type": "Counter",
    "cost": 1,
-   "text": "+5 damage, then switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
+   "text": "+5 damage. Whether it lands or not, switch to the next Pokémon (Squirtle → Ivysaur → Charizard → Squirtle)."
   },
   "finalSmash": "Triple Finish",
   "finalSmashText": "21 damage (all three Pokémon attack). The active Pokémon doesn't change."
@@ -1446,7 +1446,7 @@
   "series": "Xenoblade Chronicles 2",
   "passive": {
    "name": "Aegis Swap",
-   "text": "After you use your skill, swap between Pyra and Mythra. Pyra: wins deal +2. Mythra: Gain 1 extra on wins. You choose who starts."
+   "text": "Whenever you use your skill (even if it misses), swap between Pyra and Mythra. Pyra: wins deal +2. Mythra: Gain 1 extra on wins. You choose who starts."
   },
   "skill": {
    "name": "Prominence Revolt (Pyra) / Foresight (Mythra)",

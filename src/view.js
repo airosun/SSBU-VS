@@ -114,7 +114,7 @@ function side(g, i, self) {
   const hidden = !self && p.f.hiddenMeter;
   const res = resources(p, o, g);
   return {
-    id: p.f.id, art: art(p, g), name: E.nameOf(p), fs: E.fsNameOf(p), passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
+    id: p.f.id, art: art(p, g), name: E.nameOf(p), baseArt: (p.skin && p.skin.art) || p.f.id, baseName: (p.skin && p.skin.display) || p.f.name, fs: E.fsNameOf(p), passive: p.f.passiveName, hp: Math.max(0, p.hp), maxHp: p.maxHp,
     meter: hidden ? null : p.meter, meterMax: E.RULES.METER_MAX,
     skill: { name: E.skillName(p), type: E.skillType(p, g), cost: hidden ? null : E.skillCost(g, p, o), copied: !!p.copy, copiedFrom: p.copy ? (require('./fighters').FIGHTERS.find(f => f.skill === p.copy) || {}).id : null, protean: p.f.id === 'greninja' },
     fx: effects(p, o, g, self, !self),

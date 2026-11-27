@@ -161,6 +161,7 @@ function hit(g, att, def, o) {
   if (g.stats) {
     const a = stat(g, att), b = stat(g, def);
     a.dealt += d; b.hitTaken += d;
+    if (att.f.id === 'pt') ustat(g, att, `Damage dealt by ${nameOf(att)}`, d);   // per-Pokémon split for the stats page
     if (d > a.biggest) { a.biggest = d; a.biggestWith = o.fs ? fsNameOf(att) : o.aAct.kind === 'skill' ? skillName(att) : o.clash ? 'Clash' : NAME[o.aAct.type]; a.biggestTurn = g.T; }
     if (o.fs) a.fsDamage += d;
     for (const x of parts) {

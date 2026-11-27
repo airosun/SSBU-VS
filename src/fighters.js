@@ -305,7 +305,9 @@ const PT_SPEC = ['C', 'G', 'A'];
 const PIKMIN = ['red', 'blue', 'yellow', 'white', 'purple'];
 def('pt', 'Pokémon Trainer', {
   winBonus: c => c.act.type === PT_SPEC[c.me.mem.poke || 0] ? N.pt.p : 0,
-  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s, rider: c => { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.announce(c.g, c.me, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); E.ustat(c.g, c.me, 'Pokémon switches'); } },
+  // the switch happens whenever Pokémon Change is used, win or lose (same as Pyra/Mythra's Aegis Swap)
+  onTurnEnd: c => { if (c.act.kind === 'skill') { c.me.mem.poke = ((c.me.mem.poke || 0) + 1) % 3; E.announce(c.g, c.me, `Pokémon Trainer switches to ${['Squirtle', 'Ivysaur', 'Charizard'][c.me.mem.poke]}!`); E.ustat(c.g, c.me, 'Pokémon switches'); } },
+  skill: { name: 'Pokémon Change', type: 'C', cost: 1, listed: 2, bonus: () => N.pt.s },
 });
 // 36 Diddy Kong
 def('diddy', 'Diddy Kong', {
