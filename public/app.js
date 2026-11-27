@@ -12,7 +12,7 @@ let shown = null, lastStats = null;          // the state currently drawn on scr
 let animating = false, queued = null, lastAnimTurn = 0, logTurnsShown = 0;
 
 const screens = ['home', 'select', 'battle'];
-const show = id => screens.forEach(s => $('#' + s).classList.toggle('hidden', s !== id));
+const show = id => { const was = $('#' + id).classList.contains('hidden'); screens.forEach(s => $('#' + s).classList.toggle('hidden', s !== id)); if (was) window.scrollTo(0, 0); };
 const nameVal = () => $('#name').value.trim() || 'Player';
 const initials = n => n.split(/[\s/&.-]+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -156,7 +156,7 @@ socket.on('lobby', l => {
 // ---------- side panels ----------
 // Kit text is open by default on wide screens, folded on phones; remembers your choice per side
 const kitOpen = { me: null, opp: null };
-const wide = () => window.matchMedia('(min-width: 701px)').matches;
+const wide = () => window.matchMedia('(min-width: 701px) and (min-height: 601px)').matches;   // kit text folded on phones, portrait or landscape
 function kitToggle(el) { kitOpen[el.dataset.side] = el.open; }
 function kitHTML(s, sideKey) {
   const k = BY[s.id]; if (!k) return '';
