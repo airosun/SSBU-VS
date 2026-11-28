@@ -1,0 +1,832 @@
+[
+ {
+  "id": "mario",
+  "special": "Fireball",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Steady projectile. On a win, Mario's next basic Attack this match deals +3.",
+  "passive": "F.L.U.D.D.",
+  "passiveText": "When you win with Shield, push the opponent back: their next Special has +1 cooldown."
+ },
+ {
+  "id": "dk",
+  "special": "Giant Punch",
+  "type": "Close Attack",
+  "dmg": 18,
+  "cd": 2,
+  "effect": "Wind-up punch. Each turn you don't use it, store +2 damage (max +6). Hits Shields for 2 pips.",
+  "passive": "Cargo Carry",
+  "passiveText": "Your Grab wins deal +4 and the opponent can't Shield next turn."
+ },
+ {
+  "id": "link",
+  "special": "Remote Bomb",
+  "type": "Ranged Attack",
+  "dmg": 5,
+  "cd": 1,
+  "effect": "Leaves a bomb: the next time the opponent picks Shield, it detonates for 6.",
+  "passive": "Hylian Shield",
+  "passiveText": "Your Shield also blocks Ranged Attack Specials for free (no pip cost)."
+ },
+ {
+  "id": "samus",
+  "special": "Charge Shot",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "+3 damage for each turn since you last used it (max 18).",
+  "passive": "Power Suit",
+  "passiveText": "Take 2 less damage from Close Attacks."
+ },
+ {
+  "id": "dsamus",
+  "special": "Grapple Beam",
+  "type": "Tether Grab",
+  "dmg": 11,
+  "cd": 1,
+  "effect": "Phazon-laced: also Poison 2 for 2 turns.",
+  "passive": "Phazon Overload",
+  "passiveText": "When at 30 HP or less, all your hits deal +3."
+ },
+ {
+  "id": "yoshi",
+  "special": "Egg Lay",
+  "type": "Command Grab",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "Opponent is trapped in an egg: their next action can't be a Special.",
+  "passive": "Flutter Armor",
+  "passiveText": "Your Close Attacks win clashes against basic Attacks instead of trading."
+ },
+ {
+  "id": "kirby",
+  "special": "Inhale",
+  "type": "Command Grab",
+  "dmg": 12,
+  "cd": 2,
+  "effect": "Copy the opponent's Special for the rest of the match (it replaces this one).",
+  "passive": "Hearty Appetite",
+  "passiveText": "Heal 4 whenever you win with a Grab."
+ },
+ {
+  "id": "fox",
+  "special": "Reflector",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Reflects the Attack back for 1.2× its damage; Ranged Attacks are reflected for 1.5×.",
+  "passive": "Blaster Pressure",
+  "passiveText": "Each turn the opponent Shields against you, their Shield costs 1 extra pip."
+ },
+ {
+  "id": "pikachu",
+  "special": "Skull Bash",
+  "type": "Close Attack",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "Charges: +2 for each turn you haven't used it (max +6).",
+  "passive": "Static",
+  "passiveText": "When the opponent hits you with a Close Attack, they take 3."
+ },
+ {
+  "id": "luigi",
+  "special": "Green Missile",
+  "type": "Close Attack",
+  "dmg": 12,
+  "cd": 1,
+  "effect": "20% chance to Misfire for +12.",
+  "passive": "Poltergust",
+  "passiveText": "Your basic Grab is a Tether Grab (beats other Grabs)."
+ },
+ {
+  "id": "ness",
+  "special": "PK Fire",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Burn 3 for 2 turns.",
+  "passive": "PSI Magnet",
+  "passiveText": "Your Shield heals you for half of any Ranged Attack it blocks."
+ },
+ {
+  "id": "falcon",
+  "special": "Falcon Punch",
+  "type": "Close Attack",
+  "dmg": 22,
+  "cd": 3,
+  "effect": "Huge hit. If it loses, you take +4.",
+  "passive": "Show Me Your Moves!",
+  "passiveText": "Winning with Attack two turns in a row gives +4 on the second."
+ },
+ {
+  "id": "jiggly",
+  "special": "Rest",
+  "type": "Close Attack",
+  "dmg": 26,
+  "cd": 4,
+  "effect": "Only lands if the opponent is at 40 HP or less; otherwise it whiffs and you fall asleep (can't act next turn).",
+  "passive": "Floaty",
+  "passiveText": "Your Dodge also avoids basic Attacks."
+ },
+ {
+  "id": "peach",
+  "special": "Toad",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters any Attack for its full damage +4, and you take none.",
+  "passive": "Turnip Pull",
+  "passiveText": "Every 3rd turn, your next Attack win adds a turnip: +3 (20% chance of a Stitchface for +10)."
+ },
+ {
+  "id": "daisy",
+  "special": "Toad",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters any Attack for its full damage +4, and you take none.",
+  "passive": "Sarasaland Spirit",
+  "passiveText": "Heal 3 whenever a Counter or Shield of yours wins."
+ },
+ {
+  "id": "bowser",
+  "special": "Flying Slam",
+  "type": "Command Grab",
+  "dmg": 20,
+  "cd": 2,
+  "effect": "Both fighters take recoil: Bowser takes 4.",
+  "passive": "Tough Guy",
+  "passiveText": "Take 3 less damage from every hit (min 1)."
+ },
+ {
+  "id": "ics",
+  "special": "Chain Grab",
+  "type": "Command Grab",
+  "dmg": 12,
+  "cd": 1,
+  "effect": "If Nana is in, +6 and the opponent can't Shield next turn.",
+  "passive": "Nana",
+  "passiveText": "Nana adds +3 to every win. She's knocked out for 3 turns after you take a 15+ hit."
+ },
+ {
+  "id": "sheik",
+  "special": "Needle Storm",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 0,
+  "effect": "No cooldown. Each consecutive use adds +2 (max +6).",
+  "passive": "Shadow Step",
+  "passiveText": "After any win, your next Dodge also dodges Attacks."
+ },
+ {
+  "id": "zelda",
+  "special": "Phantom Slash",
+  "type": "Ranged Attack",
+  "dmg": 8,
+  "cd": 2,
+  "effect": "If the opponent chose Grab, Phantom wins with +4.",
+  "passive": "Nayru's Love",
+  "passiveText": "Your Shield reflects Ranged Attacks back for half damage."
+ },
+ {
+  "id": "doc",
+  "special": "Super Sheet",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters Attacks for 1.0×; reflects Ranged Attacks for 1.4× and heals 3.",
+  "passive": "Megavitamin",
+  "passiveText": "Your Attack wins heal 2."
+ },
+ {
+  "id": "pichu",
+  "special": "Thunder Jolt",
+  "type": "Ranged Attack",
+  "dmg": 7,
+  "cd": 1,
+  "effect": "You take 2 recoil every use.",
+  "passive": "Live Wire",
+  "passiveText": "All your hits deal +2; you take +2 from every hit."
+ },
+ {
+  "id": "falco",
+  "special": "Blaster",
+  "type": "Ranged Attack",
+  "dmg": 5,
+  "cd": 0,
+  "effect": "No cooldown. The opponent can't Shield-punish it (a Shield still blocks, but deals no damage).",
+  "passive": "Ace Pilot",
+  "passiveText": "Your Attack wins add +2 when you're at full Shield."
+ },
+ {
+  "id": "marth",
+  "special": "Dancing Blade",
+  "type": "Close Attack",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "If it wins a clash, add +4 (Tipper).",
+  "passive": "Tipper",
+  "passiveText": "Every other win you land deals +4."
+ },
+ {
+  "id": "lucina",
+  "special": "Shield Breaker",
+  "type": "Close Attack",
+  "dmg": 13,
+  "cd": 2,
+  "effect": "Against a Shield: breaks it instantly (no block).",
+  "passive": "Even Blade",
+  "passiveText": "All your hits deal a steady +1 and never vary."
+ },
+ {
+  "id": "ylink",
+  "special": "Hookshot",
+  "type": "Tether Grab",
+  "dmg": 11,
+  "cd": 1,
+  "effect": "On a win, also Burn 2 for 2 turns (Fire Arrow follow-up).",
+  "passive": "Fire Arrow",
+  "passiveText": "Your basic Attack Burns 2 for 1 turn on a win."
+ },
+ {
+  "id": "ganon",
+  "special": "Flame Choke",
+  "type": "Command Grab",
+  "dmg": 18,
+  "cd": 2,
+  "effect": "Opponent can't Shield next turn.",
+  "passive": "Warlock Might",
+  "passiveText": "Your Attacks drain 2 Shield pips when blocked instead of 1."
+ },
+ {
+  "id": "mewtwo",
+  "special": "Confusion",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters Attacks for 1.2× and also beats basic Grabs (Confusion flips them).",
+  "passive": "Pressure",
+  "passiveText": "The opponent's Shield refills 1 turn slower."
+ },
+ {
+  "id": "roy",
+  "special": "Flare Blade",
+  "type": "Close Attack",
+  "dmg": 16,
+  "cd": 2,
+  "effect": "Breaks a Shield if it's at 1 pip.",
+  "passive": "Hilt Strike",
+  "passiveText": "Your clashes deal +3 to the opponent."
+ },
+ {
+  "id": "chrom",
+  "special": "Soaring Slash",
+  "type": "Close Attack",
+  "dmg": 15,
+  "cd": 2,
+  "effect": "Hits even through Counter Specials (they still take the hit).",
+  "passive": "Exalted Prince",
+  "passiveText": "+3 on wins while you're above 50 HP."
+ },
+ {
+  "id": "gnw",
+  "special": "Judge",
+  "type": "Close Attack",
+  "dmg": 10,
+  "cd": 1,
+  "effect": "Random 1–9 hammer: deals 9 + 2× the number; a 1 hurts you for 3, a 9 deals 30.",
+  "passive": "Flat Line",
+  "passiveText": "Take 2 less damage from Grabs."
+ },
+ {
+  "id": "mk",
+  "special": "Dimensional Cape",
+  "type": "Close Attack",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "Can't be Shield-punished (vanishes before the punish).",
+  "passive": "Shuttle Reflexes",
+  "passiveText": "After a win, your Special cooldown is 0."
+ },
+ {
+  "id": "pit",
+  "special": "Guardian Orbitars",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters Attacks for 1.0×; reflects Ranged Attacks for 1.5×.",
+  "passive": "Palutena's Blessing",
+  "passiveText": "Heal 2 at the end of each turn you Shield."
+ },
+ {
+  "id": "dpit",
+  "special": "Electroshock Arm",
+  "type": "Close Attack",
+  "dmg": 15,
+  "cd": 2,
+  "effect": "If it wins, the opponent's next Grab is locked.",
+  "passive": "Rebellious",
+  "passiveText": "After losing an exchange, your next win deals +4."
+ },
+ {
+  "id": "zss",
+  "special": "Paralyzer",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Stun: opponent's next action is forced to be basic (no Special).",
+  "passive": "Plasma Agility",
+  "passiveText": "Your Dodge refills 1 Shield pip."
+ },
+ {
+  "id": "wario",
+  "special": "Chomp",
+  "type": "Command Grab",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "Heal 4 on a win.",
+  "passive": "Wario Waft",
+  "passiveText": "Gas builds 1 per turn (max 10). Your next Attack win spends it all for +1 per gas (10 = +15)."
+ },
+ {
+  "id": "snake",
+  "special": "Hand Grenade",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Cooks: if the opponent Shields, the grenade still deals 4.",
+  "passive": "Cardboard Box",
+  "passiveText": "The opponent can't see your Shield gauge or Special cooldown."
+ },
+ {
+  "id": "ike",
+  "special": "Eruption",
+  "type": "Close Attack",
+  "dmg": 20,
+  "cd": 3,
+  "effect": "Breaks a Shield outright.",
+  "passive": "Ragnell's Weight",
+  "passiveText": "Your basic Attacks deal +2 but lose clashes against Close Attack Specials."
+ },
+ {
+  "id": "pt",
+  "special": "Pokémon Change",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters for 1.0×. Win or lose, switch to the next Pokémon (Squirtle → Ivysaur → Charizard).",
+  "passive": "Triple Team",
+  "passiveText": "Squirtle: +3 on Shield wins · Ivysaur: +3 on Grab wins · Charizard: +3 on Attack wins. You choose who starts."
+ },
+ {
+  "id": "diddy",
+  "special": "Monkey Flip",
+  "type": "Command Grab",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "On a win, the opponent trips: their next action can't be Attack.",
+  "passive": "Banana Peel",
+  "passiveText": "When the opponent wins with the same basic action twice in a row, they slip for 6."
+ },
+ {
+  "id": "lucas",
+  "special": "Rope Snake",
+  "type": "Tether Grab",
+  "dmg": 11,
+  "cd": 1,
+  "effect": "On a win, PK Freeze follows up: the opponent skips their next Special.",
+  "passive": "Late Bloomer",
+  "passiveText": "Your Special cooldown drops by 1 after you lose an exchange."
+ },
+ {
+  "id": "sonic",
+  "special": "Spin Dash",
+  "type": "Close Attack",
+  "dmg": 12,
+  "cd": 0,
+  "effect": "No cooldown. +3 for each consecutive use (max +9).",
+  "passive": "Momentum",
+  "passiveText": "Your Dodge also beats Grabs."
+ },
+ {
+  "id": "dedede",
+  "special": "Inhale",
+  "type": "Command Grab",
+  "dmg": 16,
+  "cd": 2,
+  "effect": "Spit them out: opponent's Shield loses 1 pip.",
+  "passive": "Royal Heft",
+  "passiveText": "You have 115 Max HP."
+ },
+ {
+  "id": "olimar",
+  "special": "Pikmin Throw",
+  "type": "Tether Grab",
+  "dmg": 10,
+  "cd": 1,
+  "effect": "Pikmin cling: the opponent takes 3 more next turn.",
+  "passive": "Pikmin Pluck",
+  "passiveText": "Your Grab wins deal +2 per Pikmin color plucked this match (max +6)."
+ },
+ {
+  "id": "lucario",
+  "special": "Force Palm",
+  "type": "Command Grab",
+  "dmg": 12,
+  "cd": 1,
+  "effect": "Deals +1 for every 10 HP you've lost.",
+  "passive": "Aura",
+  "passiveText": "All your hits gain +1 for every 15 HP you've lost."
+ },
+ {
+  "id": "rob",
+  "special": "Robo Beam",
+  "type": "Ranged Attack",
+  "dmg": 7,
+  "cd": 2,
+  "effect": "Charges back faster: cooldown 1 if it lost.",
+  "passive": "Robotic",
+  "passiveText": "Immune to Burn, Poison and Freeze."
+ },
+ {
+  "id": "tlink",
+  "special": "Bomb",
+  "type": "Ranged Attack",
+  "dmg": 5,
+  "cd": 1,
+  "effect": "Bombs bounce off Shields: a Shield block deals 3 to the shielder.",
+  "passive": "Hero of Winds",
+  "passiveText": "Your Shield refills 1 extra pip each time you win with Attack."
+ },
+ {
+  "id": "wolf",
+  "special": "Wolf Flash",
+  "type": "Close Attack",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "Fast: beats Ranged Attacks (doesn't lose to them).",
+  "passive": "Predator",
+  "passiveText": "+4 against opponents who Shielded last turn."
+ },
+ {
+  "id": "villager",
+  "special": "Pocket",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 2,
+  "effect": "Pocket the Attack and store it; your next win adds its damage.",
+  "passive": "Timber",
+  "passiveText": "Your basic Shield plants a sapling; the next Shield after that swings the tree for 10 instead of 8."
+ },
+ {
+  "id": "megaman",
+  "special": "Metal Blade",
+  "type": "Ranged Attack",
+  "dmg": 5,
+  "cd": 1,
+  "effect": "Leaves a blade: your next Grab win throws it for +4.",
+  "passive": "Weapon Get",
+  "passiveText": "Copy the type of the last Special that hit you as your Special's type for 1 turn."
+ },
+ {
+  "id": "wft",
+  "special": "Deep Breathing",
+  "type": "Buff",
+  "dmg": 0,
+  "cd": 3,
+  "effect": "For 3 turns: all your hits +4 and heal 2 each turn.",
+  "passive": "Balanced Routine",
+  "passiveText": "Your Shield pips refill 2 per turn instead of 1."
+ },
+ {
+  "id": "rosa",
+  "special": "Luma Shot",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Only while Luma is out.",
+  "passive": "Luma",
+  "passiveText": "Luma adds +2 to every hit; it leaves after you take 30 damage and returns 4 turns later."
+ },
+ {
+  "id": "mac",
+  "special": "Straight Lunge",
+  "type": "Close Attack",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "With a full KO Meter, becomes KO Uppercut: 30 damage.",
+  "passive": "KO Meter & Glass Jaw",
+  "passiveText": "Every win fills the KO Meter (3 wins to fill). Your Grab wins deal 2 less."
+ },
+ {
+  "id": "greninja",
+  "special": "Shadow Sneak",
+  "type": "Close Attack",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "Hits through Counter Specials.",
+  "passive": "Protean",
+  "passiveText": "Your Special switches to the type you used last turn (Attack → Close Attack, Grab → Command Grab, Shield → Counter)."
+ },
+ {
+  "id": "palutena",
+  "special": "Reflect Barrier",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Reflects Ranged Attacks for 1.5×, counters Close Attacks for 0.8×.",
+  "passive": "Goddess of Light",
+  "passiveText": "Heal 5 every 4 turns."
+ },
+ {
+  "id": "pacman",
+  "special": "Bonus Fruit",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Cycles fruit each use: Cherry 6 → Strawberry 8 → Orange 10 → Apple 12 → Melon 14 → Key 20.",
+  "passive": "Power Pellet",
+  "passiveText": "Every 5 turns, your next basic Attack can't be Shielded."
+ },
+ {
+  "id": "robin",
+  "special": "Nosferatu",
+  "type": "Command Grab",
+  "dmg": 14,
+  "cd": 2,
+  "effect": "Heal 6 on a win.",
+  "passive": "Tome Rotation",
+  "passiveText": "Every 4th turn, your next Attack is Arcfire: Ranged Attack, 10."
+ },
+ {
+  "id": "shulk",
+  "special": "Monado Arts",
+  "type": "Buff",
+  "dmg": 0,
+  "cd": 2,
+  "effect": "Pick an Art for 2 turns: Speed (Specials have no cooldown), Shield (take −6, your Shield costs no pips), Buster (+6, take +3), Smash (Grab wins +5).",
+  "passive": "Vision",
+  "passiveText": "Your Shield punishes for 12 instead of 8."
+ },
+ {
+  "id": "bjr",
+  "special": "Clown Kart Dash",
+  "type": "Close Attack",
+  "dmg": 12,
+  "cd": 1,
+  "effect": "On a win, the Clown Car carries you: take 2 less next turn.",
+  "passive": "Mechakoopa",
+  "passiveText": "Every 3 turns a Mechakoopa wanders out: the next time the opponent Grabs, it explodes for 6."
+ },
+ {
+  "id": "duckhunt",
+  "special": "Trick Shot",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Can be detonated: if the opponent Shields, the can explodes for 5 anyway.",
+  "passive": "The Dog Laughs",
+  "passiveText": "When the opponent's Special whiffs or loses, heal 3."
+ },
+ {
+  "id": "ryu",
+  "special": "Hadoken",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Input it (true combo): if you used Attack last turn, +4.",
+  "passive": "Focus",
+  "passiveText": "Your first block each match costs no pip and stores +5 for your next win."
+ },
+ {
+  "id": "ken",
+  "special": "Shoryuken",
+  "type": "Close Attack",
+  "dmg": 16,
+  "cd": 2,
+  "effect": "Invincible start-up: beats Ranged Attacks too.",
+  "passive": "Rushdown",
+  "passiveText": "Your Close Attacks deal +3 if you won last turn."
+ },
+ {
+  "id": "cloud",
+  "special": "Limit Charge",
+  "type": "Buff",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Fill the Limit gauge by 2 (max 5). At full Limit, your next Special is Limit Cross Slash: Close Attack, 24.",
+  "passive": "Buster Sword",
+  "passiveText": "Your Attacks deal +2 but your Grabs deal −2."
+ },
+ {
+  "id": "corrin",
+  "special": "Counter Surge",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 2,
+  "effect": "Counters Attacks for 1.3×.",
+  "passive": "Dragonstone",
+  "passiveText": "Each time you're hit for 15+, your next win deals +5."
+ },
+ {
+  "id": "bayo",
+  "special": "Witch Time",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 2,
+  "effect": "Counters an Attack for 1.0× and slows them: the opponent can't act next turn.",
+  "passive": "Witch Twist",
+  "passiveText": "After a Counter win, your next Attack is a free Close Attack Special (no cooldown)."
+ },
+ {
+  "id": "inkling",
+  "special": "Splat Roller",
+  "type": "Close Attack",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "Opponent is buried in ink: their next Shield costs 2 pips.",
+  "passive": "Ink Coverage",
+  "passiveText": "Each hit inks the opponent: inked opponents take +2 from all hits. Ink runs out after 5 uses; Shield to refill."
+ },
+ {
+  "id": "ridley",
+  "special": "Space Pirate Rush",
+  "type": "Command Grab",
+  "dmg": 16,
+  "cd": 2,
+  "effect": "Drag them across: +4 if they're at 50 HP or less.",
+  "passive": "Big Target",
+  "passiveText": "You have 110 Max HP but take +1 from Ranged Attacks."
+ },
+ {
+  "id": "simon",
+  "special": "Axe",
+  "type": "Close Attack",
+  "dmg": 15,
+  "cd": 1,
+  "effect": "Lobbed: also beats Counter Specials.",
+  "passive": "Vampire Killer",
+  "passiveText": "Your basic Attack is ranged (beats basic Attacks)."
+ },
+ {
+  "id": "richter",
+  "special": "Holy Water",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Burn 3 for 2 turns.",
+  "passive": "Hunter's Resolve",
+  "passiveText": "Your Burn damage is +1."
+ },
+ {
+  "id": "krool",
+  "special": "Gut Check",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 2,
+  "effect": "Counters Attacks for 1.3× and also armors through Grabs for half damage.",
+  "passive": "Belly Armor",
+  "passiveText": "Take 3 less from Close Attacks until you've taken 30 of them; then the belly breaks."
+ },
+ {
+  "id": "isabelle",
+  "special": "Fishing Rod",
+  "type": "Tether Grab",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "On a win, your next Grab also beats Attacks.",
+  "passive": "Lloid Trap",
+  "passiveText": "Every 4 turns, set a trap: the next time the opponent Attacks, it detonates for 6."
+ },
+ {
+  "id": "incin",
+  "special": "Alolan Whip",
+  "type": "Command Grab",
+  "dmg": 18,
+  "cd": 2,
+  "effect": "If they bounce back (they chose Attack), it becomes Revenge-boosted Lariat for 10 instead of losing.",
+  "passive": "Revenge",
+  "passiveText": "Every hit you take stores +1 (max +8) for your next win."
+ },
+ {
+  "id": "plant",
+  "special": "Ptooie",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Poison 2 for 2 turns.",
+  "passive": "Poison Breath",
+  "passiveText": "Your Shield poisons attackers for 2 for 2 turns."
+ },
+ {
+  "id": "joker",
+  "special": "Rebel's Guard",
+  "type": "Counter",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Counters for 1.0× and fills Rebellion by 10.",
+  "passive": "Arsene",
+  "passiveText": "Rebellion fills as you take damage. At 30, Arsene appears for 4 turns: all your hits +4 and your Counter becomes Tetrakarn (1.5×)."
+ },
+ {
+  "id": "hero",
+  "special": "Command Selection",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 2,
+  "effect": "Random spell: Kaboom (+10), Sizz (Burn 2), Psyche Up (next win +8) or Thwack (KOs below 25 HP).",
+  "passive": "Level Up",
+  "passiveText": "All hits +1 every 5 turns (max +3)."
+ },
+ {
+  "id": "banjo",
+  "special": "Wonderwing",
+  "type": "Close Attack",
+  "dmg": 18,
+  "cd": 1,
+  "effect": "Uses a Golden Feather (5 per match). Beats Ranged Attacks.",
+  "passive": "Jiggy Collector",
+  "passiveText": "Every 3rd win gives a Jiggy: heal 5."
+ },
+ {
+  "id": "terry",
+  "special": "Power Dunk",
+  "type": "Close Attack",
+  "dmg": 14,
+  "cd": 1,
+  "effect": "At 35 HP or less it becomes Buster Wolf: 24.",
+  "passive": "GO!",
+  "passiveText": "At 35 HP or less, your Specials have no cooldown."
+ },
+ {
+  "id": "byleth",
+  "special": "Sword of the Creator",
+  "type": "Tether Grab",
+  "dmg": 13,
+  "cd": 1,
+  "effect": "On a win, your next Attack deals +4.",
+  "passive": "Divine Pulse",
+  "passiveText": "Once per match, undo the damage you just took from one exchange."
+ },
+ {
+  "id": "minmin",
+  "special": "Megawatt Punch",
+  "type": "Ranged Attack",
+  "dmg": 8,
+  "cd": 2,
+  "effect": "Long reach: beats Close Attacks and clashes with Ranged.",
+  "passive": "Charged ARMS",
+  "passiveText": "Your ARMS charge 1 per turn (max 3); at 3 your Attacks deal +4."
+ },
+ {
+  "id": "steve",
+  "special": "Mine",
+  "type": "Buff",
+  "dmg": 0,
+  "cd": 1,
+  "effect": "Gather a resource: Wood → Stone → Iron → Diamond. Each tier gives your Attacks +2 (Diamond +8).",
+  "passive": "Crafting",
+  "passiveText": "Your Shield places a block: the next Grab against you whiffs."
+ },
+ {
+  "id": "seph",
+  "special": "Shadow Flare",
+  "type": "Ranged Attack",
+  "dmg": 4,
+  "cd": 1,
+  "effect": "Orbs linger: deals 5 more next turn whatever happens.",
+  "passive": "One-Winged Angel",
+  "passiveText": "At 40 HP or less, grow a wing: +3 on all hits and your Shield costs no pips."
+ },
+ {
+  "id": "pyra",
+  "special": "Prominence Revolt / Lightning Buster",
+  "type": "Close Attack",
+  "dmg": 15,
+  "cd": 1,
+  "effect": "Pyra: 15 and Burn 2. Mythra: 11 and beats Ranged Attacks. Win or lose, swap blades.",
+  "passive": "Aegis Swap",
+  "passiveText": "Pyra: +2 on all hits. Mythra: your Dodge also avoids Attacks. You choose who starts."
+ },
+ {
+  "id": "kazuya",
+  "special": "Heaven's Door",
+  "type": "Command Grab",
+  "dmg": 18,
+  "cd": 2,
+  "effect": "Opponent can't Shield next turn.",
+  "passive": "Rage",
+  "passiveText": "At 35 HP or less, your next hit becomes Rage Drive: +12."
+ },
+ {
+  "id": "sora",
+  "special": "Magic Cycle",
+  "type": "Ranged Attack",
+  "dmg": 6,
+  "cd": 1,
+  "effect": "Cycles Firaga (Burn 3) → Blizzaga (Freeze: opponent skips their Special) → Thundaga (+6).",
+  "passive": "Second Chance",
+  "passiveText": "Once per match, survive a KO at 1 HP if you were above 30 HP."
+ }
+]
